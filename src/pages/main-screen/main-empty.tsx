@@ -1,4 +1,4 @@
-function MainIndexEmpty(): JSX.Element {
+function MainEmpty(): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -89,4 +89,4 @@ function MainIndexEmpty(): JSX.Element {
   );
 }
 
-export default MainIndexEmpty;
+export default MainEmpty;
