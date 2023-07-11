@@ -1,5 +1,5 @@
-import MainHeader from './main-header';
-import PlaceCard from './place-card';
+import Header from '../../components/header/header';
+import PlaceCard from '../../components/place-card/place-card';
 
 type MainIndexScreenProps = {
   placesCount: number;
@@ -8,7 +8,7 @@ type MainIndexScreenProps = {
 function MainScreen({placesCount}: MainIndexScreenProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
-      <MainHeader />
+      <Header />
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>

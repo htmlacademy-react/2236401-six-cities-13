@@ -1,0 +1,58 @@
+.pageNotFound {
+  height: 100vh;
+}
+
+.pageNotFoundContainer {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.pageMainNotFound {
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: auto;
+}
+
+.notFound {
+  margin: 0 auto;
+  padding-top: 120px;
+  text-align: center;
+  max-width: 700px;
+  font-weight: bold;
+}
+
+.notFoundTitle {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 24px;
+  font-size: 168px;
+}
+
+.notFoundText {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 32px;
+  text-transform: uppercase;
+  font-size: 40px;
+}
+
+.notFoundDescription {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 56px;
+  font-size: 22px;
+  color: rgba(0,0,0,0.6);
+}
+
+.notFoundButton {
+  background-color: #4481c3;
+  color: #ffffff;
+  padding: 16px 32px 12px;
+  max-width: 400px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-size: 24px;
+}

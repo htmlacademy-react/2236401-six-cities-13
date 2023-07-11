@@ -1,11 +1,11 @@
-import FavoritesHeader from './favorites-header';
+import Header from '../../components/header/header';
 import LocationItem from './location-item';
-import FavoritesFooter from './favorites-footer';
+import Footer from '../../components/footer/footer';
 
 function FavoritesScreen(): JSX.Element {
   return (
     <div className="page">
-      <FavoritesHeader />
+      <Header />
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
@@ -19,7 +19,7 @@ function FavoritesScreen(): JSX.Element {
         </div>
       </main>
 
-      <FavoritesFooter />
+      <Footer />
     </div>
   );
 }
