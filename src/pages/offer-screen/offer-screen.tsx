@@ -1,12 +1,12 @@
-import OfferHeader from './offer-header';
+import Header from '../../components/header/header';
 import ReviewsItem from './reviews-item';
 import ReviewsForm from './reviews-form';
-import PlaceCard from './place-card';
+import PlaceCard from '../../components/place-card/place-card';
 
 function OfferScreen(): JSX.Element {
   return (
     <div className="page">
-      <OfferHeader />
+      <Header />
 
       <main className="page__main page__main--offer">
         <section className="offer">
@@ -60,7 +60,7 @@ function OfferScreen(): JSX.Element {
                   Beautiful &amp; luxurious studio at great location
                 </h1>
                 <button className="offer__bookmark-button button" type="button">
-                  <svg className="offer__bookmark-icon" width="31" height="33">
+                  <svg className="offer__bookmark-icon" width={31} height={33}>
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
                   <span className="visually-hidden">To bookmarks</span>
@@ -129,8 +129,8 @@ function OfferScreen(): JSX.Element {
                   <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
                     <img className="offer__avatar user__avatar"
                       src="img/avatar-angelina.jpg"
-                      width="74"
-                      height="74"
+                      width={74}
+                      height={74}
                       alt="Host avatar"
                     />
                   </div>
