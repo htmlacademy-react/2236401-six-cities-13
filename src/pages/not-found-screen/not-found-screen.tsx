@@ -10,7 +10,7 @@ function NotFoundScreen(): JSX.Element {
         <Header />
 
         <main className={styles.pageMainNotFound}>
-          <div className="page__not-found-main-container container">
+          <div className="container">
             <section className={styles.notFound}>
               <h1 className={styles.notFoundTitle}>404</h1>
               <p className={styles.notFoundText}>Page not found</p>
