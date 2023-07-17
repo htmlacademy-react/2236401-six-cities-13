@@ -1,50 +1,39 @@
 import Header from '../../components/header/header';
 import PlaceCard from '../../components/place-card/place-card';
+import { Offer } from '../../types/offer';
+import { Helmet } from 'react-helmet-async';
+import { NavLink } from 'react-router-dom';
+import { AppRoute, HeaderPage, NameOfClasses } from '../../const';
 
-type MainIndexScreenProps = {
+type MainScreenProps = {
   placesCount: number;
+  offers: Offer[];
 }
 
-function MainScreen({placesCount}: MainIndexScreenProps): JSX.Element {
+const TRAVEL_CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'] as const;
+
+function MainScreen({placesCount, offers}: MainScreenProps): JSX.Element {
+
+
   return (
     <div className="page page--gray page--main">
-      <Header />
+      <Helmet>
+        <title>Six cities. Travelling in Europe.</title>
+      </Helmet>
+      <Header headerPage={HeaderPage.HasNav} />
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
+              {TRAVEL_CITIES.map((city) => (
+                <li className="locations__item" key={city}>
+                  <NavLink className={`${city === 'Paris' ? 'tabs__item--active' : ''} locations__item-link tabs__item`} to={AppRoute.Main}>
+                    <span>{city}</span>
+                  </NavLink>
+                </li>))}
+
             </ul>
           </section>
         </div>
@@ -69,11 +58,7 @@ function MainScreen({placesCount}: MainIndexScreenProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
+                {offers.map((item) => <PlaceCard key={item.id} offer={item} nameClass={NameOfClasses.AllPages} />)}
               </div>
             </section>
             <div className="cities__right-section">

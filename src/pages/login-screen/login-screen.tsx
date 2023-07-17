@@ -1,9 +1,14 @@
-import LoginHeader from './login-header';
+import Header from '../../components/header/header';
+import { Helmet } from 'react-helmet-async';
+import { HeaderPage } from '../../const';
 
 function LoginScreen(): JSX.Element {
   return (
     <div className="page page--gray page--login">
-      <LoginHeader />
+      <Helmet>
+        <title>Six cities. Registration.</title>
+      </Helmet>
+      <Header headerPage={HeaderPage.WithoutNav} />
 
       <main className="page__main page__main--login">
         <div className="page__login-container container">
