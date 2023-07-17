@@ -37,7 +37,7 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
           />
         </Link>
       </div>
-      <div className="{favorites__card-info} place-card__info">
+      <div className={`${nameClass === NameOfClasses.Favorites ? 'favorites__card-info' : ''} place-card__info`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>

@@ -1,4 +1,3 @@
-// import FavoriteItem from '../../pages/favorites-screen/favorite-item';
 import PlaceCard from '../place-card/place-card';
 import { Offer } from '../../types/offer';
 import { NameOfClasses } from '../../const';
