@@ -10,9 +10,6 @@ export const TITLE_RATING = [
   'terribly'
 ] as const;
 
-export const Setting = {
-  PlacesCount: 312
-};
 
 export enum AppRoute {
   Main = '/',
