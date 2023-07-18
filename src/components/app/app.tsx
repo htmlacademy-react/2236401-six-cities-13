@@ -10,6 +10,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Review } from '../../types/review';
 import { Offer } from '../../types/offer';
 import { OfferWithHost } from '../../types/offer';
+import ScrollToTop from '../scroll-to-top/scroll-to-top';
 
 
 type AppScreenProps = {
@@ -23,6 +24,7 @@ function App({offers, fullOffers, reviews}: AppScreenProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route
             path={AppRoute.Main}
