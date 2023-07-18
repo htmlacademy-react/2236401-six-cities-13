@@ -1,20 +1,26 @@
 import { MAX_STARS_COUNT } from './const';
 
-// Функция для получения первой буквы заглавной
+// Функция для получения первой буквы каждого слова заглавной
 
 function getCapitalLetter(str: string): string {
   if (!str) {
     return str;
   }
 
-  return str[0].toUpperCase() + str.slice(1);
+  return str.split(/\s+/).map((word) => word[0].toUpperCase() + word.substring(1)).join(' ');
 }
+
+// or
+// function capitalizeFirstLetter(str: string): string {
+
+//   return str.replace(/(^|\s)\S/g, (a) => a.toUpperCase());
+// }
 
 //Функция для подсчёта процентов от числа
 
 function getPercent(number: number): string {
 
-  const percent = Math.ceil(number * 100 / MAX_STARS_COUNT);
+  const percent = Math.round(number * 100 / MAX_STARS_COUNT);
   if (percent < 30) {
     return `${20}%`;
   }
