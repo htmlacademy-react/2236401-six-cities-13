@@ -15,19 +15,19 @@ function getCapitalLetter(str: string): string {
 function getPercent(number: number): string {
 
   const percent = Math.ceil(number * 100 / MAX_STARS_COUNT);
-  if (percent <= 20) {
+  if (percent < 30) {
     return `${20}%`;
   }
 
-  if (21 > percent && percent <= 40) {
+  if (percent >= 30 && percent < 50) {
     return `${40}%`;
   }
 
-  if (41 > percent && percent <= 60) {
+  if (percent >= 50 && percent < 70) {
     return `${60}%`;
   }
 
-  if (61 > percent && percent <= 80) {
+  if (percent >= 70 && percent < 90) {
     return `${80}%`;
   }
 
