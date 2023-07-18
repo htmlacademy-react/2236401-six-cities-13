@@ -11,8 +11,9 @@ function ReviewForm(): JSX.Element {
   }
 
 
-  const buttonIsDisabled = MIN_CHARACTERS_COUNT > formData.review.length
-    || MAX_CHARACTERS_COUNT < formData.review.length
+  const buttonIsDisabled =
+    formData.review.length < MIN_CHARACTERS_COUNT
+    || formData.review.length > MAX_CHARACTERS_COUNT
     || !+formData.rating;
 
 

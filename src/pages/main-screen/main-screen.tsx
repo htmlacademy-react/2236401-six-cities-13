@@ -3,16 +3,15 @@ import PlaceCard from '../../components/place-card/place-card';
 import { Offer } from '../../types/offer';
 import { Helmet } from 'react-helmet-async';
 import { NavLink } from 'react-router-dom';
-import { AppRoute, HeaderPage, NameOfClasses } from '../../const';
+import { AppRoute, HeaderPage, NameOfClasses, TRAVEL_CITIES } from '../../const';
+import classNames from 'classnames';
 
 type MainScreenProps = {
   offers: Offer[];
 }
 
-const TRAVEL_CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'] as const;
 
 function MainScreen({offers}: MainScreenProps): JSX.Element {
-
 
   return (
     <div className="page page--gray page--main">
@@ -28,11 +27,10 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
             <ul className="locations__list tabs__list">
               {TRAVEL_CITIES.map((city) => (
                 <li className="locations__item" key={city}>
-                  <NavLink className={`${city === 'Paris' ? 'tabs__item--active' : ''} locations__item-link tabs__item`} to={AppRoute.Main}>
+                  <NavLink className={classNames({'tabs__item--active': city === 'Paris'}, 'locations__item-link', 'tabs__item')} to={AppRoute.Main}>
                     <span>{city}</span>
                   </NavLink>
                 </li>))}
-
             </ul>
           </section>
         </div>
@@ -45,7 +43,7 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
                   Popular
-                  <svg className="places__sorting-arrow" width="7" height="4">
+                  <svg className="places__sorting-arrow" width={7} height={4}>
                     <use xlinkHref="#icon-arrow-select"></use>
                   </svg>
                 </span>

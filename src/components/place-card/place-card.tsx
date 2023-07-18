@@ -2,6 +2,7 @@ import { AppRoute, NameOfClasses, PageImageProperties } from '../../const';
 import { Offer } from '../../types/offer';
 import { getCapitalLetter, getPercent } from '../../utils';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 
 
 type PlaceCardProps = {
@@ -17,6 +18,15 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
   const routeOfferId = `${AppRoute.Offer}/${id}`;
   const ratingWidth = getPercent(rating);
 
+  const imgWidth = nameClass
+    === NameOfClasses.AllPages
+    ? PageImageProperties.CitiesWidth
+    : PageImageProperties.FavoritesWidth;
+  const imgHeight = nameClass
+    === NameOfClasses.AllPages
+    ? PageImageProperties.CitiesHeight
+    : PageImageProperties.FavoritesHeight;
+
 
   return (
     <article className={`${nameClass}__card place-card`}>
@@ -25,25 +35,19 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
         <Link to={routeOfferId}>
           <img className="place-card__image"
             src={previewImage}
-            width={nameClass
-              === NameOfClasses.AllPages
-              ? PageImageProperties.CitiesWidth
-              : PageImageProperties.FavoritesWidth}
-            height={nameClass
-              === NameOfClasses.AllPages
-              ? PageImageProperties.CitiesHeight
-              : PageImageProperties.FavoritesHeight}
+            width={imgWidth}
+            height={imgHeight}
             alt={title}
           />
         </Link>
       </div>
-      <div className={`${nameClass === NameOfClasses.Favorites ? 'favorites__card-info' : ''} place-card__info`}>
+      <div className={classNames({'favorites__card-info': nameClass === NameOfClasses.Favorites}, 'place-card__info')}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`${isFavorite ? 'place-card__bookmark-button--active' : ''} place-card__bookmark-button button `} type="button">
+          <button className={classNames({'place-card__bookmark-button--active': isFavorite}, 'place-card__bookmark-button', 'button')} type="button">
             <svg className="place-card__bookmark-icon" width={18} height={19}>
               <use xlinkHref="#icon-bookmark"></use>
             </svg>

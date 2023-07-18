@@ -9,6 +9,7 @@ import { OfferWithHost } from '../../types/offer';
 import { getPercent, getCapitalLetter } from '../../utils';
 import { Review } from '../../types/review';
 import { HeaderPage, NameOfClasses } from '../../const';
+import classNames from 'classnames';
 // import { useState } from 'react';
 
 type OfferScreenProps = {
@@ -102,7 +103,7 @@ function OfferScreen({offers, reviews}: OfferScreenProps): JSX.Element {
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
-                  <div className={`${isPro ? 'offer__avatar-wrapper--pro' : ''} offer__avatar-wrapper user__avatar-wrapper`}>
+                  <div className={classNames({'offer__avatar-wrapper--pro': isPro}, 'offer__avatar-wrapper', 'user__avatar-wrapper')}>
                     <img className="offer__avatar user__avatar"
                       src={avatarUrl}
                       width={74}
