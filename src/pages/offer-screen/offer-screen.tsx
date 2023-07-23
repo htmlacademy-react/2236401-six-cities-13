@@ -1,14 +1,14 @@
 import ReviewItem from '../../components/review-item/review-item';
 import ReviewForm from '../../components/review-form/review-form';
-import PlaceCard from '../../components/place-card/place-card';
 import { useParams } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import { OfferWithHost } from '../../types/offer';
 import { getPercent, getCapitalLetter } from '../../utils';
 import { Review } from '../../types/review';
-import { HeaderPage, NameOfClasses } from '../../const';
+import { HeaderPage } from '../../const';
 import classNames from 'classnames';
 import Layout from '../../components/layout/layout';
+import OfferList from '../../components/offer-list/offer-list';
 // import { useState } from 'react';
 
 type OfferScreenProps = {
@@ -24,7 +24,7 @@ function OfferScreen({offers, reviews}: OfferScreenProps): JSX.Element {
   const currentOffer = offers.find((offer) => offer.id === currentOfferId);
 
   if(!currentOffer) {
-    return <Navigate to='/404' />;
+    return <Navigate to={'/404'} />;
   }
   const {isPremium, title, rating, price, images, type, bedrooms, maxAdults, goods, host, description, isFavorite} = currentOffer;
   const {isPro, name, avatarUrl} = host;
@@ -139,9 +139,7 @@ function OfferScreen({offers, reviews}: OfferScreenProps): JSX.Element {
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <div className="near-places__list places__list">
-            {neighbourhoodOffers.map((item) => <PlaceCard key={item.id} offer={item} nameClass={NameOfClasses.AllPages} />)}
-          </div>
+          <OfferList className="near-places__list places__list" offers={neighbourhoodOffers} />
         </section>
       </div>
     </Layout>

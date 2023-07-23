@@ -3,6 +3,7 @@ import { Offer } from '../../types/offer';
 import { getCapitalLetter, getPercent } from '../../utils';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
+// import { useState } from 'react';
 
 
 type PlaceCardProps = {
@@ -29,7 +30,9 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
 
 
   return (
-    <article className={`${nameClass}__card place-card`}>
+    <article
+      className={`${nameClass}__card place-card`}
+    >
       {isPremium && <div className="place-card__mark"><span>Premium</span></div>}
       <div className={`${nameClass}__image-wrapper place-card__image-wrapper`}>
         <Link to={routeOfferId}>

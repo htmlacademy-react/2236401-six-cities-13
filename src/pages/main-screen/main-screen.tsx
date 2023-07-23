@@ -1,9 +1,10 @@
-import PlaceCard from '../../components/place-card/place-card';
 import { Offer } from '../../types/offer';
 import { NavLink } from 'react-router-dom';
-import { AppRoute, HeaderPage, NameOfClasses, TRAVEL_CITIES } from '../../const';
+import { AppRoute, HeaderPage, TRAVEL_CITIES } from '../../const';
 import classNames from 'classnames';
 import Layout from '../../components/layout/layout';
+import OfferList from '../../components/offer-list/offer-list';
+// import { useState } from 'react';
 
 type MainScreenProps = {
   offers: Offer[];
@@ -11,6 +12,8 @@ type MainScreenProps = {
 
 
 function MainScreen({offers}: MainScreenProps): JSX.Element {
+  // const [mouseOverOfferId, setMouseOverOfferId] = useState<null | number>(null);
+  // const onCardHoverHandler = (offerId: number | null): void => setMouseOverOfferId(offerId);
 
   return (
     <Layout pageTitle = 'Travelling in Europe.'
@@ -52,9 +55,11 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
                 <li className="places__option" tabIndex={0}>Top rated first</li>
               </ul>
             </form>
-            <div className="cities__places-list places__list tabs__content">
-              {offers.map((item) => <PlaceCard key={item.id} offer={item} nameClass={NameOfClasses.AllPages} />)}
-            </div>
+            <OfferList
+              className="cities__places-list places__list tabs__content"
+              offers={offers}
+              // onCardHover={onCardHoverHandler}
+            />
           </section>
           <div className="cities__right-section">
             <section className="cities__map map"></section>
