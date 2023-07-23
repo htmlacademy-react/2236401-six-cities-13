@@ -9,7 +9,8 @@ import { HeaderPage } from '../../const';
 import classNames from 'classnames';
 import Layout from '../../components/layout/layout';
 import OfferList from '../../components/offer-list/offer-list';
-// import { useState } from 'react';
+import Map from '../../components/map/map';
+import { useState } from 'react';
 
 type OfferScreenProps = {
   offers: OfferWithHost[];
@@ -18,6 +19,11 @@ type OfferScreenProps = {
 
 function OfferScreen({offers, reviews}: OfferScreenProps): JSX.Element {
   // const [comments, setComments] = useState(reviews);
+  const [selectedOffer, setSelectedOffer] = useState<string | null>(null);
+
+  const onCardHoverHandler = (offerId: string | null): void => {
+    setSelectedOffer(offerId);
+  };
 
   const params = useParams();
   const currentOfferId = params.offerId;
@@ -134,12 +140,12 @@ function OfferScreen({offers, reviews}: OfferScreenProps): JSX.Element {
             </section>
           </div>
         </div>
-        <section className="offer__map map"></section>
+        <Map className='offer' city={neighbourhoodOffers[0].city} offers={neighbourhoodOffers} selectedOffer={selectedOffer} />
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <OfferList className="near-places__list places__list" offers={neighbourhoodOffers} />
+          <OfferList className="near-places__list places__list" offers={neighbourhoodOffers} onCardHover={onCardHoverHandler} />
         </section>
       </div>
     </Layout>

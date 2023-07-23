@@ -4,7 +4,8 @@ import { AppRoute, HeaderPage, TRAVEL_CITIES } from '../../const';
 import classNames from 'classnames';
 import Layout from '../../components/layout/layout';
 import OfferList from '../../components/offer-list/offer-list';
-// import { useState } from 'react';
+import Map from '../../components/map/map';
+import { useState } from 'react';
 
 type MainScreenProps = {
   offers: Offer[];
@@ -12,8 +13,11 @@ type MainScreenProps = {
 
 
 function MainScreen({offers}: MainScreenProps): JSX.Element {
-  // const [mouseOverOfferId, setMouseOverOfferId] = useState<null | number>(null);
-  // const onCardHoverHandler = (offerId: number | null): void => setMouseOverOfferId(offerId);
+  const [selectedOffer, setSelectedOffer] = useState<string | null>(null);
+
+  const onCardHoverHandler = (offerId: string | null): void => {
+    setSelectedOffer(offerId);
+  };
 
   return (
     <Layout pageTitle = 'Travelling in Europe.'
@@ -39,7 +43,7 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
         <div className="cities__places-container container">
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+            <b className="places__found">{offers.length} places to stay in {offers[0].city.name}</b>
             <form className="places__sorting" action="#" method="get">
               <span className="places__sorting-caption">Sort by</span>
               <span className="places__sorting-type" tabIndex={0}>
@@ -58,11 +62,11 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
             <OfferList
               className="cities__places-list places__list tabs__content"
               offers={offers}
-              // onCardHover={onCardHoverHandler}
+              onCardHover={onCardHoverHandler}
             />
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map"></section>
+            <Map className='cities' city={offers[0].city} offers={offers} selectedOffer={selectedOffer}/>
           </div>
         </div>
       </div>

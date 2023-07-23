@@ -3,16 +3,17 @@ import { Offer } from '../../types/offer';
 import { getCapitalLetter, getPercent } from '../../utils';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-// import { useState } from 'react';
 
 
 type PlaceCardProps = {
   offer: Offer;
   nameClass: string;
+  onCardHover?: (offerId: string | null) => void;
 }
 
 function PlaceCard(props: PlaceCardProps): JSX.Element {
-  const {offer, nameClass} = props;
+  const {offer, nameClass, onCardHover} = props;
+
   const {id, isPremium, previewImage, price, rating, title, type, isFavorite} = offer;
 
   const typeCapital = getCapitalLetter(type);
@@ -32,6 +33,8 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
   return (
     <article
       className={`${nameClass}__card place-card`}
+      onMouseOver={() => onCardHover?.(offer.id)}
+      onMouseOut={() => onCardHover?.(null)}
     >
       {isPremium && <div className="place-card__mark"><span>Premium</span></div>}
       <div className={`${nameClass}__image-wrapper place-card__image-wrapper`}>
