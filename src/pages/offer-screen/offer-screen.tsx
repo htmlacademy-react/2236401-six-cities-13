@@ -30,7 +30,7 @@ function OfferScreen({offers, reviews}: OfferScreenProps): JSX.Element {
   const currentOffer = offers.find((offer) => offer.id === currentOfferId);
 
   if(!currentOffer) {
-    return <Navigate to={'/404'} />;
+    return <Navigate to='/404' />;
   }
   const {isPremium, title, rating, price, images, type, bedrooms, maxAdults, goods, host, description, isFavorite} = currentOffer;
   const {isPro, name, avatarUrl} = host;
