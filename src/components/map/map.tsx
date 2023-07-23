@@ -32,22 +32,24 @@ function Map({className, city, offers, selectedOffer}: MapProps): JSX.Element {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
       offers.forEach((offer) => {
-        const type = getCapitalLetter(offer.type);
+        const {location, title, type, id, price, previewImage} = offer;
+        const typeOfAllocation = getCapitalLetter(type);
+
         const marker = new Marker([
-          offer.location.latitude,
-          offer.location.longitude
+          location.latitude,
+          location.longitude
         ], {
-          title: offer.title
+          title: title
         });
 
         marker
           .setIcon(
-            selectedOffer && selectedOffer === offer.id
+            selectedOffer && selectedOffer === id
               ? currentCustomIcon
               : defaultCustomIcon
           )
           .addTo(markerLayer)
-          .bindPopup(`<img src=${offer.previewImage}> <h3>${offer.title}</h3> <h1>&euro; ${offer.price}</h1> <p>${type}</p>`);
+          .bindPopup(`<img src=${previewImage}> <h3>${title}</h3> <h1>&euro; ${price}</h1> <p>${typeOfAllocation}</p>`);
       });
 
       return () => {
