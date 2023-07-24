@@ -1,4 +1,4 @@
-import FavoritesEmptyScreen from './favorites-empty-screen';
+import FavoritesEmptySection from './favorites-empty-section';
 import { Offer } from '../../types/offer';
 import { Link } from 'react-router-dom';
 import { HeaderPage } from '../../const';
@@ -31,7 +31,7 @@ function FavoritesScreen({offers}: FavoritesScreenProps): JSX.Element {
   const offersByCity = getOffersByCityGroup(favoriteOffers);
 
   return (
-    <Layout pageTitle = 'Favorites list.'
+    <Layout pageTitle = 'Favorites list'
       classNameMain = 'page__main--favorites'
       headerPage = {HeaderPage.HasNav}
     >
@@ -56,7 +56,7 @@ function FavoritesScreen({offers}: FavoritesScreenProps): JSX.Element {
               )}
             </ul>
           </section>
-        </div> : <FavoritesEmptyScreen />}
+        </div> : <FavoritesEmptySection />}
     </Layout>
   );
 }

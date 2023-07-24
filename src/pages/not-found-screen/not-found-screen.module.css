@@ -52,3 +52,7 @@
   text-transform: uppercase;
   font-size: 24px;
 }
+
+.not-found__button:hover {
+  opacity: 0.8;
+}

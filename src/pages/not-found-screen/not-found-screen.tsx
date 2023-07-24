@@ -7,7 +7,7 @@ import Layout from '../../components/layout/layout';
 function NotFoundScreen(): JSX.Element {
 
   return (
-    <Layout pageTitle = 'Page not found.'
+    <Layout pageTitle = 'Page not found'
       classNameContainer = {styles['not-found']}
       classNameMain = {styles['not-found__main']}
       headerPage = {HeaderPage.HasNav}
