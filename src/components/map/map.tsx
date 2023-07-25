@@ -1,4 +1,4 @@
-import { getCapitalLetter } from '../../utils';
+import { TypeOfAllocation } from '../../const';
 import { Icon, Marker, layerGroup } from 'leaflet';
 import { City, Offer } from '../../types/offer';
 import { useEffect, useRef } from 'react';
@@ -33,7 +33,7 @@ function Map({className, city, offers, selectedOffer}: MapProps): JSX.Element {
       const markerLayer = layerGroup().addTo(map);
       offers.forEach((offer) => {
         const {location, title, type, id, price, previewImage} = offer;
-        const typeOfAllocation = getCapitalLetter(type);
+        const typeOfAllocation = TypeOfAllocation[type as keyof typeof TypeOfAllocation];
 
         const marker = new Marker([
           location.latitude,

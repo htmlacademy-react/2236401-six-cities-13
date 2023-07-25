@@ -1,20 +1,5 @@
 import { MAX_STARS_COUNT } from './const';
 
-// Функция для получения первой буквы каждого слова заглавной
-
-function getCapitalLetter(str: string): string {
-  if (!str) {
-    return str;
-  }
-
-  return str.split(/\s+/).map((word) => word[0].toUpperCase() + word.substring(1)).join(' ');
-}
-
-// or
-// function capitalizeFirstLetter(str: string): string {
-
-//   return str.replace(/(^|\s)\S/g, (a) => a.toUpperCase());
-// }
 
 //Функция для подсчёта процентов от числа
 
@@ -41,4 +26,4 @@ function getPercent(number: number): string {
 }
 
 
-export {getCapitalLetter, getPercent};
+export {getPercent};
