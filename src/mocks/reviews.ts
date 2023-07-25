@@ -55,7 +55,7 @@ export const reviews: Review[] = [
       'avatarUrl': `${AVATAR_URL}?rnd=${Math.random()}`,
       'isPro': false
     },
-    'comment': 'Not as good as I would like.',
+    'comment': 'Not so good as I would like.',
     'rating': 1
   }
 ];

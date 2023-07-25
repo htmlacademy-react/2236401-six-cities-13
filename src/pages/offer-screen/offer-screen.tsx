@@ -1,15 +1,16 @@
-import ReviewItem from '../../components/review-item/review-item';
-import ReviewForm from '../../components/review-form/review-form';
-import PlaceCard from '../../components/place-card/place-card';
+import Reviews from '../../components/reviews/reviews';
 import { useParams } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import { OfferWithHost } from '../../types/offer';
 import { getPercent, getCapitalLetter } from '../../utils';
 import { Review } from '../../types/review';
-import { HeaderPage, NameOfClasses } from '../../const';
+import { HeaderPage } from '../../const';
 import classNames from 'classnames';
 import Layout from '../../components/layout/layout';
-// import { useState } from 'react';
+import OfferList from '../../components/offer-list/offer-list';
+import Map from '../../components/map/map';
+import { useState } from 'react';
+import HostSection from '../../components/host-section/host-section';
 
 type OfferScreenProps = {
   offers: OfferWithHost[];
@@ -17,7 +18,11 @@ type OfferScreenProps = {
 }
 
 function OfferScreen({offers, reviews}: OfferScreenProps): JSX.Element {
-  // const [comments, setComments] = useState(reviews);
+  const [selectedOffer, setSelectedOffer] = useState<string | null>(null);
+
+  const onCardHoverHandler = (offerId: string | null): void => {
+    setSelectedOffer(offerId);
+  };
 
   const params = useParams();
   const currentOfferId = params.offerId;
@@ -26,19 +31,17 @@ function OfferScreen({offers, reviews}: OfferScreenProps): JSX.Element {
   if(!currentOffer) {
     return <Navigate to='/404' />;
   }
-  const {isPremium, title, rating, price, images, type, bedrooms, maxAdults, goods, host, description, isFavorite} = currentOffer;
-  const {isPro, name, avatarUrl} = host;
+  const {isPremium, title, rating, price, images, type, bedrooms, maxAdults, goods, isFavorite} = currentOffer;
 
   const neighbourhoodOffers = offers.filter((offer) =>
     currentOffer.city.name === offer.city.name).filter((offer) =>
     offer.id !== currentOfferId)
     .slice(0, 3);
 
-  //eslint-disable-next-line no-console
-  // console.log(reviews);
+
   return (
     <Layout
-      pageTitle = 'Find the latest travel news and offers.'
+      pageTitle = 'Find the latest travel news and offers'
       classNameMain = 'page__main--offer'
       headerPage = {HeaderPage.HasNav}
       hasFooter = {false}
@@ -50,7 +53,7 @@ function OfferScreen({offers, reviews}: OfferScreenProps): JSX.Element {
               <div className="offer__image-wrapper" key={picture} >
                 <img className="offer__image"
                   src={picture}
-                  alt="title"
+                  alt={title}
                 />
               </div>))}
           </div>
@@ -98,50 +101,21 @@ function OfferScreen({offers, reviews}: OfferScreenProps): JSX.Element {
                   <li className="offer__inside-item" key={good}>{good}</li>)}
               </ul>
             </div>
-            <div className="offer__host">
-              <h2 className="offer__host-title">Meet the host</h2>
-              <div className="offer__host-user user">
-                <div className={classNames({'offer__avatar-wrapper--pro': isPro}, 'offer__avatar-wrapper', 'user__avatar-wrapper')}>
-                  <img className="offer__avatar user__avatar"
-                    src={avatarUrl}
-                    width={74}
-                    height={74}
-                    alt="Host avatar"
-                  />
-                </div>
-                <span className="offer__user-name">
-                  {name}
-                </span>
-                {isPro &&
-                  <span className="offer__user-status">
-                    Pro
-                  </span>}
-              </div>
-              <div className="offer__description">
-                <p className="offer__text">
-                  {description}
-                </p>
-              </div>
-            </div>
-            <section className="offer__reviews reviews">
-              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews?.length}</span></h2>
-              {reviews.length ?
-                <ul className="reviews__list">
-                  {reviews.map((review) => <ReviewItem review={review} key={review.id} />)}
-                </ul> : <p>Your review will be the first</p>}
-
-              <ReviewForm />
-            </section>
+            <HostSection hostInfo={currentOffer} />
+            <Reviews reviews={reviews} />
           </div>
         </div>
-        <section className="offer__map map"></section>
+        <Map
+          className='offer'
+          city={neighbourhoodOffers[0].city}
+          offers={neighbourhoodOffers}
+          selectedOffer={selectedOffer}
+        />
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <div className="near-places__list places__list">
-            {neighbourhoodOffers.map((item) => <PlaceCard key={item.id} offer={item} nameClass={NameOfClasses.AllPages} />)}
-          </div>
+          <OfferList className="near-places__list places__list" offers={neighbourhoodOffers} onCardHover={onCardHoverHandler} />
         </section>
       </div>
     </Layout>

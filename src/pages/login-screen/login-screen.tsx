@@ -3,7 +3,7 @@ import Layout from '../../components/layout/layout';
 
 function LoginScreen(): JSX.Element {
   return (
-    <Layout pageTitle = 'Registration.'
+    <Layout pageTitle = 'Registration'
       classNameContainer = 'page--gray page--login'
       classNameMain = 'page__main--login'
       headerPage = {HeaderPage.WithoutNav}

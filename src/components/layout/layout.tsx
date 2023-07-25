@@ -16,7 +16,7 @@ function Layout({pageTitle = '', classNameContainer = '', classNameMain = '', he
   return (
     <div className={`page ${classNameContainer}`}>
       <Helmet>
-        <title>Six cities. {pageTitle}</title>
+        <title>{pageTitle} &#8211; Six cities</title>
       </Helmet>
       <Header headerPage={headerPage} />
       <main className={`page__main ${classNameMain}`}>
