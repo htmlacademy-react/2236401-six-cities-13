@@ -42,3 +42,10 @@ export enum HeaderPage {
 }
 
 export const TRAVEL_CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'] as const;
+
+export enum TypeOfAllocation {
+  apartment = 'Apartment',
+  room = 'Private Room',
+  house = 'House',
+  hotel = 'Hotel'
+}

@@ -2,9 +2,9 @@ import Reviews from '../../components/reviews/reviews';
 import { useParams } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import { OfferWithHost } from '../../types/offer';
-import { getPercent, getCapitalLetter } from '../../utils';
+import { getPercent } from '../../utils';
 import { Review } from '../../types/review';
-import { HeaderPage } from '../../const';
+import { HeaderPage, TypeOfAllocation } from '../../const';
 import classNames from 'classnames';
 import Layout from '../../components/layout/layout';
 import OfferList from '../../components/offer-list/offer-list';
@@ -20,7 +20,7 @@ type OfferScreenProps = {
 function OfferScreen({offers, reviews}: OfferScreenProps): JSX.Element {
   const [selectedOffer, setSelectedOffer] = useState<string | null>(null);
 
-  const onCardHoverHandler = (offerId: string | null): void => {
+  const cardHoverHandler = (offerId: string | null): void => {
     setSelectedOffer(offerId);
   };
 
@@ -81,7 +81,7 @@ function OfferScreen({offers, reviews}: OfferScreenProps): JSX.Element {
             </div>
             <ul className="offer__features">
               <li className="offer__feature offer__feature--entire">
-                {getCapitalLetter(type)}
+                {TypeOfAllocation[type as keyof typeof TypeOfAllocation]}
               </li>
               <li className="offer__feature offer__feature--bedrooms">
                 {bedrooms} {bedrooms > 1 ? 'Bedrooms' : 'Bedroom'}
@@ -115,7 +115,7 @@ function OfferScreen({offers, reviews}: OfferScreenProps): JSX.Element {
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <OfferList className="near-places__list places__list" offers={neighbourhoodOffers} onCardHover={onCardHoverHandler} />
+          <OfferList className="near-places__list places__list" offers={neighbourhoodOffers} onCardHover={cardHoverHandler} />
         </section>
       </div>
     </Layout>

@@ -15,7 +15,7 @@ type MainScreenProps = {
 function MainScreen({offers}: MainScreenProps): JSX.Element {
   const [selectedOffer, setSelectedOffer] = useState<string | null>(null);
 
-  const onCardHoverHandler = (offerId: string | null): void => {
+  const cardHoverHandler = (offerId: string | null): void => {
     setSelectedOffer(offerId);
   };
 
@@ -37,7 +37,7 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
             <OfferList
               className="cities__places-list places__list tabs__content"
               offers={offers}
-              onCardHover={onCardHoverHandler}
+              onCardHover={cardHoverHandler}
             />
           </section>
           <div className="cities__right-section">
