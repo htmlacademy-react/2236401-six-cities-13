@@ -81,7 +81,7 @@ function OfferScreen({offers, reviews}: OfferScreenProps): JSX.Element {
             </div>
             <ul className="offer__features">
               <li className="offer__feature offer__feature--entire">
-                {TypeOfAllocation[type as keyof typeof TypeOfAllocation]}
+                {TypeOfAllocation[type]}
               </li>
               <li className="offer__feature offer__feature--bedrooms">
                 {bedrooms} {bedrooms > 1 ? 'Bedrooms' : 'Bedroom'}

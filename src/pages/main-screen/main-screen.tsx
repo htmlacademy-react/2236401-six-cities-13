@@ -1,18 +1,19 @@
+import { useState } from 'react';
 import { Offer } from '../../types/offer';
 import { HeaderPage} from '../../const';
 import Layout from '../../components/layout/layout';
 import OfferList from '../../components/offer-list/offer-list';
 import Tabs from '../../components/tabs/tabs';
 import Map from '../../components/map/map';
-import { useState } from 'react';
 import SortPlaces from '../../components/sort-places/sort-places';
 
 type MainScreenProps = {
+  currentCity: string;
   offers: Offer[];
 }
 
 
-function MainScreen({offers}: MainScreenProps): JSX.Element {
+function MainScreen({currentCity, offers}: MainScreenProps): JSX.Element {
   const [selectedOffer, setSelectedOffer] = useState<string | null>(null);
 
   const cardHoverHandler = (offerId: string | null): void => {
@@ -27,7 +28,7 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
       hasFooter = {false}
     >
       <h1 className="visually-hidden">Cities</h1>
-      <Tabs />
+      <Tabs currentCity={currentCity} />
       <div className="cities">
         <div className="cities__places-container container">
           <section className="cities__places places">

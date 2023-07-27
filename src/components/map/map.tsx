@@ -2,7 +2,7 @@ import { TypeOfAllocation } from '../../const';
 import { Icon, Marker, layerGroup } from 'leaflet';
 import { City, Offer } from '../../types/offer';
 import { useEffect, useRef } from 'react';
-import useMap from '../hooks/useMap';
+import useMap from '../../hooks/useMap';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
@@ -30,10 +30,16 @@ function Map({className, city, offers, selectedOffer}: MapProps): JSX.Element {
 
   useEffect(() => {
     if (map) {
+      map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
+      // map.flyTo([city.location.latitude, city.location.longitude], city.location.zoom, {
+      //   duration: 2
+      // });
+      // map.panTo([city.location.latitude, city.location.longitude]);
       const markerLayer = layerGroup().addTo(map);
+
       offers.forEach((offer) => {
         const {location, title, type, id, price, previewImage} = offer;
-        const typeOfAllocation = TypeOfAllocation[type as keyof typeof TypeOfAllocation];
+        const typeOfAllocation = TypeOfAllocation[type];
 
         const marker = new Marker([
           location.latitude,
@@ -44,7 +50,7 @@ function Map({className, city, offers, selectedOffer}: MapProps): JSX.Element {
 
         marker
           .setIcon(
-            selectedOffer && selectedOffer === id
+            selectedOffer === id
               ? currentCustomIcon
               : defaultCustomIcon
           )
@@ -56,7 +62,7 @@ function Map({className, city, offers, selectedOffer}: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offers, selectedOffer]);
+  }, [map, offers, selectedOffer, city]);
 
   const style = className === 'cities' ? '100%' : '579px';
 

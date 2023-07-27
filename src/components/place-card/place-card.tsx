@@ -68,7 +68,7 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
         <h2 className="place-card__name">
           <Link to={routeOfferId}>{title}</Link>
         </h2>
-        <p className="place-card__type">{TypeOfAllocation[type as keyof typeof TypeOfAllocation]}</p>
+        <p className="place-card__type">{TypeOfAllocation[type]}</p>
       </div>
     </article>
   );

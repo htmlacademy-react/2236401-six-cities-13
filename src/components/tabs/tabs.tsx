@@ -1,17 +1,32 @@
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { TRAVEL_CITIES, AppRoute } from '../../const';
+import { useAppDispatch } from '../../hooks';
+import { changeCity } from '../../store/action';
+
+type TabsProps = {
+  currentCity: string;
+}
 
 
-function Tabs(): JSX.Element {
+function Tabs({currentCity}: TabsProps): JSX.Element {
+  const dispatch = useAppDispatch();
+
   return (
     <div className="tabs">
       <section className="locations container">
         <ul className="locations__list tabs__list">
           {TRAVEL_CITIES.map((city) => (
-            <li className="locations__item" key={city}>
+            <li
+              className="locations__item"
+              key={city}
+              onClick={(evt) => {
+                evt.preventDefault();
+                dispatch(changeCity(city));
+              }}
+            >
               <Link
-                className={classNames({'tabs__item--active': city === 'Paris'}, 'locations__item-link', 'tabs__item')}
+                className={classNames({'tabs__item--active': city === currentCity}, 'locations__item-link', 'tabs__item')}
                 to={AppRoute.Main}
               >
                 <span>{city}</span>

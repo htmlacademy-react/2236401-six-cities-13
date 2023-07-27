@@ -1,4 +1,5 @@
 import { Offer } from '../types/offer';
+import { hosts } from './hosts';
 
 export const offers: Offer[] = [
   {
@@ -784,3 +785,6 @@ export const offers: Offer[] = [
     'rating': 5
   },
 ];
+
+export const fullOffers = offers.map((y) =>
+  Object.assign(y, hosts.find((x) => x.id === y.id)));
