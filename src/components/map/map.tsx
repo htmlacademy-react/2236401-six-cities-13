@@ -10,6 +10,7 @@ type MapProps = {
   city: City;
   offers: Offer[];
   selectedOffer: string | null;
+  currentOffer?: Offer;
 };
 
 const defaultCustomIcon = new Icon({
@@ -18,13 +19,19 @@ const defaultCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-const currentCustomIcon = new Icon({
+const activeCustomIcon = new Icon({
   iconUrl: '../../../img/pin-active.svg',
   iconSize: [30, 40],
   iconAnchor: [20, 40]
 });
 
-function Map({className, city, offers, selectedOffer}: MapProps): JSX.Element {
+const currentCustomIcon = new Icon({
+  iconUrl: '../../../img/pin-current.svg',
+  iconSize: [30, 40],
+  iconAnchor: [20, 40]
+});
+
+function Map({className, city, offers, selectedOffer, currentOffer}: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -51,18 +58,33 @@ function Map({className, city, offers, selectedOffer}: MapProps): JSX.Element {
         marker
           .setIcon(
             selectedOffer === id
-              ? currentCustomIcon
+              ? activeCustomIcon
               : defaultCustomIcon
           )
           .addTo(markerLayer)
           .bindPopup(`<img src=${previewImage}> <h3>${title}</h3> <h1>&euro; ${price}</h1> <p>${typeOfAllocation}</p>`);
       });
 
+      if (currentOffer) {
+        const {location, title, previewImage, price, type} = currentOffer;
+        const typeOfAllocation = TypeOfAllocation[type];
+
+        const currentMarker = new Marker([
+          location.latitude,
+          location.longitude
+        ], {
+          title: currentOffer.title,
+          icon: currentCustomIcon
+        });
+        currentMarker.addTo(markerLayer)
+          .bindPopup(`<img src=${previewImage}> <h3>${title}</h3> <h1>&euro; ${price}</h1> <p>${typeOfAllocation}</p>`);
+      }
+
       return () => {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offers, selectedOffer, city]);
+  }, [map, offers, selectedOffer, city, currentOffer]);
 
   const style = className === 'cities' ? '100%' : '579px';
 

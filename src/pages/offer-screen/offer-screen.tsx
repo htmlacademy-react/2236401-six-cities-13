@@ -110,6 +110,7 @@ function OfferScreen({offers, reviews}: OfferScreenProps): JSX.Element {
           city={neighbourhoodOffers[0].city}
           offers={neighbourhoodOffers}
           selectedOffer={selectedOffer}
+          currentOffer={currentOffer}
         />
       </section>
       <div className="container">
