@@ -1,3 +1,4 @@
+import { TypeOfAllocation } from '../const';
 import { Host } from './host';
 
 type Location = {
@@ -14,7 +15,7 @@ export type City = {
 export type Offer = {
   id: string;
   title: string;
-  type: string;
+  type: keyof typeof TypeOfAllocation;
   price: number;
   city: City;
   location: {

@@ -1,9 +1,10 @@
 import { MAX_STARS_COUNT } from './const';
+import { Offer, OfferWithHost } from './types/offer';
 
 
 //Функция для подсчёта процентов от числа
 
-function getPercent(number: number): string {
+function getPercent (number: number): string {
 
   const percent = Math.round(number * 100 / MAX_STARS_COUNT);
   if (percent < 30) {
@@ -25,5 +26,11 @@ function getPercent(number: number): string {
   return `${100}%`;
 }
 
+// Функция для получения предложений размещения по конкретному городу
 
-export {getPercent};
+function getOffersByCity (city: string | undefined, offers: Offer[] | OfferWithHost[]): Offer[] | OfferWithHost[] {
+  return offers.filter((offer) => city === offer.city.name);
+}
+
+
+export { getPercent, getOffersByCity };
