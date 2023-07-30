@@ -11,8 +11,6 @@ import { Review } from '../../types/review';
 import { Offer } from '../../types/offer';
 import { OfferWithHost } from '../../types/offer';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
-import { useAppSelector } from '../../hooks';
-import { getOffersByCity } from '../../utils';
 
 
 type AppScreenProps = {
@@ -22,9 +20,6 @@ type AppScreenProps = {
 }
 
 function App({offers, fullOffers, reviews}: AppScreenProps): JSX.Element {
-  const currentCity = useAppSelector((state) => state.city);
-  const offersByCity = getOffersByCity(currentCity, offers);
-  // const fullOffersByCity = getOffersByCity(currentCity, fullOffers);
 
   return (
     <HelmetProvider>
@@ -35,8 +30,7 @@ function App({offers, fullOffers, reviews}: AppScreenProps): JSX.Element {
             path={AppRoute.Main}
             element={
               <MainScreen
-                currentCity={currentCity}
-                offers={offersByCity}
+                offers={offers}
               />
             }
           />

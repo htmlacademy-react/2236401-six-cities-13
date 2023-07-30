@@ -14,19 +14,19 @@ type MapProps = {
 };
 
 const defaultCustomIcon = new Icon({
-  iconUrl: '../../../img/pin.svg',
+  iconUrl: 'img/pin.svg',
   iconSize: [30, 40],
   iconAnchor: [20, 40]
 });
 
 const activeCustomIcon = new Icon({
-  iconUrl: '../../../img/pin-active.svg',
+  iconUrl: 'img/pin-active.svg',
   iconSize: [30, 40],
   iconAnchor: [20, 40]
 });
 
 const currentCustomIcon = new Icon({
-  iconUrl: '../../../img/pin-current.svg',
+  iconUrl: 'img/pin-current.svg',
   iconSize: [30, 40],
   iconAnchor: [20, 40]
 });

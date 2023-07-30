@@ -1,4 +1,4 @@
-import { MAX_STARS_COUNT } from './const';
+import { MAX_STARS_COUNT, SortOffersType } from './const';
 import { Offer, OfferWithHost } from './types/offer';
 
 
@@ -32,5 +32,20 @@ function getOffersByCity (city: string | undefined, offers: Offer[] | OfferWithH
   return offers.filter((offer) => city === offer.city.name);
 }
 
+// Функция для сортировки предложений
 
-export { getPercent, getOffersByCity };
+function sortingOffersByType (offers: Offer[], type: SortOffersType): Offer[] {
+  switch (type) {
+    case SortOffersType.priceToHigh:
+      return offers.sort((a, b) => a.price - b.price);
+    case SortOffersType.priceToLow:
+      return offers.sort((a, b) => b.price - a.price);
+    case SortOffersType.topRated:
+      return offers.sort((a, b) => b.rating - a.rating);
+    default:
+      return offers;
+  }
+}
+
+
+export { getPercent, getOffersByCity, sortingOffersByType };

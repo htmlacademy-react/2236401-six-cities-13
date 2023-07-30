@@ -49,3 +49,10 @@ export enum TypeOfAllocation {
   house = 'House',
   hotel = 'Hotel'
 }
+
+export enum SortOffersType {
+  popular = 'Popular',
+  priceToHigh = 'Price: low to high',
+  priceToLow = 'Price: high to low',
+  topRated = 'Top rated first',
+}

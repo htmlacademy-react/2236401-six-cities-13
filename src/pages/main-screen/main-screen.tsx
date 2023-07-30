@@ -1,24 +1,31 @@
 import { useState } from 'react';
 import { Offer } from '../../types/offer';
-import { HeaderPage} from '../../const';
+import { HeaderPage } from '../../const';
 import Layout from '../../components/layout/layout';
 import OfferList from '../../components/offer-list/offer-list';
 import Tabs from '../../components/tabs/tabs';
 import Map from '../../components/map/map';
 import SortPlaces from '../../components/sort-places/sort-places';
+import { useAppSelector } from '../../hooks';
+import { sortingOffersByType, getOffersByCity } from '../../utils';
 
 type MainScreenProps = {
-  currentCity: string;
   offers: Offer[];
 }
 
 
-function MainScreen({currentCity, offers}: MainScreenProps): JSX.Element {
+function MainScreen({ offers }: MainScreenProps): JSX.Element {
   const [selectedOffer, setSelectedOffer] = useState<string | null>(null);
 
   const cardHoverHandler = (offerId: string | null): void => {
     setSelectedOffer(offerId);
   };
+
+  const currentCity = useAppSelector((state) => state.city);
+  const offersByCity = getOffersByCity(currentCity, offers);
+
+  const currentSortType = useAppSelector((state) => state.sortType);
+  const offersBySortType = sortingOffersByType(offersByCity, currentSortType);
 
   return (
     <Layout pageTitle = 'Travelling in Europe'
@@ -33,16 +40,16 @@ function MainScreen({currentCity, offers}: MainScreenProps): JSX.Element {
         <div className="cities__places-container container">
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{offers.length} places to stay in {offers[0].city.name}</b>
-            <SortPlaces />
+            <b className="places__found">{offersBySortType.length} places to stay in {currentCity}</b>
+            <SortPlaces currentSortType={currentSortType} />
             <OfferList
               className="cities__places-list places__list tabs__content"
-              offers={offers}
+              offers={offersBySortType}
               onCardHover={cardHoverHandler}
             />
           </section>
           <div className="cities__right-section">
-            <Map className='cities' city={offers[0].city} offers={offers} selectedOffer={selectedOffer}/>
+            <Map className='cities' city={offersBySortType[0].city} offers={offersBySortType} selectedOffer={selectedOffer}/>
           </div>
         </div>
       </div>
