@@ -1,31 +1,48 @@
-import { useAppDispatch } from '../../hooks';
 import { SortOffersType } from '../../const';
-import { changeSortType } from '../../store/action';
-import { useRef, useState } from 'react';
+import { useState, KeyboardEvent } from 'react';
 import classNames from 'classnames';
+import { Sorting } from '../../types/sorting';
 
 
 type SortPlacesProps = {
-  currentSortType: SortOffersType;
+  activeSorting: Sorting;
+  onChange: (newSorting: Sorting) => void;
 }
 
-function SortPlaces({currentSortType}: SortPlacesProps): JSX.Element {
+function SortPlaces({activeSorting, onChange }: SortPlacesProps): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
 
-  const sortRef = useRef(null);
-  const dispatch = useAppDispatch();
+  const iconStyle = {
+    transform: `translateY(-50%) ${isOpen ? 'rotate(180deg)' : ''}`
+  };
+
+  function keyDownHandler(evt: KeyboardEvent) {
+    if (evt.key === 'Escape' && isOpen) {
+      evt.preventDefault();
+      setIsOpen(false);
+    }
+  }
+
+  function typeClickHandler() {
+    setIsOpen((prevIsOpen) => !prevIsOpen);
+  }
+
+  function sortingItemClickHandler (type: Sorting) {
+    onChange(type);
+    setIsOpen(false);
+  }
+
 
   return (
-    <form className="places__sorting" action="#" method="get">
+    <form className="places__sorting" action="#" method="get" onKeyDown={keyDownHandler}>
       <span className="places__sorting-caption">Sort by</span>
       <span
         className="places__sorting-type"
         tabIndex={0}
-        onClick={() => setIsOpen(!isOpen)}
-        ref={sortRef}
+        onClick={typeClickHandler}
       >
-        {currentSortType}
-        <svg className="places__sorting-arrow" width={7} height={4}>
+        {activeSorting}
+        <svg className="places__sorting-arrow" width={7} height={4} style={iconStyle}>
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
@@ -33,15 +50,11 @@ function SortPlaces({currentSortType}: SortPlacesProps): JSX.Element {
         {Object.values(SortOffersType).map((type) => (
           <li
             key={type}
-            className={classNames({'places__option--active': type === currentSortType}, 'places__option')}
+            className={classNames({'places__option--active': type === activeSorting}, 'places__option')}
             tabIndex={0}
-            onClick={(evt) => {
-              evt.preventDefault();
-              dispatch(changeSortType(type));
-              setIsOpen(false);
-            }}
+            onClick={() => sortingItemClickHandler(type as Sorting)}
           >
-            {type}
+            {type};
           </li>
         ))}
       </ul>

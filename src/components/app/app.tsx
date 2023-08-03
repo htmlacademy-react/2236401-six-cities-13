@@ -7,19 +7,18 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import PrivateRoute from '../private-route/private-route';
 import { HelmetProvider } from 'react-helmet-async';
-import { Review } from '../../types/review';
-import { Offer } from '../../types/offer';
-import { OfferWithHost } from '../../types/offer';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
+import { useAppDispatch } from '../../hooks';
+import { fetchFavorites } from '../../store/action';
+import { useEffect } from 'react';
 
 
-type AppScreenProps = {
-  offers: Offer[];
-  fullOffers: OfferWithHost[];
-  reviews: Review[];
-}
+function App(): JSX.Element {
+  const dispatch = useAppDispatch();
 
-function App({offers, fullOffers, reviews}: AppScreenProps): JSX.Element {
+  useEffect(() => {
+    dispatch(fetchFavorites());
+  }, [dispatch]);
 
   return (
     <HelmetProvider>
@@ -29,9 +28,7 @@ function App({offers, fullOffers, reviews}: AppScreenProps): JSX.Element {
           <Route
             path={AppRoute.Main}
             element={
-              <MainScreen
-                offers={offers}
-              />
+              <MainScreen />
             }
           />
           <Route
@@ -40,9 +37,7 @@ function App({offers, fullOffers, reviews}: AppScreenProps): JSX.Element {
               <PrivateRoute
                 authorizationStatus={AuthorizationStatus.Auth}
               >
-                <FavoritesScreen
-                  offers={offers}
-                />
+                <FavoritesScreen />
               </PrivateRoute>
             }
           />
@@ -53,10 +48,7 @@ function App({offers, fullOffers, reviews}: AppScreenProps): JSX.Element {
           <Route
             path={`${AppRoute.Offer}/:offerId`}
             element={
-              <OfferScreen
-                offers={fullOffers}
-                reviews={reviews}
-              />
+              <OfferScreen />
             }
           />
           <Route

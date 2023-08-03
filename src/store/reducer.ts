@@ -1,32 +1,63 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { TRAVEL_CITIES, SortOffersType } from '../const';
-import { getOffersByCity } from '../utils';
-import { offers } from '../mocks/offers';
-import { changeCity, displayOffersByCity, changeSortType, displayOffersBySortType } from './action';
-import { InitialState } from '../types/state';
+import { OfferWithHost } from '../types/offer';
+import { Review } from '../types/review';
+import { TRAVEL_CITIES } from '../const';
+import { fullOffers } from '../mocks/offers';
+import { reviews } from '../mocks/reviews';
+import {
+  fetchOffers,
+  fetchOffer,
+  fetchNeigbouhoodOffers,
+  fetchFavorites,
+  dropOffer,
+  setActiveCity,
+  fetchReviews
+} from './action';
 
 const DEFAULT_CITY = TRAVEL_CITIES[0];
-const DEFAULT_SORT_TYPE = SortOffersType.popular;
 
-const initialState: InitialState = {
-  city: DEFAULT_CITY,
-  offers: getOffersByCity(DEFAULT_CITY, offers),
-  sortType: DEFAULT_SORT_TYPE,
+const initialState: {
+  // offers: Offer[];
+  fullOffers: OfferWithHost[];
+  neighbourhoodOffers: OfferWithHost[];
+  reviews: Review[];
+  offer: OfferWithHost | null;
+  favorites: OfferWithHost[];
+  activeCity: string;
+} = {
+  // offers,
+  fullOffers,
+  neighbourhoodOffers: [],
+  reviews: [],
+  offer: null,
+  favorites: [],
+  activeCity: DEFAULT_CITY
 };
+
 
 const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(changeCity, (state, action) => {
-      state.city = action.payload;
+    .addCase(fetchOffers, (state) => {
+      state.fullOffers = fullOffers;
     })
-    .addCase(displayOffersByCity, (state, action) => {
-      state.offers = action.payload;
+    .addCase(fetchOffer, (state, action) => {
+      state.offer = fullOffers.find((offer) => offer.id === action.payload) ?? null;
     })
-    .addCase(changeSortType, (state, action) => {
-      state.sortType = action.payload;
+    .addCase(fetchNeigbouhoodOffers, (state, action) => {
+      state.neighbourhoodOffers = fullOffers.filter((offer) => offer.id !== action.payload);
     })
-    .addCase(displayOffersBySortType, (state, action) => {
-      state.offers = action.payload;
+    .addCase(fetchReviews, (state) => {
+      state.reviews = reviews;
+    })
+    .addCase(dropOffer, (state) => {
+      state.offer = null;
+      state.neighbourhoodOffers = [];
+    })
+    .addCase(setActiveCity, (state, action) => {
+      state.activeCity = action.payload;
+    })
+    .addCase(fetchFavorites, (state) => {
+      state.favorites = state.fullOffers.filter((offer) => offer.isFavorite);
     });
 });
 

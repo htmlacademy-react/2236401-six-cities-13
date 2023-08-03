@@ -1,42 +1,49 @@
 import Reviews from '../../components/reviews/reviews';
 import { useParams } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
-import { OfferWithHost } from '../../types/offer';
 import { getPercent } from '../../utils';
-import { Review } from '../../types/review';
 import { HeaderPage, TypeOfAllocation } from '../../const';
 import classNames from 'classnames';
 import Layout from '../../components/layout/layout';
 import OfferList from '../../components/offer-list/offer-list';
 import Map from '../../components/map/map';
-import { useState } from 'react';
 import HostSection from '../../components/host-section/host-section';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useEffect } from 'react';
+import { dropOffer, fetchNeigbouhoodOffers, fetchOffer } from '../../store/action';
 
-type OfferScreenProps = {
-  offers: OfferWithHost[];
-  reviews: Review[];
-}
 
-function OfferScreen({offers, reviews}: OfferScreenProps): JSX.Element {
-  const [selectedOffer, setSelectedOffer] = useState<string | null>(null);
+function OfferScreen(): JSX.Element {
 
-  const cardHoverHandler = (offerId: string | null): void => {
-    setSelectedOffer(offerId);
-  };
+  const {offerId} = useParams();
+  const dispatch = useAppDispatch();
 
-  const params = useParams();
-  const currentOfferId = params.offerId;
-  const currentOffer = offers.find((offer) => offer.id === currentOfferId);
+  // const currentOffer = useAppSelector((state) => state.offer);
+  const offers = useAppSelector((state) => state.fullOffers);
+  const currentOffer = offers.find((offer) => offer.id === offerId);
+
+  // const neighbourhoodOffers = useAppSelector((state) => state.neighbourhoodOffers);
+  const neighbourhoodOffers = offers.filter((offer) =>
+    currentOffer?.city.name === offer.city.name).filter((offer) =>
+    offer.id !== offerId).slice(0,3);
+
+
+  useEffect(() => {
+    if (offerId) {
+      dispatch(fetchOffer(offerId));
+      dispatch(fetchNeigbouhoodOffers(offerId));
+    }
+
+    return () => {
+      dispatch(dropOffer());
+    };
+  }, [offerId, dispatch]);
+
 
   if(!currentOffer) {
     return <Navigate to='/404' />;
   }
   const {isPremium, title, rating, price, images, type, bedrooms, maxAdults, goods, isFavorite} = currentOffer;
-
-  const neighbourhoodOffers = offers.filter((offer) =>
-    currentOffer.city.name === offer.city.name).filter((offer) =>
-    offer.id !== currentOfferId)
-    .slice(0, 3);
 
 
   return (
@@ -102,21 +109,20 @@ function OfferScreen({offers, reviews}: OfferScreenProps): JSX.Element {
               </ul>
             </div>
             <HostSection hostInfo={currentOffer} />
-            <Reviews reviews={reviews} />
+            {offerId && <Reviews offerId={offerId} />}
           </div>
         </div>
         <Map
           className='offer'
-          city={neighbourhoodOffers[0].city}
+          city={neighbourhoodOffers[0]?.city}
           offers={neighbourhoodOffers}
-          selectedOffer={selectedOffer}
           currentOffer={currentOffer}
         />
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <OfferList className="near-places__list places__list" offers={neighbourhoodOffers} onCardHover={cardHoverHandler} />
+          <OfferList className="near-places__list places__list" offers={neighbourhoodOffers} />
         </section>
       </div>
     </Layout>

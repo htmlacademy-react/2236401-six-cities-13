@@ -1,12 +1,5 @@
-import { Offer, OfferWithHost } from './offer';
-import { store } from '../store/index';
-import { SortOffersType } from '../const';
+import { store } from '../store';
 
-export type InitialState = {
-  city: string;
-  offers: Offer[] | OfferWithHost[];
-  sortType: SortOffersType;
-}
 
 export type State = ReturnType<typeof store.getState>;
 

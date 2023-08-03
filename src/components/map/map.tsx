@@ -1,6 +1,6 @@
 import { TypeOfAllocation } from '../../const';
 import { Icon, Marker, layerGroup } from 'leaflet';
-import { City, Offer } from '../../types/offer';
+import { City, OfferWithHost } from '../../types/offer';
 import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/useMap';
 import 'leaflet/dist/leaflet.css';
@@ -8,40 +8,37 @@ import 'leaflet/dist/leaflet.css';
 type MapProps = {
   className: string;
   city: City;
-  offers: Offer[];
-  selectedOffer: string | null;
-  currentOffer?: Offer;
+  offers: OfferWithHost[];
+  selectedOffer?: string | null;
+  currentOffer?: OfferWithHost;
 };
 
 const defaultCustomIcon = new Icon({
   iconUrl: 'img/pin.svg',
   iconSize: [30, 40],
-  iconAnchor: [20, 40]
+  iconAnchor: [20, 40],
+  popupAnchor: [-3, -24],
 });
 
 const activeCustomIcon = new Icon({
   iconUrl: 'img/pin-active.svg',
   iconSize: [30, 40],
-  iconAnchor: [20, 40]
+  iconAnchor: [20, 40],
+  popupAnchor: [-3, -24],
 });
 
-const currentCustomIcon = new Icon({
-  iconUrl: 'img/pin-current.svg',
-  iconSize: [30, 40],
-  iconAnchor: [20, 40]
-});
 
 function Map({className, city, offers, selectedOffer, currentOffer}: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
+  if (currentOffer) {
+    offers.push(currentOffer);
+  }
+
   useEffect(() => {
     if (map) {
       map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
-      // map.flyTo([city.location.latitude, city.location.longitude], city.location.zoom, {
-      //   duration: 2
-      // });
-      // map.panTo([city.location.latitude, city.location.longitude]);
       const markerLayer = layerGroup().addTo(map);
 
       offers.forEach((offer) => {
@@ -57,28 +54,13 @@ function Map({className, city, offers, selectedOffer, currentOffer}: MapProps): 
 
         marker
           .setIcon(
-            selectedOffer === id
+            selectedOffer === id || currentOffer?.id === id
               ? activeCustomIcon
               : defaultCustomIcon
           )
           .addTo(markerLayer)
           .bindPopup(`<img src=${previewImage}> <h3>${title}</h3> <h1>&euro; ${price}</h1> <p>${typeOfAllocation}</p>`);
       });
-
-      if (currentOffer) {
-        const {location, title, previewImage, price, type} = currentOffer;
-        const typeOfAllocation = TypeOfAllocation[type];
-
-        const currentMarker = new Marker([
-          location.latitude,
-          location.longitude
-        ], {
-          title: currentOffer.title,
-          icon: currentCustomIcon
-        });
-        currentMarker.addTo(markerLayer)
-          .bindPopup(`<img src=${previewImage}> <h3>${title}</h3> <h1>&euro; ${price}</h1> <p>${typeOfAllocation}</p>`);
-      }
 
       return () => {
         map.removeLayer(markerLayer);

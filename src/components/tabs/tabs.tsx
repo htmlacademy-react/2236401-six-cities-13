@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { TRAVEL_CITIES, AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks';
-import { changeCity } from '../../store/action';
+import { setActiveCity } from '../../store/action';
 
 type TabsProps = {
   currentCity: string;
@@ -22,7 +22,7 @@ function Tabs({currentCity}: TabsProps): JSX.Element {
               key={city}
               onClick={(evt) => {
                 evt.preventDefault();
-                dispatch(changeCity(city));
+                dispatch(setActiveCity(city));
               }}
             >
               <Link
