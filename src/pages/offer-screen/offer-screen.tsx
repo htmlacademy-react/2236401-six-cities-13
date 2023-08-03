@@ -18,16 +18,6 @@ function OfferScreen(): JSX.Element {
   const {offerId} = useParams();
   const dispatch = useAppDispatch();
 
-  // const currentOffer = useAppSelector((state) => state.offer);
-  const offers = useAppSelector((state) => state.fullOffers);
-  const currentOffer = offers.find((offer) => offer.id === offerId);
-
-  // const neighbourhoodOffers = useAppSelector((state) => state.neighbourhoodOffers);
-  const neighbourhoodOffers = offers.filter((offer) =>
-    currentOffer?.city.name === offer.city.name).filter((offer) =>
-    offer.id !== offerId).slice(0,3);
-
-
   useEffect(() => {
     if (offerId) {
       dispatch(fetchOffer(offerId));
@@ -39,6 +29,17 @@ function OfferScreen(): JSX.Element {
     };
   }, [offerId, dispatch]);
 
+
+  const currentOffer = useAppSelector((state) => state.offer);
+  // const offers = useAppSelector((state) => state.fullOffers);
+  // const currentOffer = offers.find((offer) => offer.id === offerId);
+
+  const neighbourhoodOffers = useAppSelector((state) => state.neighbourhoodOffers);
+  //   const neighbourhoodOffers = offers.filter((offer) =>
+  //     currentOffer?.city.name === offer.city.name).splice(0,3);
+  // console.log()
+
+  // console.log(currentOffer, neighbourhoodOffers)
 
   if(!currentOffer) {
     return <Navigate to='/404' />;

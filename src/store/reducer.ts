@@ -41,10 +41,10 @@ const reducer = createReducer(initialState, (builder) => {
       state.fullOffers = fullOffers;
     })
     .addCase(fetchOffer, (state, action) => {
-      state.offer = fullOffers.find((offer) => offer.id === action.payload) ?? null;
+      state.offer = state.fullOffers.find((offer) => offer.id === action.payload) ?? null;
     })
     .addCase(fetchNeigbouhoodOffers, (state, action) => {
-      state.neighbourhoodOffers = fullOffers.filter((offer) => offer.id !== action.payload);
+      state.neighbourhoodOffers = state.fullOffers.filter((item) => state.activeCity === item.city.name).filter((offer) => offer.id !== action.payload).slice(0,3);
     })
     .addCase(fetchReviews, (state) => {
       state.reviews = reviews;
