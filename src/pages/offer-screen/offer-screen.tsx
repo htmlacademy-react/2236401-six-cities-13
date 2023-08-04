@@ -30,20 +30,22 @@ function OfferScreen(): JSX.Element {
   }, [offerId, dispatch]);
 
 
-  const currentOffer = useAppSelector((state) => state.offer);
-  // const offers = useAppSelector((state) => state.fullOffers);
-  // const currentOffer = offers.find((offer) => offer.id === offerId);
+  // const currentOffer = useAppSelector((state) => state.offer);
+  const offers = useAppSelector((state) => state.fullOffers);
+  const currentOffer = offers.find((offer) => offer.id === offerId);
 
-  const neighbourhoodOffers = useAppSelector((state) => state.neighbourhoodOffers);
-  //   const neighbourhoodOffers = offers.filter((offer) =>
-  //     currentOffer?.city.name === offer.city.name).splice(0,3);
-  // console.log()
+  // const neighbourhoodOffers = useAppSelector((state) => state.neighbourhoodOffers);
+  const neighbourhoodOffers = offers.filter((offer) =>
+    currentOffer?.city.name === offer.city.name).filter((offer) => offer.id !== offerId).slice(0,3);
+
 
   // console.log(currentOffer, neighbourhoodOffers)
 
   if(!currentOffer) {
     return <Navigate to='/404' />;
   }
+
+  const mapOffers = [...neighbourhoodOffers, currentOffer];
   const {isPremium, title, rating, price, images, type, bedrooms, maxAdults, goods, isFavorite} = currentOffer;
 
 
@@ -116,7 +118,7 @@ function OfferScreen(): JSX.Element {
         <Map
           className='offer'
           city={neighbourhoodOffers[0]?.city}
-          offers={neighbourhoodOffers}
+          offers={mapOffers}
           currentOffer={currentOffer}
         />
       </section>

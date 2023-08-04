@@ -8,6 +8,7 @@ import SortPlaces from '../../components/sort-places/sort-places';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchOffers } from '../../store/action';
 import { Sorting } from '../../types/sorting';
+import { sortingOffersByType } from '../../utils';
 
 
 function MainScreen(): JSX.Element {
@@ -47,9 +48,8 @@ function MainScreen(): JSX.Element {
             <SortPlaces activeSorting={activeSorting} onChange={(newSorting) => setActiveSorting(newSorting)} />
             <OfferList
               className="cities__places-list places__list tabs__content"
-              offers={offersByCity}
+              offers={sortingOffersByType(offersByCity, activeSorting)}
               onCardHover={cardHoverHandler}
-              currentSortType={activeSorting}
             />
           </section>
           <div className="cities__right-section">

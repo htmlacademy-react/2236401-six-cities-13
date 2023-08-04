@@ -32,9 +32,6 @@ function Map({className, city, offers, selectedOffer, currentOffer}: MapProps): 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
-  if (currentOffer) {
-    offers.push(currentOffer);
-  }
 
   useEffect(() => {
     if (map) {
