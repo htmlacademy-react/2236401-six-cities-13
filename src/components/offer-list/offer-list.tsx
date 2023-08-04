@@ -1,8 +1,8 @@
-import { Offer } from '../../types/offer';
+import { OfferWithHost } from '../../types/offer';
 import PlaceCard from '../place-card/place-card';
 
 type OfferListProps = {
-  offers: Offer[];
+  offers: OfferWithHost[];
   className: string;
   onCardHover?: (offerId: string | null) => void;
 }

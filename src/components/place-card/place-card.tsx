@@ -1,12 +1,12 @@
 import { AppRoute, NameOfClasses, PageImageProperties, TypeOfAllocation } from '../../const';
-import { Offer } from '../../types/offer';
+import { Offer, OfferWithHost } from '../../types/offer';
 import { getPercent } from '../../utils';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
 
 type PlaceCardProps = {
-  offer: Offer;
+  offer: Offer | OfferWithHost;
   nameClass: string;
   onCardHover?: (offerId: string | null) => void;
 }

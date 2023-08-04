@@ -49,3 +49,10 @@ export enum TypeOfAllocation {
   house = 'House',
   hotel = 'Hotel'
 }
+
+export const SortOffersType = {
+  Popular : 'Popular',
+  PriceToHigh : 'Price: low to high',
+  PriceToLow : 'Price: high to low',
+  TopRated : 'Top rated first',
+};

@@ -1,24 +1,35 @@
-import { useState } from 'react';
-import { Offer } from '../../types/offer';
-import { HeaderPage} from '../../const';
+import { useEffect, useState } from 'react';
+import { HeaderPage } from '../../const';
 import Layout from '../../components/layout/layout';
 import OfferList from '../../components/offer-list/offer-list';
 import Tabs from '../../components/tabs/tabs';
 import Map from '../../components/map/map';
 import SortPlaces from '../../components/sort-places/sort-places';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchOffers } from '../../store/action';
+import { Sorting } from '../../types/sorting';
+import { sortingOffersByType } from '../../utils';
 
-type MainScreenProps = {
-  currentCity: string;
-  offers: Offer[];
-}
 
+function MainScreen(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const currentCity = useAppSelector((state) => state.activeCity);
+  const offers = useAppSelector((state) => state.fullOffers);
+  const offersByCity = offers.filter(
+    (offer) => offer.city.name === currentCity);
 
-function MainScreen({currentCity, offers}: MainScreenProps): JSX.Element {
   const [selectedOffer, setSelectedOffer] = useState<string | null>(null);
+
+  const [activeSorting, setActiveSorting] = useState<Sorting>('Popular');
 
   const cardHoverHandler = (offerId: string | null): void => {
     setSelectedOffer(offerId);
   };
+
+  useEffect(() => {
+    dispatch(fetchOffers());
+  }, [dispatch]);
+
 
   return (
     <Layout pageTitle = 'Travelling in Europe'
@@ -33,16 +44,16 @@ function MainScreen({currentCity, offers}: MainScreenProps): JSX.Element {
         <div className="cities__places-container container">
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{offers.length} places to stay in {offers[0].city.name}</b>
-            <SortPlaces />
+            <b className="places__found">{offersByCity.length} places to stay in {currentCity}</b>
+            <SortPlaces activeSorting={activeSorting} onChange={(newSorting) => setActiveSorting(newSorting)} />
             <OfferList
               className="cities__places-list places__list tabs__content"
-              offers={offers}
+              offers={sortingOffersByType(offersByCity, activeSorting)}
               onCardHover={cardHoverHandler}
             />
           </section>
           <div className="cities__right-section">
-            <Map className='cities' city={offers[0].city} offers={offers} selectedOffer={selectedOffer}/>
+            <Map className='cities' city={offersByCity[0].city} offers={offersByCity} selectedOffer={selectedOffer}/>
           </div>
         </div>
       </div>

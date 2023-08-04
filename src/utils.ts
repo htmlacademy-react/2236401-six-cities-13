@@ -1,36 +1,35 @@
-import { MAX_STARS_COUNT } from './const';
-import { Offer, OfferWithHost } from './types/offer';
+import { MAX_STARS_COUNT, SortOffersType } from './const';
+import { OfferWithHost } from './types/offer';
+import { Sorting } from './types/sorting';
 
 
 //Функция для подсчёта процентов от числа
 
 function getPercent (number: number): string {
 
-  const percent = Math.round(number * 100 / MAX_STARS_COUNT);
-  if (percent < 30) {
-    return `${20}%`;
-  }
-
-  if (percent >= 30 && percent < 50) {
-    return `${40}%`;
-  }
-
-  if (percent >= 50 && percent < 70) {
-    return `${60}%`;
-  }
-
-  if (percent >= 70 && percent < 90) {
-    return `${80}%`;
-  }
-
-  return `${100}%`;
+  return `${(Math.round(number) * 100) / MAX_STARS_COUNT}%`;
 }
 
 // Функция для получения предложений размещения по конкретному городу
 
-function getOffersByCity (city: string | undefined, offers: Offer[] | OfferWithHost[]): Offer[] | OfferWithHost[] {
+function getOffersByCity (city: string | undefined, offers: OfferWithHost[]): OfferWithHost[] {
   return offers.filter((offer) => city === offer.city.name);
 }
 
+// Функция для сортировки предложений
 
-export { getPercent, getOffersByCity };
+function sortingOffersByType (offers: OfferWithHost[], type: Sorting): OfferWithHost[] {
+  switch (type) {
+    case SortOffersType.PriceToHigh:
+      return offers.sort((a, b) => a.price - b.price);
+    case SortOffersType.PriceToLow:
+      return offers.sort((a, b) => b.price - a.price);
+    case SortOffersType.TopRated:
+      return offers.sort((a, b) => b.rating - a.rating);
+    default:
+      return offers;
+  }
+}
+
+
+export { getPercent, getOffersByCity, sortingOffersByType };
