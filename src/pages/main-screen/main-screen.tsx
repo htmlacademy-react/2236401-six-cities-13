@@ -1,18 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { HeaderPage } from '../../const';
 import Layout from '../../components/layout/layout';
 import OfferList from '../../components/offer-list/offer-list';
 import Tabs from '../../components/tabs/tabs';
 import Map from '../../components/map/map';
 import SortPlaces from '../../components/sort-places/sort-places';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchOffers } from '../../store/action';
+import { useAppSelector } from '../../hooks';
+// import { loadOffers } from '../../store/action';
 import { Sorting } from '../../types/sorting';
 import { sortingOffersByType } from '../../utils';
 
 
 function MainScreen(): JSX.Element {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const currentCity = useAppSelector((state) => state.activeCity);
   const offers = useAppSelector((state) => state.fullOffers);
   const offersByCity = offers.filter(
@@ -26,9 +26,9 @@ function MainScreen(): JSX.Element {
     setSelectedOffer(offerId);
   };
 
-  useEffect(() => {
-    dispatch(fetchOffers());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(loadOffers(data));
+  // }, [dispatch]);
 
 
   return (

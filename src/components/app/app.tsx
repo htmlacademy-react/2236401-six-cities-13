@@ -8,17 +8,30 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import PrivateRoute from '../private-route/private-route';
 import { HelmetProvider } from 'react-helmet-async';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
-import { useAppDispatch } from '../../hooks';
-import { fetchFavorites } from '../../store/action';
-import { useEffect } from 'react';
+import { useAppSelector } from '../../hooks';
+import Loading from '../loading/loading';
+// import { useAppDispatch } from '../../hooks';
+// import { useEffect } from 'react';
+// import { fetchFavorites } from '../../store/action';
 
 
 function App(): JSX.Element {
-  const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
 
-  useEffect(() => {
-    dispatch(fetchFavorites());
-  }, [dispatch]);
+
+  // const dispatch = useAppDispatch();
+
+  // useEffect(() => {
+  //   dispatch(fetchFavorites());
+  // }, [dispatch]);
+
+
+  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
+    return (
+      <Loading />
+    );
+  }
 
   return (
     <HelmetProvider>
@@ -35,7 +48,7 @@ function App(): JSX.Element {
             path={AppRoute.Favorites}
             element={
               <PrivateRoute
-                authorizationStatus={AuthorizationStatus.Auth}
+                authorizationStatus={authorizationStatus}
               >
                 <FavoritesScreen />
               </PrivateRoute>

@@ -1,4 +1,4 @@
-import Reviews from '../../components/reviews/reviews';
+// import Reviews from '../../components/reviews/reviews';
 import { useParams } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import { getPercent } from '../../utils';
@@ -112,7 +112,7 @@ function OfferScreen(): JSX.Element {
               </ul>
             </div>
             <HostSection hostInfo={currentOffer} />
-            {offerId && <Reviews offerId={offerId} />}
+            {/* {offerId && <Reviews offerId={offerId} />} */}
           </div>
         </div>
         <Map
