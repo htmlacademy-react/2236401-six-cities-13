@@ -136,9 +136,9 @@ export const loginAction = createAsyncThunk<void, AuthData, {
 }>(
   'USER/login',
   async({login: email, password}, {dispatch, extra: api}) => {
-    const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
-    saveToken(token);
-    // dispatch(setUserInfo(data));
+    const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
+    saveToken(data.token);
+    dispatch(checkAuthInfo(data));
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
     dispatch(redirectToRoute(AppRoute.Main));
     dispatch(fetchFavoritesAction());
@@ -154,7 +154,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-    // dispatch(setUserInfo(null));
+    dispatch(checkAuthInfo(null));
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   },
 );

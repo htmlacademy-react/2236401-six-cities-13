@@ -2,7 +2,7 @@ import { AppRoute, HeaderPage } from '../../const';
 import Layout from '../../components/layout/layout';
 import { FormEvent, useRef } from 'react';
 import { useAppDispatch } from '../../hooks';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { loginAction } from '../../store/api-actions';
 import { toast } from 'react-toastify';
 
@@ -11,7 +11,6 @@ function LoginScreen(): JSX.Element {
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const regex = /^(?=.*\d)(?=.*[a-z])\S*$/i;
 
@@ -69,7 +68,6 @@ function LoginScreen(): JSX.Element {
             </div>
             <button className="login__submit form__submit button"
               type="submit"
-              onClick={() => navigate(AppRoute.Favorites)}
             >
               Sign in
             </button>
