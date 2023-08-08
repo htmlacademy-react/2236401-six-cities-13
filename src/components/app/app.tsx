@@ -3,13 +3,15 @@ import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
 import OfferScreen from '../../pages/offer-screen/offer-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import PrivateRoute from '../private-route/private-route';
 import { HelmetProvider } from 'react-helmet-async';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
 import { useAppSelector } from '../../hooks';
 import Loading from '../loading/loading';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history';
 // import { useAppDispatch } from '../../hooks';
 // import { useEffect } from 'react';
 // import { fetchFavorites } from '../../store/action';
@@ -18,6 +20,9 @@ import Loading from '../loading/loading';
 function App(): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+  // const isFullOfferDataLoading = useAppSelector((state) => state.isFullOfferDataLoading);
+  // const isOfferNeighbourhoodLoading = useAppSelector((state) => state.isOffersNeighbourhoodLoading);
+  // const isReviewsDataLoading = useAppSelector((state) => state.isReviewsDataLoading);
 
 
   // const dispatch = useAppDispatch();
@@ -35,7 +40,7 @@ function App(): JSX.Element {
 
   return (
     <HelmetProvider>
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <ScrollToTop />
         <Routes>
           <Route
@@ -71,7 +76,7 @@ function App(): JSX.Element {
             }
           />
         </Routes>
-      </BrowserRouter>
+      </HistoryRouter>
     </HelmetProvider>
   );
 }

@@ -15,7 +15,8 @@ export enum AppRoute {
   Main = '/',
   Login = '/login',
   Favorites = '/favorites',
-  Offer = '/offer'
+  Offer = '/offer',
+  NotFound = '/404'
 }
 
 export enum AuthorizationStatus {
@@ -59,9 +60,12 @@ export const SortOffersType = {
 
 export enum APIRoute {
   Offers = '/offers',
-  Reviews = '/reviews',
   Login = '/login',
   Logout = '/logout',
+  Favorites = '/favorite',
+  NotFound = '/404',
+  Reviews = '/comments'
 }
-
-export const TIMEOUT_SHOW_ERROR = 2000;
+// FullOffer = (offerId: string) => `/offers/${offerId}`,
+// OffersNearby = (offerId: string) => `/offers/${offerId}/nearby`,
+// Reviews = (offerId: string) => `/comments/${offerId}`,

@@ -1,8 +1,8 @@
-import { OfferWithHost } from '../../types/offer';
+import { Offer } from '../../types/offer';
 import PlaceCard from '../place-card/place-card';
 
 type OfferListProps = {
-  offers: OfferWithHost[];
+  offers?: Offer[];
   className: string;
   onCardHover?: (offerId: string | null) => void;
 }
@@ -10,7 +10,7 @@ type OfferListProps = {
 function OfferList ({offers, className, onCardHover}: OfferListProps): JSX.Element {
   return (
     <div className={className}>
-      {offers.map((item) =>
+      {offers?.map((item) =>
         (
           <PlaceCard
             key={item.id} offer={item}

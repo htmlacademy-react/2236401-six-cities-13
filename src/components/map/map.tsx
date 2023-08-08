@@ -1,6 +1,6 @@
 import { TypeOfAllocation } from '../../const';
 import { Icon, Marker, layerGroup } from 'leaflet';
-import { City, OfferWithHost } from '../../types/offer';
+import { City, Offer, OfferWithHost } from '../../types/offer';
 import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/useMap';
 import 'leaflet/dist/leaflet.css';
@@ -8,7 +8,7 @@ import 'leaflet/dist/leaflet.css';
 type MapProps = {
   className: string;
   city: City;
-  offers: OfferWithHost[];
+  offers?: Offer[] | OfferWithHost[];
   selectedOffer?: string | null;
   currentOffer?: OfferWithHost;
 };
@@ -38,7 +38,7 @@ function Map({className, city, offers, selectedOffer, currentOffer}: MapProps): 
       map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
       const markerLayer = layerGroup().addTo(map);
 
-      offers.forEach((offer) => {
+      offers?.forEach((offer) => {
         const {location, title, type, id, price, previewImage} = offer;
         const typeOfAllocation = TypeOfAllocation[type];
 
