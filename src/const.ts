@@ -15,7 +15,8 @@ export enum AppRoute {
   Main = '/',
   Login = '/login',
   Favorites = '/favorites',
-  Offer = '/offer'
+  Offer = '/offer',
+  NotFound = '/404'
 }
 
 export enum AuthorizationStatus {
@@ -56,3 +57,15 @@ export const SortOffersType = {
   PriceToLow : 'Price: high to low',
   TopRated : 'Top rated first',
 };
+
+export enum APIRoute {
+  Offers = '/offers',
+  Login = '/login',
+  Logout = '/logout',
+  Favorites = '/favorite',
+  NotFound = '/404',
+  Reviews = '/comments'
+}
+// FullOffer = (offerId: string) => `/offers/${offerId}`,
+// OffersNearby = (offerId: string) => `/offers/${offerId}/nearby`,
+// Reviews = (offerId: string) => `/comments/${offerId}`,

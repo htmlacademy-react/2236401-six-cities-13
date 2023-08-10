@@ -1,53 +1,75 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { OfferWithHost } from '../types/offer';
+import { Offer, OfferWithHost } from '../types/offer';
 import { Review } from '../types/review';
-import { TRAVEL_CITIES } from '../const';
-import { fullOffers } from '../mocks/offers';
-import { reviews } from '../mocks/reviews';
+import { UserData } from '../types/user-data';
+import { TRAVEL_CITIES, AuthorizationStatus } from '../const';
 import {
-  fetchOffers,
+  // loadOffers,
   fetchOffer,
   fetchNeigbouhoodOffers,
   fetchFavorites,
   dropOffer,
   setActiveCity,
-  fetchReviews
+  requireAuthorization,
+  fetchOffers,
+  setOffersDataLoadingStatus,
+  checkAuthInfo,
+  loadReviews,
+  setFullOfferDataLoadingStatus,
+  setOffersNeighbouhoodLoading,
+  setReviewsDataLoadingStatus,
 } from './action';
 
 const DEFAULT_CITY = TRAVEL_CITIES[0];
+export enum Status {
+  Idle = 'idle',
+  Loading = 'loading',
+  Success = 'success',
+  Error = 'error'
+}
 
 const initialState: {
-  // offers: Offer[];
-  fullOffers: OfferWithHost[];
-  neighbourhoodOffers: OfferWithHost[];
-  reviews: Review[];
+  offers: Offer[];
+  neighbourhoodOffers: Offer[] | null;
+  reviews: Review[] | null;
   offer: OfferWithHost | null;
-  favorites: OfferWithHost[];
+  favorites: Offer[];
   activeCity: string;
+  userInfo: UserData | null;
+  authorizationStatus: AuthorizationStatus;
+  isOffersDataLoading: boolean;
+  isFullOfferDataLoading: boolean;
+  isOffersNeighbourhoodLoading: boolean;
+  isReviewsDataLoading: boolean;
 } = {
-  // offers,
-  fullOffers,
+  offers: [],
   neighbourhoodOffers: [],
   reviews: [],
   offer: null,
   favorites: [],
-  activeCity: DEFAULT_CITY
+  activeCity: DEFAULT_CITY,
+  userInfo: null,
+  authorizationStatus: AuthorizationStatus.Unknown,
+  isOffersDataLoading: false,
+  isFullOfferDataLoading: false,
+  isOffersNeighbourhoodLoading: false,
+  isReviewsDataLoading: false,
 };
 
 
 const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(fetchOffers, (state) => {
-      state.fullOffers = fullOffers;
+    .addCase(fetchOffers, (state, action) => {
+      state.offers = action.payload;
     })
     .addCase(fetchOffer, (state, action) => {
-      state.offer = state.fullOffers.find((offer) => offer.id === action.payload) ?? null;
+      state.offer = action.payload;
     })
     .addCase(fetchNeigbouhoodOffers, (state, action) => {
-      state.neighbourhoodOffers = state.fullOffers.filter((item) => state.activeCity === item.city.name).filter((offer) => offer.id !== action.payload).slice(0,3);
+      state.neighbourhoodOffers = action.payload;
     })
-    .addCase(fetchReviews, (state) => {
-      state.reviews = reviews;
+    .addCase(loadReviews, (state, action) => {
+      state.reviews = action.payload;
     })
     .addCase(dropOffer, (state) => {
       state.offer = null;
@@ -56,8 +78,26 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(setActiveCity, (state, action) => {
       state.activeCity = action.payload;
     })
-    .addCase(fetchFavorites, (state) => {
-      state.favorites = state.fullOffers.filter((offer) => offer.isFavorite);
+    .addCase(fetchFavorites, (state, action) => {
+      state.favorites = action.payload;
+    })
+    .addCase(setFullOfferDataLoadingStatus, (state, action) => {
+      state.isFullOfferDataLoading = action.payload;
+    })
+    .addCase(setOffersNeighbouhoodLoading, (state, action) => {
+      state.isOffersNeighbourhoodLoading = action.payload;
+    })
+    .addCase(setReviewsDataLoadingStatus, (state, action) => {
+      state.isReviewsDataLoading = action.payload;
+    })
+    .addCase(setOffersDataLoadingStatus, (state, action) => {
+      state.isOffersDataLoading = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(checkAuthInfo, (state, action) => {
+      state.userInfo = action.payload;
     });
 });
 

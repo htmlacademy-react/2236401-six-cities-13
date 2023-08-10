@@ -1,5 +1,5 @@
 import FavoritesEmptySection from './favorites-empty-section';
-import { OfferWithHost } from '../../types/offer';
+import { Offer } from '../../types/offer';
 import { Link } from 'react-router-dom';
 import { HeaderPage } from '../../const';
 import Layout from '../../components/layout/layout';
@@ -8,10 +8,10 @@ import { useAppSelector } from '../../hooks';
 
 
 type OffersByCityGroup = {
-  [city: string]: OfferWithHost[];
+  [city: string]: Offer[];
 }
 
-const getOffersByCityGroup = (offers: OfferWithHost[]) =>
+const getOffersByCityGroup = (offers: Offer[]) =>
   offers.reduce((cityGroup: OffersByCityGroup, offer) => {
     const city = offer.city.name;
 

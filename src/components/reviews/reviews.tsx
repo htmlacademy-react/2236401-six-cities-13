@@ -1,25 +1,20 @@
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { Offer } from '../../types/offer';
+import { AuthorizationStatus } from '../../const';
+import { useAppSelector } from '../../hooks';
+import { Review } from '../../types/review';
 import ReviewForm from '../review-form/review-form';
 import ReviewItem from '../review-item/review-item';
-import { fetchReviews } from '../../store/action';
 
 type ReviewsProps = {
-  offerId: Offer['id'];
+  reviews: Review[] | null;
 }
 
-function Reviews({offerId}: ReviewsProps): JSX.Element {
-  const dispatch = useAppDispatch();
-  const reviews = useAppSelector((state) => state.reviews);
+function Reviews({reviews}: ReviewsProps): JSX.Element {
 
-  useEffect(() => {
-    dispatch(fetchReviews(offerId));
-  }, [offerId, dispatch]);
+  const hasAuthorization = useAppSelector((state) => state.authorizationStatus) === AuthorizationStatus.Auth;
 
   return (
     <section className="offer__reviews reviews">
-      {reviews.length ?
+      {reviews?.length ?
         <>
           <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews?.length}</span></h2>
           <ul className="reviews__list">
@@ -27,7 +22,7 @@ function Reviews({offerId}: ReviewsProps): JSX.Element {
           </ul>
         </> : <p>Your review will be the first</p>}
 
-      <ReviewForm />
+      {hasAuthorization && <ReviewForm />}
     </section>
   );
 

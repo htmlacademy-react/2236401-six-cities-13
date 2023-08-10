@@ -1,4 +1,4 @@
-export type UserData = {
+export type User = {
   name: string;
   avatarUrl: string;
   isPro: boolean;
@@ -12,7 +12,7 @@ type Comment = {
 type ReviewData = {
   id: string;
   date: string;
-  user: UserData;
+  user: User;
 };
 
 export type Review = ReviewData & Comment;

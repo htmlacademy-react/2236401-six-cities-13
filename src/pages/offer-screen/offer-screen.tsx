@@ -2,7 +2,7 @@ import Reviews from '../../components/reviews/reviews';
 import { useParams } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import { getPercent } from '../../utils';
-import { HeaderPage, TypeOfAllocation } from '../../const';
+import { AppRoute, HeaderPage, TypeOfAllocation } from '../../const';
 import classNames from 'classnames';
 import Layout from '../../components/layout/layout';
 import OfferList from '../../components/offer-list/offer-list';
@@ -10,7 +10,9 @@ import Map from '../../components/map/map';
 import HostSection from '../../components/host-section/host-section';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useEffect } from 'react';
-import { dropOffer, fetchNeigbouhoodOffers, fetchOffer } from '../../store/action';
+// import { dropOffer } from '../../store/action';
+import { fetchNeigbouhoodOffersAction, fetchOfferAction, fetchReviewsOfferAction } from '../../store/api-actions';
+import Loading from '../../components/loading/loading';
 
 
 function OfferScreen(): JSX.Element {
@@ -18,36 +20,39 @@ function OfferScreen(): JSX.Element {
   const {offerId} = useParams();
   const dispatch = useAppDispatch();
 
+  const currentOffer = useAppSelector((state) => state.offer);
+  const isFullOfferDataLoading = useAppSelector((state) => state.isFullOfferDataLoading);
+  const isOfferNeighbourhoodLoading = useAppSelector((state) => state.isOffersNeighbourhoodLoading);
+  const neighbourhoodOffersList = useAppSelector((state) => state.neighbourhoodOffers);
+  const isReviewsDataLoading = useAppSelector((state) => state.isReviewsDataLoading);
+  const reviews = useAppSelector((state) => state.reviews);
+  const neighbourhoodOffers = neighbourhoodOffersList?.slice(0, 3);
+
   useEffect(() => {
     if (offerId) {
-      dispatch(fetchOffer(offerId));
-      dispatch(fetchNeigbouhoodOffers(offerId));
+      dispatch(fetchOfferAction(offerId));
+      dispatch(fetchNeigbouhoodOffersAction(offerId));
+      dispatch(fetchReviewsOfferAction(offerId));
     }
 
-    return () => {
-      dispatch(dropOffer());
-    };
+    // return () => {
+    //   dispatch(dropOffer());
+    // };
+
   }, [offerId, dispatch]);
 
-
-  // const currentOffer = useAppSelector((state) => state.offer);
-  const offers = useAppSelector((state) => state.fullOffers);
-  const currentOffer = offers.find((offer) => offer.id === offerId);
-
-  // const neighbourhoodOffers = useAppSelector((state) => state.neighbourhoodOffers);
-  const neighbourhoodOffers = offers.filter((offer) =>
-    currentOffer?.city.name === offer.city.name).filter((offer) => offer.id !== offerId).slice(0,3);
-
-
-  // console.log(currentOffer, neighbourhoodOffers)
-
-  if(!currentOffer) {
-    return <Navigate to='/404' />;
+  if (isFullOfferDataLoading || isOfferNeighbourhoodLoading || isReviewsDataLoading) {
+    return (
+      <Loading/>
+    );
   }
 
-  const mapOffers = [...neighbourhoodOffers, currentOffer];
-  const {isPremium, title, rating, price, images, type, bedrooms, maxAdults, goods, isFavorite} = currentOffer;
+  if(!currentOffer) {
+    return <Navigate to={AppRoute.NotFound} />;
+  }
 
+  const {isPremium, title, rating, price, images, type, bedrooms, maxAdults, goods, isFavorite} = currentOffer;
+  const mapOffers = neighbourhoodOffers && [...neighbourhoodOffers, currentOffer];
 
   return (
     <Layout
@@ -112,20 +117,22 @@ function OfferScreen(): JSX.Element {
               </ul>
             </div>
             <HostSection hostInfo={currentOffer} />
-            {offerId && <Reviews offerId={offerId} />}
+            {offerId && <Reviews reviews={reviews} />}
           </div>
         </div>
-        <Map
-          className='offer'
-          city={neighbourhoodOffers[0]?.city}
-          offers={mapOffers}
-          currentOffer={currentOffer}
-        />
+        {neighbourhoodOffers &&
+          <Map
+            className='offer'
+            city={neighbourhoodOffers[0]?.city}
+            offers={mapOffers}
+            currentOffer={currentOffer}
+          />}
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <OfferList className="near-places__list places__list" offers={neighbourhoodOffers} />
+          {neighbourhoodOffersList &&
+          <OfferList className="near-places__list places__list" offers={neighbourhoodOffers} />}
         </section>
       </div>
     </Layout>
