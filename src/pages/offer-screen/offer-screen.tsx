@@ -1,8 +1,7 @@
 import Reviews from '../../components/reviews/reviews';
 import { useParams } from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
 import { getPercent } from '../../utils';
-import { AppRoute, HeaderPage, TypeOfAllocation } from '../../const';
+import { HeaderPage, TypeOfAllocation } from '../../const';
 import classNames from 'classnames';
 import Layout from '../../components/layout/layout';
 import OfferList from '../../components/offer-list/offer-list';
@@ -10,8 +9,8 @@ import Map from '../../components/map/map';
 import HostSection from '../../components/host-section/host-section';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useEffect } from 'react';
-// import { dropOffer } from '../../store/action';
-import { fetchNeigbouhoodOffersAction, fetchOfferAction, fetchReviewsOfferAction } from '../../store/api-actions';
+import { dropOffer } from '../../store/action';
+import { fetchNeigbourhoodOffersAction, fetchOfferAction, fetchReviewsOfferAction } from '../../store/api-actions';
 import Loading from '../../components/loading/loading';
 
 
@@ -31,25 +30,25 @@ function OfferScreen(): JSX.Element {
   useEffect(() => {
     if (offerId) {
       dispatch(fetchOfferAction(offerId));
-      dispatch(fetchNeigbouhoodOffersAction(offerId));
+      dispatch(fetchNeigbourhoodOffersAction(offerId));
       dispatch(fetchReviewsOfferAction(offerId));
     }
 
-    // return () => {
-    //   dispatch(dropOffer());
-    // };
+    return () => {
+      dispatch(dropOffer());
+    };
 
   }, [offerId, dispatch]);
 
-  if (isFullOfferDataLoading || isOfferNeighbourhoodLoading || isReviewsDataLoading) {
+  if (currentOffer === null || isFullOfferDataLoading || isOfferNeighbourhoodLoading || isReviewsDataLoading) {
     return (
       <Loading/>
     );
   }
 
-  if(!currentOffer) {
-    return <Navigate to={AppRoute.NotFound} />;
-  }
+  // if(!currentOffer) {
+  //   return <Navigate to={AppRoute.NotFound} />;
+  // }
 
   const {isPremium, title, rating, price, images, type, bedrooms, maxAdults, goods, isFavorite} = currentOffer;
   const mapOffers = neighbourhoodOffers && [...neighbourhoodOffers, currentOffer];

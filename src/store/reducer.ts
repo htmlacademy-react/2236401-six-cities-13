@@ -4,19 +4,18 @@ import { Review } from '../types/review';
 import { UserData } from '../types/user-data';
 import { TRAVEL_CITIES, AuthorizationStatus } from '../const';
 import {
-  // loadOffers,
   fetchOffer,
-  fetchNeigbouhoodOffers,
+  fetchNeigbourhoodOffers,
   fetchFavorites,
   dropOffer,
   setActiveCity,
   requireAuthorization,
   fetchOffers,
   setOffersDataLoadingStatus,
-  checkAuthInfo,
+  setAuthData,
   loadReviews,
   setFullOfferDataLoadingStatus,
-  setOffersNeighbouhoodLoading,
+  setOffersNeighbourhoodLoading,
   setReviewsDataLoadingStatus,
 } from './action';
 
@@ -35,7 +34,7 @@ const initialState: {
   offer: OfferWithHost | null;
   favorites: Offer[];
   activeCity: string;
-  userInfo: UserData | null;
+  userData: UserData | null;
   authorizationStatus: AuthorizationStatus;
   isOffersDataLoading: boolean;
   isFullOfferDataLoading: boolean;
@@ -48,7 +47,7 @@ const initialState: {
   offer: null,
   favorites: [],
   activeCity: DEFAULT_CITY,
-  userInfo: null,
+  userData: null,
   authorizationStatus: AuthorizationStatus.Unknown,
   isOffersDataLoading: false,
   isFullOfferDataLoading: false,
@@ -65,7 +64,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(fetchOffer, (state, action) => {
       state.offer = action.payload;
     })
-    .addCase(fetchNeigbouhoodOffers, (state, action) => {
+    .addCase(fetchNeigbourhoodOffers, (state, action) => {
       state.neighbourhoodOffers = action.payload;
     })
     .addCase(loadReviews, (state, action) => {
@@ -84,7 +83,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(setFullOfferDataLoadingStatus, (state, action) => {
       state.isFullOfferDataLoading = action.payload;
     })
-    .addCase(setOffersNeighbouhoodLoading, (state, action) => {
+    .addCase(setOffersNeighbourhoodLoading, (state, action) => {
       state.isOffersNeighbourhoodLoading = action.payload;
     })
     .addCase(setReviewsDataLoadingStatus, (state, action) => {
@@ -96,8 +95,8 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
     })
-    .addCase(checkAuthInfo, (state, action) => {
-      state.userInfo = action.payload;
+    .addCase(setAuthData, (state, action) => {
+      state.userData = action.payload;
     });
 });
 

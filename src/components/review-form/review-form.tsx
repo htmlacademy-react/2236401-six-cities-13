@@ -13,7 +13,6 @@ function ReviewForm(): JSX.Element {
 
   const buttonIsDisabled =
     formData.review.length < MIN_CHARACTERS_COUNT
-    || formData.review.length > MAX_CHARACTERS_COUNT
     || !+formData.rating;
 
 
@@ -48,6 +47,7 @@ function ReviewForm(): JSX.Element {
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={onChangeFormHandler}
         value={formData.review}
+        maxLength={MAX_CHARACTERS_COUNT}
       >
       </textarea>
       <div className="reviews__button-wrapper">

@@ -10,8 +10,9 @@ function HeaderNav (): JSX.Element {
   const userStatus = useAppSelector((state) => state.authorizationStatus);
   const isLoggedIn = userStatus === AuthorizationStatus.Auth;
 
-  const userInfo = useAppSelector((state) => state.userInfo);
-  // console.log(userInfo)
+  const userData = useAppSelector((state) => state.userData);
+  const favorites = useAppSelector((state) => state.favorites);
+
 
   return (
     <nav className="header__nav">
@@ -22,15 +23,15 @@ function HeaderNav (): JSX.Element {
               to={AppRoute.Favorites}
             >
               <div className="header__avatar-wrapper user__avatar-wrapper">
-                {userInfo?.avatarUrl
+                {userData?.avatarUrl
                   &&
-                  <img src={userInfo?.avatarUrl}
+                  <img src={userData?.avatarUrl}
                     width={20} height={20}
                     style={{borderRadius:'50%'}}
                   />}
               </div>
-              <span className="header__user-name user__name">{userInfo?.email}</span>
-              <span className="header__favorite-count">{3}</span>
+              <span className="header__user-name user__name">{userData?.email}</span>
+              {favorites.length > 0 && <span className="header__favorite-count">{favorites.length}</span>}
             </Link>
           </li>
           <li className="header__nav-item">
