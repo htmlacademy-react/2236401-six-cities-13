@@ -35,7 +35,7 @@ function SortPlaces({activeSorting, onChange }: SortPlacesProps): JSX.Element {
 
   return (
     <form className="places__sorting" action="#" method="get" onKeyDown={keyDownHandler}>
-      <span className="places__sorting-caption">Sort by</span>
+      <span className="places__sorting-caption">Sort by&nbsp;</span>
       <span
         className="places__sorting-type"
         tabIndex={0}
@@ -54,7 +54,7 @@ function SortPlaces({activeSorting, onChange }: SortPlacesProps): JSX.Element {
             tabIndex={0}
             onClick={() => sortingItemClickHandler(type as Sorting)}
           >
-            {type};
+            {type}
           </li>
         ))}
       </ul>

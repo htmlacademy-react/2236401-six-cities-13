@@ -11,8 +11,8 @@ export const setOffersDataLoadingStatus = createAction<boolean>('DATA/setOffersD
 export const fetchOffer = createAction<OfferWithHost>('OFFER/fetch');
 export const setFullOfferDataLoadingStatus = createAction<boolean>('data/setDetailsOfferDataLoadingStatus');
 
-export const fetchNeigbouhoodOffers = createAction('NEIGBOUHOOD/fetch', (neighbourhoodOffers: Offer[] | null) => ({payload: neighbourhoodOffers}));
-export const setOffersNeighbouhoodLoading = createAction<boolean>('DATA/setOffersNeighbouhoodError');
+export const fetchNeigbourhoodOffers = createAction('NEIGBOUHOOD/fetch', (neighbourhoodOffers: Offer[] | null) => ({payload: neighbourhoodOffers}));
+export const setOffersNeighbourhoodLoading = createAction<boolean>('DATA/setOffersNeighbouhoodError');
 
 export const loadReviews = createAction('REVIEWS/fetch', (reviews: Review[] | null) => ({payload: reviews}));
 export const setReviewsDataLoadingStatus = createAction<boolean>('data/setReviewsDataLoadingStatus');
@@ -27,4 +27,4 @@ export const requireAuthorization = createAction<AuthorizationStatus>('USER/requ
 
 export const redirectToRoute = createAction<AppRoute>('APP/redirectToRoute');
 
-export const checkAuthInfo = createAction('USER/setUserInfo', (userInfo: UserData | null) => ({payload: userInfo}));
+export const setAuthData = createAction('USER/setUserInfo', (userInfo: UserData | null) => ({payload: userInfo}));

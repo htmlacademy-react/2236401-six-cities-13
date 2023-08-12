@@ -1,6 +1,6 @@
 import { AppRoute, HeaderPage } from '../../const';
 import Layout from '../../components/layout/layout';
-import { FormEvent, useRef } from 'react';
+import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { Link } from 'react-router-dom';
 import { loginAction } from '../../store/api-actions';
@@ -10,16 +10,27 @@ function LoginScreen(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
+  const [formData, setFormData] = useState({email: '', password: ''});
+
+  function onChangeFormHandler (evt: ChangeEvent<HTMLInputElement>): void {
+    const {name, value} = evt.target;
+    setFormData({ ...formData, [name]: value});
+  }
+
+  const regexPassword = /^(?=.*\d)(?=.*[a-z])\S*$/i;
+  const regexEmail = /^[\w]{1}[\w-\\.]*@[\w-]+\.[a-z]{2,4}$/i;
+
+  const buttonIsDisabled = !regexEmail.test(formData.email) || !regexPassword.test(formData.password);
+
   const dispatch = useAppDispatch();
 
-  const regex = /^(?=.*\d)(?=.*[a-z])\S*$/i;
 
   const submitHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (loginRef.current !== null
       && passwordRef.current !== null) {
-      if (!regex.test(passwordRef.current.value)) {
-        toast.warn('The password must have at least one letter & one symbol & no spaces');
+      if (!regexPassword.test(passwordRef.current.value)) {
+        toast.warn('The password must have at least one letter & one symbol without spaces');
         return;
       }
       dispatch(loginAction({
@@ -53,6 +64,7 @@ function LoginScreen(): JSX.Element {
                 name="email"
                 placeholder="Email"
                 required
+                onChange={onChangeFormHandler}
               />
             </div>
             <div className="login__input-wrapper form__input-wrapper">
@@ -64,10 +76,12 @@ function LoginScreen(): JSX.Element {
                 name="password"
                 placeholder="Password"
                 required
+                onChange={onChangeFormHandler}
               />
             </div>
             <button className="login__submit form__submit button"
               type="submit"
+              disabled={buttonIsDisabled}
             >
               Sign in
             </button>

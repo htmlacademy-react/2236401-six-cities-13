@@ -12,24 +12,11 @@ import { useAppSelector } from '../../hooks';
 import Loading from '../loading/loading';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
-// import { useAppDispatch } from '../../hooks';
-// import { useEffect } from 'react';
-// import { fetchFavorites } from '../../store/action';
 
 
 function App(): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
-  // const isFullOfferDataLoading = useAppSelector((state) => state.isFullOfferDataLoading);
-  // const isOfferNeighbourhoodLoading = useAppSelector((state) => state.isOffersNeighbourhoodLoading);
-  // const isReviewsDataLoading = useAppSelector((state) => state.isReviewsDataLoading);
-
-
-  // const dispatch = useAppDispatch();
-
-  // useEffect(() => {
-  //   dispatch(fetchFavorites());
-  // }, [dispatch]);
 
 
   if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
