@@ -1,8 +1,8 @@
-import { AppRoute, HeaderPage } from '../../const';
+import { AppRoute, AuthorizationStatus, HeaderPage } from '../../const';
 import Layout from '../../components/layout/layout';
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
-import { useAppDispatch } from '../../hooks';
-import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { Link, Navigate } from 'react-router-dom';
 import { loginAction } from '../../store/api-actions';
 import { toast } from 'react-toastify';
 
@@ -39,6 +39,12 @@ function LoginScreen(): JSX.Element {
       }));
     }
   };
+
+  const hasAuthorization = useAppSelector((state) => state.authorizationStatus) === AuthorizationStatus.Auth;
+
+  if (hasAuthorization) {
+    return <Navigate to={AppRoute.Main} />;
+  }
 
   return (
     <Layout pageTitle = 'Registration'

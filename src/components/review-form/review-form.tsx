@@ -1,8 +1,12 @@
-import { useState, ChangeEvent, Fragment } from 'react';
+import { useState, ChangeEvent, Fragment, FormEvent } from 'react';
 import { TITLE_RATING, MIN_CHARACTERS_COUNT, MAX_CHARACTERS_COUNT } from '../../const';
+import { useAppDispatch } from '../../hooks';
+import { fetchReviewsOfferAction, postReviewsOfferAction } from '../../store/api-actions';
+import { useParams } from 'react-router-dom';
 
 
 function ReviewForm(): JSX.Element {
+  const {offerId} = useParams();
   const [formData, setFormData] = useState({rating: '0', review: ''});
 
   function onChangeFormHandler (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void {
@@ -10,14 +14,28 @@ function ReviewForm(): JSX.Element {
     setFormData({ ...formData, [name]: value});
   }
 
-
   const buttonIsDisabled =
     formData.review.length < MIN_CHARACTERS_COUNT
     || !+formData.rating;
 
+  const dispatch = useAppDispatch();
+
+
+  const submitHandler = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    if(offerId){
+      dispatch(postReviewsOfferAction({
+        comment: formData.review,
+        rating: +formData.rating,
+        offerId: offerId
+      }));
+      setFormData({...formData, review: '', rating: '0'});
+      dispatch(fetchReviewsOfferAction(offerId));
+    }
+  };
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={submitHandler}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {TITLE_RATING.map((title, i) => {

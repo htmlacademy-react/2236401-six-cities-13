@@ -10,6 +10,7 @@ import {
   fetchOffer,
   fetchOffers,
   loadReviews,
+  postReview,
   requireAuthorization,
   setFullOfferDataLoadingStatus,
   setOffersDataLoadingStatus,
@@ -19,7 +20,8 @@ import {
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { dropToken, saveToken } from '../services/token';
-import { Review } from '../types/review';
+import { Review, Comment } from '../types/review';
+import { toast } from 'react-toastify';
 
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
@@ -93,7 +95,7 @@ export const fetchReviewsOfferAction = createAsyncThunk<void, string, {
       dispatch(redirectToRoute(AppRoute.NotFound));
       dispatch(setReviewsDataLoadingStatus(false));
     }
-  }
+  },
 );
 
 export const fetchFavoritesAction = createAsyncThunk<void, undefined, {
@@ -109,7 +111,25 @@ export const fetchFavoritesAction = createAsyncThunk<void, undefined, {
     } catch {
       throw new Error();
     }
-  });
+  },
+);
+
+export const postReviewsOfferAction = createAsyncThunk<void, Comment, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'REVIEWS/post',
+  async ({comment, rating, offerId}, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.post<Comment>(`${APIRoute.Reviews}/${offerId}`, {comment, rating});
+      dispatch(postReview(data));
+    } catch {
+      toast.warn('Failed to post comment. Please try later');
+    }
+
+  },
+);
 
 export const checkAuthAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
