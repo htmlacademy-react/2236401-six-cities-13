@@ -9,7 +9,6 @@ function ReviewItem({review}: ReviewItemProps): JSX.Element {
   const {user, comment, rating, date} = review;
   const dateComment = new Date(date).toLocaleString('eng', { month: 'long', year: 'numeric' });
   const dateTime = date.split('T')[0];
-  // console.log(dateTime);
 
   return (
     <li className="reviews__item">

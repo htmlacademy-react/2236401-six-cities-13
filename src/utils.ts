@@ -1,5 +1,7 @@
+import dayjs from 'dayjs';
 import { MAX_STARS_COUNT, SortOffersType } from './const';
 import { Offer } from './types/offer';
+import { Review } from './types/review';
 import { Sorting } from './types/sorting';
 
 
@@ -30,6 +32,11 @@ function sortingOffersByType (offers: Offer[], type: Sorting): Offer[] {
       return offers;
   }
 }
+
+// Функция для сортировки комментариев по дате
+
+export const sortByTimeReviews = (reviews: Review[]): Review[] =>
+  reviews.sort((a, b) => dayjs(b.date).diff(dayjs(a.date)));
 
 
 export { getPercent, getOffersByCity, sortingOffersByType };

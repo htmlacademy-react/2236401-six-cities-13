@@ -2,7 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { Offer, OfferWithHost } from '../types/offer';
 import { AppRoute, AuthorizationStatus } from '../const';
 import { UserData } from '../types/user-data';
-import { Review } from '../types/review';
+import { Review, Comment } from '../types/review';
 
 
 export const fetchOffers = createAction('DATA/fetchOffers', (offers: Offer[]) => ({payload: offers}));
@@ -28,3 +28,5 @@ export const requireAuthorization = createAction<AuthorizationStatus>('USER/requ
 export const redirectToRoute = createAction<AppRoute>('APP/redirectToRoute');
 
 export const setAuthData = createAction('USER/setUserInfo', (userInfo: UserData | null) => ({payload: userInfo}));
+
+export const postReview = createAction('REVIEWS/post', (newComment: Comment) => ({payload: newComment}));

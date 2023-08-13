@@ -4,9 +4,10 @@ export type User = {
   isPro: boolean;
 };
 
-type Comment = {
+export type Comment = {
   comment: string;
   rating: number;
+  offerId: string;
 }
 
 type ReviewData = {
@@ -15,6 +16,7 @@ type ReviewData = {
   user: User;
 };
 
+// export type CommentData = Comment & {offerId: string};
 export type Review = ReviewData & Comment;
 
 // export type ReviewsByOfferId = {
