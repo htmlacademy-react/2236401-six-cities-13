@@ -33,7 +33,7 @@ function App(): JSX.Element {
   if (hasError) {
     return (
       <MainEmpty />
-    )
+    );
   }
 
   return (
