@@ -9,9 +9,11 @@ import Map from '../../components/map/map';
 import HostSection from '../../components/host-section/host-section';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useEffect } from 'react';
-import { dropOffer } from '../../store/action';
-import { fetchNeigbourhoodOffersAction, fetchOfferAction, fetchReviewsOfferAction } from '../../store/api-actions';
+import { dropOffer } from '../../store/offers/offers.slice';
+import { fetchNeigbourhoodOffersAction, fetchFullOfferAction, fetchReviewsOfferAction } from '../../store/api-actions';
 import Loading from '../../components/loading/loading';
+import { getNeigborhoodOffers, getfFullOffer, isFullOfferStatusLoading, isNeigbourhoodOffersStatusLoading } from '../../store/offers/offers.selectors';
+import { getReviews, isReviewsStatusLoading } from '../../store/reviews/reviews.selectors';
 
 
 function OfferScreen(): JSX.Element {
@@ -19,17 +21,20 @@ function OfferScreen(): JSX.Element {
   const {offerId} = useParams();
   const dispatch = useAppDispatch();
 
-  const currentOffer = useAppSelector((state) => state.offer);
-  const isFullOfferDataLoading = useAppSelector((state) => state.isFullOfferDataLoading);
-  const isOfferNeighbourhoodLoading = useAppSelector((state) => state.isOffersNeighbourhoodLoading);
-  const neighbourhoodOffersList = useAppSelector((state) => state.neighbourhoodOffers);
-  const isReviewsDataLoading = useAppSelector((state) => state.isReviewsDataLoading);
-  const reviews = useAppSelector((state) => state.reviews);
+  const currentOffer = useAppSelector(getfFullOffer);
+  const isFullOfferDataLoading = useAppSelector(isFullOfferStatusLoading);
+
+  const neighbourhoodOffersList = useAppSelector(getNeigborhoodOffers);
+  const isOfferNeighbourhoodLoading = useAppSelector(isNeigbourhoodOffersStatusLoading);
+
+  const reviews = useAppSelector(getReviews);
+  const isReviewsDataLoading = useAppSelector(isReviewsStatusLoading);
+
   const neighbourhoodOffers = neighbourhoodOffersList?.slice(0, 3);
 
   useEffect(() => {
     if (offerId) {
-      dispatch(fetchOfferAction(offerId));
+      dispatch(fetchFullOfferAction(offerId));
       dispatch(fetchNeigbourhoodOffersAction(offerId));
       dispatch(fetchReviewsOfferAction(offerId));
     }

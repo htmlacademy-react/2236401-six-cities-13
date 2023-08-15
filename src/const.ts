@@ -16,7 +16,8 @@ export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer',
-  NotFound = '/404'
+  NotFound = '/404',
+  Error = '/error',
 }
 
 export enum AuthorizationStatus {
@@ -66,6 +67,16 @@ export enum APIRoute {
   NotFound = '/404',
   Reviews = '/comments'
 }
-// FullOffer = (offerId: string) => `/offers/${offerId}`,
-// OffersNearby = (offerId: string) => `/offers/${offerId}/nearby`,
-// Reviews = (offerId: string) => `/comments/${offerId}`,
+
+export enum NameSpace {
+  User = 'USER',
+  Review = 'REVIEW',
+  Offers = 'OFFERS'
+}
+
+// export enum Status {
+//   Idle = 'idle',
+//   Loading = 'loading',
+//   Success = 'success',
+//   Error = 'error'
+// }

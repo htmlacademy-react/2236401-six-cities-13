@@ -2,17 +2,19 @@ import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
+import { getAutorizationStatus, getUserData } from '../../store/user-process/user-process.selectors';
+import { getFavoriteOffers } from '../../store/offers/offers.selectors';
 
 function HeaderNav (): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  const userStatus = useAppSelector((state) => state.authorizationStatus);
+  const userStatus = useAppSelector(getAutorizationStatus);
   const isLoggedIn = userStatus === AuthorizationStatus.Auth;
 
-  const userData = useAppSelector((state) => state.userData);
-  const favorites = useAppSelector((state) => state.favorites);
-
+  const userData = useAppSelector(getUserData);
+  const favorites = useAppSelector(getFavoriteOffers);
+  const userAvatarAlt = userData?.email.split('@')[0];
 
   return (
     <nav className="header__nav">
@@ -28,6 +30,7 @@ function HeaderNav (): JSX.Element {
                   <img src={userData?.avatarUrl}
                     width={20} height={20}
                     style={{borderRadius:'50%'}}
+                    alt={userAvatarAlt && `${userAvatarAlt} avatar`}
                   />}
               </div>
               <span className="header__user-name user__name">{userData?.email}</span>

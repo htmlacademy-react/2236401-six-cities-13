@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { TRAVEL_CITIES, AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks';
-import { setActiveCity } from '../../store/action';
+import { setActiveCity } from '../../store/offers/offers.slice';
 
 type TabsProps = {
   currentCity: string;

@@ -4,7 +4,7 @@ import LoginScreen from '../../pages/login-screen/login-screen';
 import OfferScreen from '../../pages/offer-screen/offer-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import { Route, Routes } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute } from '../../const';
 import PrivateRoute from '../private-route/private-route';
 import { HelmetProvider } from 'react-helmet-async';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
@@ -12,17 +12,28 @@ import { useAppSelector } from '../../hooks';
 import Loading from '../loading/loading';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
+import { getAuthCheckedStatus, getAutorizationStatus } from '../../store/user-process/user-process.selectors';
+import { getErrorStatus, isOffersStatusLoading } from '../../store/offers/offers.selectors';
+import MainEmpty from '../../pages/main-screen/main-empty';
 
 
 function App(): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+  const authorizationStatus = useAppSelector(getAutorizationStatus);
+  const isOffersDataLoading = useAppSelector(isOffersStatusLoading);
+  const isAuthChecked = useAppSelector(getAuthCheckedStatus);
+  const hasError = useAppSelector(getErrorStatus);
 
 
-  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
+  if (!isAuthChecked || isOffersDataLoading) {
     return (
       <Loading />
     );
+  }
+
+  if (hasError) {
+    return (
+      <MainEmpty />
+    )
   }
 
   return (

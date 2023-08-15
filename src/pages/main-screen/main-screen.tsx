@@ -8,12 +8,13 @@ import SortPlaces from '../../components/sort-places/sort-places';
 import { useAppSelector } from '../../hooks';
 import { Sorting } from '../../types/sorting';
 import { sortingOffersByType } from '../../utils';
+import { getActiveCity, getOffers } from '../../store/offers/offers.selectors';
 
 
 function MainScreen(): JSX.Element {
 
-  const currentCity = useAppSelector((state) => state.activeCity);
-  const offers = useAppSelector((state) => state.offers);
+  const currentCity = useAppSelector(getActiveCity);
+  const offers = useAppSelector(getOffers);
   const offersByCity = offers.filter(
     (offer) => offer.city.name === currentCity);
 
