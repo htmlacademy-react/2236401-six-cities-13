@@ -5,6 +5,7 @@ import { HeaderPage } from '../../const';
 import Layout from '../../components/layout/layout';
 import OfferList from '../../components/offer-list/offer-list';
 import { useAppSelector } from '../../hooks';
+import { getFavoriteOffers } from '../../store/offers/offers.selectors';
 
 
 type OffersByCityGroup = {
@@ -25,7 +26,7 @@ const getOffersByCityGroup = (offers: Offer[]) =>
 
 
 function FavoritesScreen(): JSX.Element {
-  const favoriteOffers = useAppSelector((state) => state.favorites);
+  const favoriteOffers = useAppSelector(getFavoriteOffers);
   const favoriteOffersByCity = getOffersByCityGroup(favoriteOffers);
 
   return (

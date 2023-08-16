@@ -16,9 +16,4 @@ type ReviewData = {
   user: User;
 };
 
-// export type CommentData = Comment & {offerId: string};
 export type Review = ReviewData & Comment;
-
-// export type ReviewsByOfferId = {
-//   [key: string]: Review[];
-// }

@@ -1,7 +1,9 @@
 import { useState, ChangeEvent, Fragment, FormEvent } from 'react';
 import { TITLE_RATING, MIN_CHARACTERS_COUNT, MAX_CHARACTERS_COUNT } from '../../const';
 import { useAppDispatch } from '../../hooks';
-import { fetchReviewsOfferAction, postReviewsOfferAction } from '../../store/api-actions';
+import {
+  // fetchReviewsOfferAction,
+  postReviewAction } from '../../store/api-actions';
 import { useParams } from 'react-router-dom';
 
 
@@ -24,13 +26,13 @@ function ReviewForm(): JSX.Element {
   const submitHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if(offerId){
-      dispatch(postReviewsOfferAction({
+      dispatch(postReviewAction({
         comment: formData.review,
         rating: +formData.rating,
         offerId: offerId
       }));
       setFormData({...formData, review: '', rating: '0'});
-      dispatch(fetchReviewsOfferAction(offerId));
+      // dispatch(fetchReviewsOfferAction(offerId));
     }
   };
 

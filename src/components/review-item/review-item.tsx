@@ -10,6 +10,11 @@ function ReviewItem({review}: ReviewItemProps): JSX.Element {
   const dateComment = new Date(date).toLocaleString('eng', { month: 'long', year: 'numeric' });
   const dateTime = date.split('T')[0];
 
+  const AVATAR_URL = 'img/tourist.png';
+  const imageOnError = (evt: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    evt.currentTarget.src = AVATAR_URL;
+  };
+
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
@@ -19,6 +24,7 @@ function ReviewItem({review}: ReviewItemProps): JSX.Element {
             width={54}
             height={54}
             alt="Reviews avatar"
+            onError={imageOnError}
           />
         </div>
         <span className="reviews__user-name">
