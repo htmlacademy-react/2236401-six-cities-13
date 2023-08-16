@@ -9,12 +9,12 @@ import PrivateRoute from '../private-route/private-route';
 import { HelmetProvider } from 'react-helmet-async';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
 import { useAppSelector } from '../../hooks';
-import Loading from '../loading/loading';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 import { getAuthCheckedStatus, getAutorizationStatus } from '../../store/user-process/user-process.selectors';
 import { getErrorStatus, isOffersStatusLoading } from '../../store/offers/offers.selectors';
-import MainEmpty from '../../pages/main-screen/main-empty';
+import Spinner from '../spinner/spinner';
+import ErrorScreen from '../../pages/error-screen/error-screen';
 
 
 function App(): JSX.Element {
@@ -26,13 +26,13 @@ function App(): JSX.Element {
 
   if (!isAuthChecked || isOffersDataLoading) {
     return (
-      <Loading />
+      <Spinner />
     );
   }
 
   if (hasError) {
     return (
-      <MainEmpty />
+      <ErrorScreen />
     );
   }
 

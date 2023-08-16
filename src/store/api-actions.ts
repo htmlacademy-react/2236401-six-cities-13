@@ -14,7 +14,7 @@ export const fetchOffersAction = createAsyncThunk<Offer[], undefined, {
   extra: AxiosInstance;
 }>(
   'DATA/fetchOffers',
-  async (_arg, { extra: api}) => {
+  async (_arg, {extra: api}) => {
     const {data} = await api.get<Offer[]>(APIRoute.Offers);
     return data;
   },
@@ -26,7 +26,7 @@ export const fetchFullOfferAction = createAsyncThunk<OfferWithHost, string, {
   extra: AxiosInstance;
 }>(
   'OFFER/fetch',
-  async (offerId, { extra: api}) => {
+  async (offerId, {extra: api}) => {
     const {data} = await api
       .get<OfferWithHost>(`${APIRoute.Offers}/${offerId}`);
     return data;

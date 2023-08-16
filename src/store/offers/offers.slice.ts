@@ -38,7 +38,6 @@ export const offers = createSlice({
     builder
       .addCase(fetchOffersAction.pending, (state) => {
         state.isOffersDataLoading = true;
-        state.hasError = false;
       })
       .addCase(fetchOffersAction.fulfilled, (state, action) => {
         state.offers = action.payload;
@@ -46,11 +45,11 @@ export const offers = createSlice({
       })
       .addCase(fetchOffersAction.rejected, (state) => {
         state.isOffersDataLoading = false;
-        state.hasError = true;
         toast.warn('Failed to fetch offers. Please, try again later');
       })
       .addCase(fetchFullOfferAction.pending, (state) => {
         state.isFullOfferDataLoading = true;
+        state.hasError = false;
       })
       .addCase(fetchFullOfferAction.fulfilled, (state, action) => {
         state.fullOffer = action.payload;
@@ -58,7 +57,8 @@ export const offers = createSlice({
       })
       .addCase(fetchFullOfferAction.rejected, (state) => {
         state.isFullOfferDataLoading = false;
-        toast.warn('Failed to fetch offer. Please, try again later');
+        state.hasError = true;
+        // toast.warn('Failed to fetch offer. Please, try again later');
       })
       .addCase(fetchNeigbourhoodOffersAction.pending, (state) => {
         state.isOffersNeighbourhoodLoading = true;
@@ -69,7 +69,7 @@ export const offers = createSlice({
       })
       .addCase(fetchNeigbourhoodOffersAction.rejected, (state) => {
         state.isOffersNeighbourhoodLoading = false;
-        toast.warn('Failed to fetch offers near by. Please, try again later');
+        // toast.warn('Failed to fetch offers near by. Please, try again later');
       })
       .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
         state.favorites = action.payload;

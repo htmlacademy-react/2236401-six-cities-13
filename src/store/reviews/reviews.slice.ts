@@ -24,7 +24,6 @@ export const reviews = createSlice({
       })
       .addCase(fetchReviewsOfferAction.rejected, (state) => {
         state.isReviewsDataLoading = false;
-        toast.warn('Failed to fetch comment. Please, try again later');
       })
       .addCase(postReviewAction.fulfilled, (state, action) => {
         state.reviews.unshift(action.payload);

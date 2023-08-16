@@ -16,6 +16,11 @@ function HeaderNav (): JSX.Element {
   const favorites = useAppSelector(getFavoriteOffers);
   const userAvatarAlt = userData?.email.split('@')[0];
 
+  const AVATAR_URL = 'img/tourist.png';
+  const imageOnError = (evt: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    evt.currentTarget.src = AVATAR_URL;
+  };
+
   return (
     <nav className="header__nav">
       {isLoggedIn ?
@@ -31,6 +36,7 @@ function HeaderNav (): JSX.Element {
                     width={20} height={20}
                     style={{borderRadius:'50%'}}
                     alt={userAvatarAlt && `${userAvatarAlt} avatar`}
+                    onError={imageOnError}
                   />}
               </div>
               <span className="header__user-name user__name">{userData?.email}</span>

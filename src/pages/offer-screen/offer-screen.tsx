@@ -11,9 +11,10 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useEffect } from 'react';
 import { dropOffer } from '../../store/offers/offers.slice';
 import { fetchNeigbourhoodOffersAction, fetchFullOfferAction, fetchReviewsOfferAction } from '../../store/api-actions';
-import Loading from '../../components/loading/loading';
 import { getNeigborhoodOffers, getfFullOffer, isFullOfferStatusLoading, isNeigbourhoodOffersStatusLoading } from '../../store/offers/offers.selectors';
 import { getReviews, isReviewsStatusLoading } from '../../store/reviews/reviews.selectors';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
+import Spinner from '../../components/spinner/spinner';
 
 
 function OfferScreen(): JSX.Element {
@@ -45,15 +46,16 @@ function OfferScreen(): JSX.Element {
 
   }, [offerId, dispatch]);
 
-  if (currentOffer === null || isFullOfferDataLoading || isOfferNeighbourhoodLoading || isReviewsDataLoading) {
+  if (isFullOfferDataLoading || isOfferNeighbourhoodLoading || isReviewsDataLoading) {
     return (
-      <Loading/>
+      <Spinner/>
     );
   }
 
-  // if(!currentOffer) {
-  //   return <Navigate to={AppRoute.NotFound} />;
-  // }
+  if(!currentOffer) {
+    return <NotFoundScreen />;
+  }
+
 
   const {isPremium, title, rating, price, images, type, bedrooms, maxAdults, goods, isFavorite} = currentOffer;
   const mapOffers = neighbourhoodOffers && [...neighbourhoodOffers, currentOffer];
@@ -69,7 +71,7 @@ function OfferScreen(): JSX.Element {
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
             {images && images.length && images.map((picture) => (
-              <div className="offer__image-wrapper" key={picture} >
+              <div className="offer__image-wrapper" key={picture}>
                 <img className="offer__image"
                   src={picture}
                   alt={title}
@@ -84,7 +86,7 @@ function OfferScreen(): JSX.Element {
               <h1 className="offer__name">
                 {title}
               </h1>
-              <button className={classNames({'offer__bookmark-button--active': isFavorite}, 'offer__bookmark-button', 'button')} type="button">
+              <button className={classNames({ 'offer__bookmark-button--active': isFavorite }, 'offer__bookmark-button', 'button')} type="button">
                 <svg className="offer__bookmark-icon" width={31} height={33}>
                   <use xlinkHref="#icon-bookmark"></use>
                 </svg>
@@ -93,7 +95,7 @@ function OfferScreen(): JSX.Element {
             </div>
             <div className="offer__rating rating">
               <div className="offer__stars rating__stars">
-                <span style={{width: getPercent(rating)}}></span>
+                <span style={{ width: getPercent(rating) }}></span>
                 <span className="visually-hidden">Rating</span>
               </div>
               <span className="offer__rating-value rating__value">{rating}</span>
@@ -116,8 +118,7 @@ function OfferScreen(): JSX.Element {
             <div className="offer__inside">
               <h2 className="offer__inside-title">What&apos;s inside</h2>
               <ul className="offer__inside-list">
-                {goods && goods.length && goods.map((good) =>
-                  <li className="offer__inside-item" key={good}>{good}</li>)}
+                {goods && goods.length && goods.map((good) => <li className="offer__inside-item" key={good}>{good}</li>)}
               </ul>
             </div>
             <HostSection hostInfo={currentOffer} />
@@ -136,7 +137,7 @@ function OfferScreen(): JSX.Element {
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           {neighbourhoodOffersList &&
-          <OfferList className="near-places__list places__list" offers={neighbourhoodOffers} />}
+            <OfferList className="near-places__list places__list" offers={neighbourhoodOffers} />}
         </section>
       </div>
     </Layout>
