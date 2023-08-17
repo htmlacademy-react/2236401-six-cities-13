@@ -73,10 +73,3 @@ export enum NameSpace {
   Review = 'REVIEW',
   Offers = 'OFFERS'
 }
-
-// export enum Status {
-//   Idle = 'idle',
-//   Loading = 'loading',
-//   Success = 'success',
-//   Error = 'error'
-// }

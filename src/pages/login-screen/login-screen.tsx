@@ -18,13 +18,12 @@ function LoginScreen(): JSX.Element {
     setFormData({ ...formData, [name]: value});
   }
 
-  const regexPassword = /^(?=.*\d)(?=.*[a-z])\S*$/i;
+  const regexPassword = /^(?=.*\d)(?=.*[a-zA-Z])\S*$/i;
   const regexEmail = /^[\w]{1}[\w-\\.]*@[\w-]+\.[a-z]{2,4}$/i;
 
   const buttonIsDisabled = !regexEmail.test(formData.email) || !regexPassword.test(formData.password);
 
   const dispatch = useAppDispatch();
-
 
   const submitHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();

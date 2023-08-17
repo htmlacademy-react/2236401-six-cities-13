@@ -25,4 +25,9 @@ export type Offer = {
   previewImage: string;
 }
 
+export type FavoritesStatusData = {
+  offerId: string;
+  isFavorite: boolean;
+}
+
 export type OfferWithHost = Offer & Host;

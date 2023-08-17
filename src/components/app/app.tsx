@@ -12,7 +12,9 @@ import { useAppSelector } from '../../hooks';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 import { getAuthCheckedStatus, getAutorizationStatus } from '../../store/user-process/user-process.selectors';
-import { getErrorStatus, isOffersStatusLoading } from '../../store/offers/offers.selectors';
+import {
+  getErrorStatus,
+  isOffersStatusLoading } from '../../store/offers/offers.selectors';
 import Spinner from '../spinner/spinner';
 import ErrorScreen from '../../pages/error-screen/error-screen';
 
