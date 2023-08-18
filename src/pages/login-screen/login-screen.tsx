@@ -1,11 +1,11 @@
-import { AppRoute, AuthorizationStatus, HeaderPage } from '../../const';
+import { AppRoute, AuthorizationStatus, HeaderPage, Status } from '../../const';
 import Layout from '../../components/layout/layout';
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Link, Navigate } from 'react-router-dom';
 import { loginAction } from '../../store/api-actions';
 import { toast } from 'react-toastify';
-import { getAutorizationStatus } from '../../store/user-process/user-process.selectors';
+import { getAutorizationStatus, getUserStatus } from '../../store/user-process/user-process.selectors';
 
 function LoginScreen(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -21,7 +21,11 @@ function LoginScreen(): JSX.Element {
   const regexPassword = /^(?=.*\d)(?=.*[a-zA-Z])\S*$/i;
   const regexEmail = /^[\w]{1}[\w-\\.]*@[\w-]+\.[a-z]{2,4}$/i;
 
-  const buttonIsDisabled = !regexEmail.test(formData.email) || !regexPassword.test(formData.password);
+  const isLoginStatusLoading = useAppSelector(getUserStatus) === Status.Loading;
+
+  const buttonIsDisabled = !regexEmail.test(formData.email)
+    || !regexPassword.test(formData.password)
+    || isLoginStatusLoading;
 
   const dispatch = useAppDispatch();
 
@@ -89,7 +93,7 @@ function LoginScreen(): JSX.Element {
               type="submit"
               disabled={buttonIsDisabled}
             >
-              Sign in
+              {isLoginStatusLoading ? 'In progress...' : 'Sign in'}
             </button>
           </form>
         </section>

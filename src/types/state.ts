@@ -7,6 +7,7 @@ import { UserData } from './user-data';
 export type UserProcess = {
   autorizationStatus: AuthorizationStatus;
   setAuthData: UserData | null;
+  status: string;
 }
 
 export type Reviews = {
