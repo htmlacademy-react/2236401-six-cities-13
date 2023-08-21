@@ -2,14 +2,14 @@ import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus, Status } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
-import { getAutorizationStatus, getUserData, getUserStatus } from '../../store/user-process/user-process.selectors';
+import { getAuthorizationStatus, getUserData, getUserStatus } from '../../store/user-process/user-process.selectors';
 import { getFavoriteOffers } from '../../store/offers/offers.selectors';
 
 function HeaderNav (): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  const userStatus = useAppSelector(getAutorizationStatus);
+  const userStatus = useAppSelector(getAuthorizationStatus);
   const isLoggedIn = userStatus === AuthorizationStatus.Auth;
 
   const userData = useAppSelector(getUserData);
@@ -74,4 +74,5 @@ function HeaderNav (): JSX.Element {
     </nav>
   );
 }
+
 export default HeaderNav;

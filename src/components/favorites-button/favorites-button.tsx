@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getAutorizationStatus } from '../../store/user-process/user-process.selectors';
+import { getAuthorizationStatus } from '../../store/user-process/user-process.selectors';
 import { useNavigate } from 'react-router-dom';
 import { SyntheticEvent, useState } from 'react';
 import { updateFavoriteOffer } from '../../store/offers/offers.slice';
@@ -21,7 +21,7 @@ function FavoritesButton({offerId, isFavorite, className, imgWidth, imgHeight}: 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const authorizationStatus = useAppSelector(getAutorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const [isOfferFavorite, setIsOfferFavorite] = useState<boolean>(isFavorite);
 

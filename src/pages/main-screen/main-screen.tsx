@@ -23,9 +23,7 @@ function MainScreen(): JSX.Element {
 
   const [activeSorting, setActiveSorting] = useState<Sorting>('Popular');
 
-  const cardHoverHandler = (offerId: string | null): void => {
-    setSelectedOffer(offerId);
-  };
+  const cardHoverHandler = (offerId: string | null): void => setSelectedOffer(offerId);
 
   const className: string = offers.length === 0 ? 'page__main--index-empty page__main--index' : 'page__main--index';
 

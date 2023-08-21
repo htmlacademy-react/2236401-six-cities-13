@@ -83,6 +83,7 @@ export const offers = createSlice({
       .addCase(changeFavoritesStatusAction.fulfilled, (state, action) => {
         if (action.payload.isFavorite) {
           state.favorites.push(action.payload);
+          return;
         }
         state.favorites = state.favorites.filter((offer) => offer.id !== action.payload.id);
       });

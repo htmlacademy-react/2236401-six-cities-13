@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Link, Navigate } from 'react-router-dom';
 import { loginAction } from '../../store/api-actions';
 import { toast } from 'react-toastify';
-import { getAutorizationStatus, getUserStatus } from '../../store/user-process/user-process.selectors';
+import { getAuthorizationStatus, getUserStatus } from '../../store/user-process/user-process.selectors';
 
 function LoginScreen(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -44,7 +44,7 @@ function LoginScreen(): JSX.Element {
     }
   };
 
-  const hasAuthorization = useAppSelector(getAutorizationStatus) === AuthorizationStatus.Auth;
+  const hasAuthorization = useAppSelector(getAuthorizationStatus) === AuthorizationStatus.Auth;
 
   if (hasAuthorization) {
     return <Navigate to={AppRoute.Main} />;

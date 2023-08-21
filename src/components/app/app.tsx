@@ -11,7 +11,7 @@ import ScrollToTop from '../scroll-to-top/scroll-to-top';
 import { useAppSelector } from '../../hooks';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
-import { getAuthCheckedStatus, getAutorizationStatus } from '../../store/user-process/user-process.selectors';
+import { getAuthCheckedStatus, getAuthorizationStatus } from '../../store/user-process/user-process.selectors';
 import {
   getErrorStatus,
   isOffersStatusLoading } from '../../store/offers/offers.selectors';
@@ -20,7 +20,7 @@ import ErrorScreen from '../../pages/error-screen/error-screen';
 
 
 function App(): JSX.Element {
-  const authorizationStatus = useAppSelector(getAutorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isOffersDataLoading = useAppSelector(isOffersStatusLoading);
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   const hasError = useAppSelector(getErrorStatus);
