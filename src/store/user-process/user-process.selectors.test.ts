@@ -1,15 +1,15 @@
 import { AuthorizationStatus, NameSpace, Status } from '../../const';
 import { getAuthCheckedStatus, getAuthorizationStatus, getUserData, getUserStatus } from './user-process.selectors';
 import { UserData } from '../../types/user-data';
-import { internet } from 'faker';
+import { faker } from '@faker-js/faker';
 
 describe('UserProcess selectors', () => {
 
   const setAuthData: UserData = {
-    email: internet.email(),
-    token: internet.userName(),
-    name: internet.userName(),
-    avatarUrl: internet.avatar(),
+    email: faker.internet.email(),
+    token: faker.internet.userName(),
+    name: faker.internet.userName(),
+    avatarUrl: faker.internet.avatar(),
     isPro: false,
   };
   const status = Status.Idle;
