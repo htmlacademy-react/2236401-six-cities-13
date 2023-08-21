@@ -2,7 +2,6 @@ import Reviews from '../../components/reviews/reviews';
 import { useParams } from 'react-router-dom';
 import { getPercent } from '../../utils';
 import { HeaderPage, TypeOfAllocation } from '../../const';
-import classNames from 'classnames';
 import Layout from '../../components/layout/layout';
 import OfferList from '../../components/offer-list/offer-list';
 import Map from '../../components/map/map';
@@ -15,6 +14,7 @@ import { getNeigborhoodOffers, getfFullOffer, isFullOfferStatusLoading, isNeigbo
 import { getReviews, isReviewsStatusLoading } from '../../store/reviews/reviews.selectors';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Spinner from '../../components/spinner/spinner';
+import FavoritesButton from '../../components/favorites-button/favorites-button';
 
 
 function OfferScreen(): JSX.Element {
@@ -56,8 +56,7 @@ function OfferScreen(): JSX.Element {
     return <NotFoundScreen />;
   }
 
-
-  const {isPremium, title, rating, price, images, type, bedrooms, maxAdults, goods, isFavorite} = currentOffer;
+  const {id, isPremium, title, rating, price, images, type, bedrooms, maxAdults, goods, isFavorite} = currentOffer;
   const mapOffers = neighbourhoodOffers && [...neighbourhoodOffers, currentOffer];
 
   return (
@@ -86,12 +85,7 @@ function OfferScreen(): JSX.Element {
               <h1 className="offer__name">
                 {title}
               </h1>
-              <button className={classNames({ 'offer__bookmark-button--active': isFavorite }, 'offer__bookmark-button', 'button')} type="button">
-                <svg className="offer__bookmark-icon" width={31} height={33}>
-                  <use xlinkHref="#icon-bookmark"></use>
-                </svg>
-                <span className="visually-hidden">To bookmarks</span>
-              </button>
+              <FavoritesButton offerId={id} isFavorite={isFavorite} imgHeight={33} imgWidth={31} className='offer' />
             </div>
             <div className="offer__rating rating">
               <div className="offer__stars rating__stars">

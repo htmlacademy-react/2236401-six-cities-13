@@ -1,12 +1,13 @@
-import { AuthorizationStatus } from '../const';
+import { AuthorizationStatus, Status } from '../const';
 import { store } from '../store';
 import { Offer, OfferWithHost } from './offer';
 import { Review } from './review';
 import { UserData } from './user-data';
 
 export type UserProcess = {
-  autorizationStatus: AuthorizationStatus;
+  authorizationStatus: AuthorizationStatus;
   setAuthData: UserData | null;
+  status: Status;
 }
 
 export type Reviews = {

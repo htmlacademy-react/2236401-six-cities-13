@@ -5,8 +5,10 @@ import { fetchOffersAction,
   fetchFullOfferAction,
   fetchNeigbourhoodOffersAction,
   fetchFavoritesAction,
+  changeFavoritesStatusAction,
 } from '../api-actions';
 import { toast } from 'react-toastify';
+import { FavoritesStatusData } from '../../types/offer';
 
 const DEFAULT_CITY = TRAVEL_CITIES[0];
 
@@ -32,7 +34,13 @@ export const offers = createSlice({
     },
     setActiveCity: (state, action: PayloadAction<string>) => {
       state.activeCity = action.payload;
-    }
+    },
+    updateFavoriteOffer: (state, action: PayloadAction<FavoritesStatusData>) => {
+      const currentOfferIndex = state.offers.findIndex(
+        (offer) => offer.id === action.payload.offerId
+      );
+      state.offers[currentOfferIndex].isFavorite = action.payload.isFavorite;
+    },
   },
   extraReducers(builder) {
     builder
@@ -58,7 +66,6 @@ export const offers = createSlice({
       .addCase(fetchFullOfferAction.rejected, (state) => {
         state.isFullOfferDataLoading = false;
         state.hasError = true;
-        // toast.warn('Failed to fetch offer. Please, try again later');
       })
       .addCase(fetchNeigbourhoodOffersAction.pending, (state) => {
         state.isOffersNeighbourhoodLoading = true;
@@ -69,12 +76,18 @@ export const offers = createSlice({
       })
       .addCase(fetchNeigbourhoodOffersAction.rejected, (state) => {
         state.isOffersNeighbourhoodLoading = false;
-        // toast.warn('Failed to fetch offers near by. Please, try again later');
       })
       .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
         state.favorites = action.payload;
+      })
+      .addCase(changeFavoritesStatusAction.fulfilled, (state, action) => {
+        if (action.payload.isFavorite) {
+          state.favorites.push(action.payload);
+          return;
+        }
+        state.favorites = state.favorites.filter((offer) => offer.id !== action.payload.id);
       });
   }
 });
 
-export const { dropOffer, setActiveCity} = offers.actions;
+export const { dropOffer, setActiveCity, updateFavoriteOffer } = offers.actions;

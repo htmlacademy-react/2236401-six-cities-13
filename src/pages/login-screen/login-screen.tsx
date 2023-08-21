@@ -1,11 +1,11 @@
-import { AppRoute, AuthorizationStatus, HeaderPage } from '../../const';
+import { AppRoute, AuthorizationStatus, HeaderPage, Status } from '../../const';
 import Layout from '../../components/layout/layout';
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Link, Navigate } from 'react-router-dom';
 import { loginAction } from '../../store/api-actions';
 import { toast } from 'react-toastify';
-import { getAutorizationStatus } from '../../store/user-process/user-process.selectors';
+import { getAuthorizationStatus, getUserStatus } from '../../store/user-process/user-process.selectors';
 
 function LoginScreen(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -18,13 +18,16 @@ function LoginScreen(): JSX.Element {
     setFormData({ ...formData, [name]: value});
   }
 
-  const regexPassword = /^(?=.*\d)(?=.*[a-z])\S*$/i;
+  const regexPassword = /^(?=.*\d)(?=.*[a-zA-Z])\S*$/i;
   const regexEmail = /^[\w]{1}[\w-\\.]*@[\w-]+\.[a-z]{2,4}$/i;
 
-  const buttonIsDisabled = !regexEmail.test(formData.email) || !regexPassword.test(formData.password);
+  const isLoginStatusLoading = useAppSelector(getUserStatus) === Status.Loading;
+
+  const buttonIsDisabled = !regexEmail.test(formData.email)
+    || !regexPassword.test(formData.password)
+    || isLoginStatusLoading;
 
   const dispatch = useAppDispatch();
-
 
   const submitHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -41,7 +44,7 @@ function LoginScreen(): JSX.Element {
     }
   };
 
-  const hasAuthorization = useAppSelector(getAutorizationStatus) === AuthorizationStatus.Auth;
+  const hasAuthorization = useAppSelector(getAuthorizationStatus) === AuthorizationStatus.Auth;
 
   if (hasAuthorization) {
     return <Navigate to={AppRoute.Main} />;
@@ -90,7 +93,7 @@ function LoginScreen(): JSX.Element {
               type="submit"
               disabled={buttonIsDisabled}
             >
-              Sign in
+              {isLoginStatusLoading ? 'In progress...' : 'Sign in'}
             </button>
           </form>
         </section>

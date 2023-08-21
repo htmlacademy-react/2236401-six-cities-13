@@ -1,19 +1,21 @@
 import { Link } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute, AuthorizationStatus, Status } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
-import { getAutorizationStatus, getUserData } from '../../store/user-process/user-process.selectors';
+import { getAuthorizationStatus, getUserData, getUserStatus } from '../../store/user-process/user-process.selectors';
 import { getFavoriteOffers } from '../../store/offers/offers.selectors';
 
 function HeaderNav (): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  const userStatus = useAppSelector(getAutorizationStatus);
+  const userStatus = useAppSelector(getAuthorizationStatus);
   const isLoggedIn = userStatus === AuthorizationStatus.Auth;
 
   const userData = useAppSelector(getUserData);
   const favorites = useAppSelector(getFavoriteOffers);
+  const isLogoutStatusLoading = useAppSelector(getUserStatus) === Status.Loading;
+
   const userAvatarAlt = userData?.email.split('@')[0];
 
   const AVATAR_URL = 'img/tourist.png';
@@ -47,12 +49,15 @@ function HeaderNav (): JSX.Element {
             <Link
               className="header__nav-link"
               onClick={(evt) => {
+                if (isLogoutStatusLoading) {
+                  return false;
+                }
                 evt.preventDefault();
                 dispatch(logoutAction());
               }}
               to={AppRoute.Main}
             >
-              <span className="header__signout">Sign out</span>
+              <span className="header__signout">{isLogoutStatusLoading ? 'In progress...' : 'Sign out'}</span>
             </Link>
           </li>
         </ul>
@@ -69,4 +74,5 @@ function HeaderNav (): JSX.Element {
     </nav>
   );
 }
+
 export default HeaderNav;

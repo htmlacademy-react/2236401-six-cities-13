@@ -4,7 +4,7 @@ import { Review } from '../../types/review';
 import ReviewForm from '../review-form/review-form';
 import ReviewItem from '../review-item/review-item';
 import { sortByTimeReviews } from '../../utils';
-import { getAutorizationStatus } from '../../store/user-process/user-process.selectors';
+import { getAuthorizationStatus } from '../../store/user-process/user-process.selectors';
 
 type ReviewsProps = {
   reviews: Review[] | null;
@@ -12,7 +12,7 @@ type ReviewsProps = {
 
 function Reviews({reviews}: ReviewsProps): JSX.Element {
 
-  const hasAuthorization = useAppSelector(getAutorizationStatus) === AuthorizationStatus.Auth;
+  const hasAuthorization = useAppSelector(getAuthorizationStatus) === AuthorizationStatus.Auth;
   const lastReviews = reviews && sortByTimeReviews([...reviews]).slice(0, 10);
 
   return (

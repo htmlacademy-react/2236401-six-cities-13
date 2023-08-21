@@ -1,9 +1,7 @@
 import { useState, ChangeEvent, Fragment, FormEvent } from 'react';
 import { TITLE_RATING, MIN_CHARACTERS_COUNT, MAX_CHARACTERS_COUNT } from '../../const';
 import { useAppDispatch } from '../../hooks';
-import {
-  // fetchReviewsOfferAction,
-  postReviewAction } from '../../store/api-actions';
+import { postReviewAction } from '../../store/api-actions';
 import { useParams } from 'react-router-dom';
 
 
@@ -11,7 +9,7 @@ function ReviewForm(): JSX.Element {
   const {offerId} = useParams();
   const [formData, setFormData] = useState({rating: '0', review: ''});
 
-  function onChangeFormHandler (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void {
+  function changeFormHandler (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void {
     const {name, value} = evt.target;
     setFormData({ ...formData, [name]: value});
   }
@@ -32,7 +30,6 @@ function ReviewForm(): JSX.Element {
         offerId: offerId
       }));
       setFormData({...formData, review: '', rating: '0'});
-      // dispatch(fetchReviewsOfferAction(offerId));
     }
   };
 
@@ -51,7 +48,7 @@ function ReviewForm(): JSX.Element {
                 id={`${index}-stars`}
                 type="radio"
                 checked={+formData.rating === index}
-                onChange={onChangeFormHandler}
+                onChange={changeFormHandler}
               />
               <label htmlFor={`${index}-stars`} className="reviews__rating-label form__rating-label" title={title}>
                 <svg className="form__star-image" width={37} height={33}>
@@ -65,7 +62,7 @@ function ReviewForm(): JSX.Element {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        onChange={onChangeFormHandler}
+        onChange={changeFormHandler}
         value={formData.review}
         maxLength={MAX_CHARACTERS_COUNT}
       >

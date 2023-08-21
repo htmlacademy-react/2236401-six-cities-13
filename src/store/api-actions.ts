@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
-import { Offer, OfferWithHost } from '../types/offer';
+import { FavoritesStatusData, Offer, OfferWithHost } from '../types/offer';
 import { APIRoute } from '../const';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
@@ -73,6 +73,18 @@ export const fetchFavoritesAction = createAsyncThunk<Offer[], undefined, {
   },
 );
 
+export const changeFavoritesStatusAction = createAsyncThunk<OfferWithHost, FavoritesStatusData, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'FAVORITES/changeFavoritesStatus',
+  async ({offerId, isFavorite}, {extra: api}) => {
+    const { data } = await api.post<OfferWithHost>(`${APIRoute.Favorites}/${offerId}/${+isFavorite}`);
+    return data;
+  }
+);
+
 export const postReviewAction = createAsyncThunk<Review, Comment, {
   dispatch: AppDispatch;
   state: State;
@@ -91,8 +103,9 @@ export const checkAuthAction = createAsyncThunk<UserData, undefined, {
   extra: AxiosInstance;
 }>(
   'USER/checkAuth',
-  async (_arg, {extra: api}) => {
+  async (_arg, {dispatch, extra: api}) => {
     const {data} = await api.get<UserData>(APIRoute.Login);
+    dispatch(fetchFavoritesAction());
     return data;
   },
 );
@@ -104,11 +117,11 @@ export const loginAction = createAsyncThunk<UserData, AuthData, {
   extra: AxiosInstance;
 }>(
   'USER/login',
-  async({login: email, password}, {extra: api}) => {
+  async({login: email, password}, {dispatch, extra: api}) => {
     const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(data.token);
+    dispatch(fetchFavoritesAction());
     return data;
-    // dispatch(fetchFavoritesAction());
   },
 );
 

@@ -74,9 +74,9 @@ export enum NameSpace {
   Offers = 'OFFERS'
 }
 
-// export enum Status {
-//   Idle = 'idle',
-//   Loading = 'loading',
-//   Success = 'success',
-//   Error = 'error'
-// }
+export enum Status {
+  Idle = 'idle',
+  Loading = 'loading',
+  Success = 'success',
+  Error = 'error'
+}
