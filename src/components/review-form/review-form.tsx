@@ -12,7 +12,7 @@ function ReviewForm(): JSX.Element {
 
   const postReviewStatus = useAppSelector(getReviewStatus);
 
-  const changeFormHandler = useCallback(
+  const handleFormChange = useCallback(
     (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
       const {name, value} = evt.target;
       setFormData({ ...formData, [name]: value});
@@ -27,7 +27,7 @@ function ReviewForm(): JSX.Element {
   const dispatch = useAppDispatch();
 
 
-  const submitHandler = useCallback((evt: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = useCallback((evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if(offerId){
       dispatch(postReviewAction({
@@ -42,7 +42,7 @@ function ReviewForm(): JSX.Element {
   }, [offerId, dispatch, formData, postReviewStatus]);
 
   return (
-    <form className="reviews__form form" action="#" method="post" onSubmit={submitHandler}>
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {STAR_RATING.map((title, i) => {
@@ -56,7 +56,7 @@ function ReviewForm(): JSX.Element {
                 id={`${index}-stars`}
                 type="radio"
                 checked={+formData.rating === index}
-                onChange={changeFormHandler}
+                onChange={handleFormChange}
                 disabled={postReviewStatus === Status.Loading}
               />
               <label htmlFor={`${index}-stars`} className="reviews__rating-label form__rating-label" title={TITLE_RATING[i]}>
@@ -71,7 +71,7 @@ function ReviewForm(): JSX.Element {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        onChange={changeFormHandler}
+        onChange={handleFormChange}
         value={formData.review}
         disabled={postReviewStatus === Status.Loading}
       >

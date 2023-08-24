@@ -23,8 +23,8 @@ function MainScreen(): JSX.Element {
 
   const [activeSorting, setActiveSorting] = useState<Sorting>('Popular');
 
-  const cardHoverHandler = useCallback((offerId: string | null): void => setSelectedOffer(offerId), [setSelectedOffer]);
-  const changeSortPlacesHandler = useCallback((newSorting: Sorting) => setActiveSorting(newSorting), [setActiveSorting]);
+  const handleCardHover = useCallback((offerId: string | null): void => setSelectedOffer(offerId), [setSelectedOffer]);
+  const handleSortPlacesChange = useCallback((newSorting: Sorting) => setActiveSorting(newSorting), [setActiveSorting]);
 
   const className: string = offers.length === 0 ? 'page__main--index-empty page__main--index' : 'page__main--index';
 
@@ -43,11 +43,11 @@ function MainScreen(): JSX.Element {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offersByCity.length} {offersByCity.length > 1 ? 'places' : 'place'} to stay in {currentCity}</b>
-              <MemoSortPlaces activeSorting={activeSorting} onChange={changeSortPlacesHandler} />
+              <MemoSortPlaces activeSorting={activeSorting} onChange={handleSortPlacesChange} />
               <MemoOfferList
                 className="cities__places-list places__list tabs__content"
                 offers={sortingOffersByType(offersByCity, activeSorting)}
-                onCardHover={cardHoverHandler}
+                onCardHover={handleCardHover}
               />
             </section>
             <div className="cities__right-section">

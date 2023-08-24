@@ -1,7 +1,7 @@
 import Reviews from '../../components/reviews/reviews';
 import { useParams } from 'react-router-dom';
 import { getPercent } from '../../utils';
-import { HeaderPage, TypeOfAllocation } from '../../const';
+import { HeaderPage, NEIGBOURHOOD_OFFERS_COUNT, TypeOfAllocation } from '../../const';
 import MemoLayout from '../../components/layout/layout';
 import OfferList from '../../components/offer-list/offer-list';
 import Map from '../../components/map/map';
@@ -31,7 +31,7 @@ function OfferScreen(): JSX.Element {
   const reviews = useAppSelector(getReviews);
   const isReviewsDataLoading = useAppSelector(isReviewsStatusLoading);
 
-  const neighbourhoodOffers = neighbourhoodOffersList?.slice(0, 3);
+  const neighbourhoodOffers = neighbourhoodOffersList?.slice(0, NEIGBOURHOOD_OFFERS_COUNT);
 
   useEffect(() => {
     if (offerId) {

@@ -16,30 +16,30 @@ function SortPlaces({activeSorting, onChange }: SortPlacesProps): JSX.Element {
     transform: `translateY(-50%) ${isOpen ? 'rotate(180deg)' : ''}`
   };
 
-  function keyDownHandler(evt: KeyboardEvent) {
+  function handleFormKeyDown(evt: KeyboardEvent) {
     if (evt.key === 'Escape' && isOpen) {
       evt.preventDefault();
       setIsOpen(false);
     }
   }
 
-  function typeClickHandler() {
+  function handleSortingTypeClick() {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   }
 
-  function sortingItemClickHandler (type: Sorting) {
+  function handleSortingItemClick (type: Sorting) {
     onChange(type);
     setIsOpen(false);
   }
 
 
   return (
-    <form className="places__sorting" action="#" method="get" onKeyDown={keyDownHandler}>
+    <form className="places__sorting" action="#" method="get" onKeyDown={handleFormKeyDown}>
       <span className="places__sorting-caption">Sort by&nbsp;</span>
       <span
         className="places__sorting-type"
         tabIndex={0}
-        onClick={typeClickHandler}
+        onClick={handleSortingTypeClick}
       >
         {activeSorting}
         <svg className="places__sorting-arrow" width={7} height={4} style={iconStyle}>
@@ -52,7 +52,7 @@ function SortPlaces({activeSorting, onChange }: SortPlacesProps): JSX.Element {
             key={type}
             className={classNames({'places__option--active': type === activeSorting}, 'places__option')}
             tabIndex={0}
-            onClick={() => sortingItemClickHandler(type as Sorting)}
+            onClick={() => handleSortingItemClick(type as Sorting)}
           >
             {type}
           </li>

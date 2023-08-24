@@ -13,7 +13,7 @@ function LoginScreen(): JSX.Element {
 
   const [formData, setFormData] = useState({email: '', password: ''});
 
-  function onChangeFormHandler (evt: ChangeEvent<HTMLInputElement>): void {
+  function handleFormChange (evt: ChangeEvent<HTMLInputElement>): void {
     const {name, value} = evt.target;
     setFormData({ ...formData, [name]: value});
   }
@@ -30,7 +30,7 @@ function LoginScreen(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  const submitHandler = useCallback((evt: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = useCallback((evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (loginRef.current !== null
       && passwordRef.current !== null) {
@@ -64,7 +64,7 @@ function LoginScreen(): JSX.Element {
           <form className="login__form form"
             action=""
             method="post"
-            onSubmit={submitHandler}
+            onSubmit={handleFormSubmit}
           >
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden" htmlFor="name">E-mail</label>
@@ -75,7 +75,7 @@ function LoginScreen(): JSX.Element {
                 name="email"
                 placeholder="Email"
                 required
-                onChange={onChangeFormHandler}
+                onChange={handleFormChange}
                 data-testid="loginElement"
               />
             </div>
@@ -88,7 +88,7 @@ function LoginScreen(): JSX.Element {
                 name="password"
                 placeholder="Password"
                 required
-                onChange={onChangeFormHandler}
+                onChange={handleFormChange}
                 data-testid="passwordElement"
               />
             </div>
