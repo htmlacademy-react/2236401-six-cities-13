@@ -3,7 +3,7 @@ import MemoHeaderNav from './header-nav';
 import { withHistory, withStore } from '../../utils-for-test/mock-component';
 import { APIRoute, AuthorizationStatus, Status } from '../../const';
 import { extractActionsTypes, makeFakeOffersList } from '../../utils-for-test/mocks';
-import { logoutAction } from '../../store/api-actions';
+import { fetchOffersAction, logoutAction } from '../../store/api-actions';
 import userEvent from '@testing-library/user-event';
 import { BACKEND_URL } from '../../services/api';
 
@@ -112,7 +112,9 @@ describe('Component: Header Nav', () => {
 
     expect(actions).toEqual([
       logoutAction.pending.type,
+      fetchOffersAction.pending.type,
       logoutAction.fulfilled.type,
+      fetchOffersAction.rejected.type
     ]);
   });
 });

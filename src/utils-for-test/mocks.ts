@@ -106,7 +106,8 @@ export const makeFakeStore = (initialState?: Partial<State>): State => ({
   },
   REVIEW: {
     reviews: [],
-    isReviewsDataLoading: false
+    isReviewsDataLoading: false,
+    status: Status.Idle
   },
   ...initialState ?? {},
 });

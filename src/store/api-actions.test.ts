@@ -97,6 +97,7 @@ describe('Async actions', () => {
 
         expect(actions).toEqual([
           loginAction.pending.type,
+          fetchOffersAction.pending.type,
           fetchFavoritesAction.pending.type,
           loginAction.fulfilled.type,
         ]);
@@ -124,6 +125,7 @@ describe('Async actions', () => {
 
         expect(actions).toEqual([
           logoutAction.pending.type,
+          fetchOffersAction.pending.type,
           logoutAction.fulfilled.type,
         ]);
       });

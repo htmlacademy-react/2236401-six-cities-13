@@ -18,6 +18,11 @@ describe('Component: Reviews', () => {
         },
         status: Status.Idle
       },
+      REVIEW: {
+        reviews: [],
+        isReviewsDataLoading: false,
+        status: Status.Idle
+      },
     });
 
     const prepComponent = withHistory(withStoreComponent);
@@ -25,6 +30,5 @@ describe('Component: Reviews', () => {
 
     expect(screen.getByText('50 characters')).toBeInTheDocument();
     expect(screen.getByText('Submit')).toBeInTheDocument();
-    screen.debug();
   });
 });

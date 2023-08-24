@@ -21,6 +21,11 @@ describe('Component: Reviews', () => {
         },
         status: Status.Idle
       },
+      REVIEW: {
+        reviews: [],
+        isReviewsDataLoading: false,
+        status: Status.Idle
+      },
     });
 
     const prepComponent = withHistory(withStoreComponent);
