@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
 import { getAuthorizationStatus, getUserData, getUserStatus } from '../../store/user-process/user-process.selectors';
 import { getFavoriteOffers } from '../../store/offers/offers.selectors';
+import React from 'react';
 
 function HeaderNav (): JSX.Element {
 
@@ -42,7 +43,7 @@ function HeaderNav (): JSX.Element {
                   />}
               </div>
               <span className="header__user-name user__name">{userData?.email}</span>
-              {favorites.length > 0 && <span className="header__favorite-count">{favorites.length}</span>}
+              <span className="header__favorite-count">{favorites.length}</span>
             </Link>
           </li>
           <li className="header__nav-item">
@@ -75,4 +76,6 @@ function HeaderNav (): JSX.Element {
   );
 }
 
-export default HeaderNav;
+const MemoHeaderNav = React.memo(HeaderNav);
+
+export default MemoHeaderNav;

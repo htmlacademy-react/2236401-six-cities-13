@@ -1,8 +1,8 @@
 import classNames from 'classnames';
-import { OfferWithHost } from '../../types/offer';
+import { Host } from '../../types/host';
 
 type HostProps = {
-  hostInfo: OfferWithHost;
+  hostInfo: Host;
 }
 
 function HostSection({hostInfo}: HostProps): JSX.Element {

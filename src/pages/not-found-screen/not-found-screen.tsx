@@ -1,13 +1,13 @@
 import styles from './not-found-screen.module.css';
 import { Link } from 'react-router-dom';
 import { HeaderPage } from '../../const';
-import Layout from '../../components/layout/layout';
+import MemoLayout from '../../components/layout/layout';
 
 
 function NotFoundScreen(): JSX.Element {
 
   return (
-    <Layout pageTitle = 'Page not found'
+    <MemoLayout pageTitle = 'Page not found'
       classNameContainer = {styles['not-found']}
       classNameMain = {styles['not-found__main']}
       headerPage = {HeaderPage.HasNav}
@@ -20,7 +20,7 @@ function NotFoundScreen(): JSX.Element {
           <Link to="/" className={styles['not-found__button']}>Back to home</Link>
         </section>
       </div>
-    </Layout>
+    </MemoLayout>
   );
 }
 

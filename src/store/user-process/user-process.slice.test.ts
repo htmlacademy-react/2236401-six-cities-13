@@ -2,15 +2,15 @@ import { AuthorizationStatus, Status } from '../../const';
 import { UserData } from '../../types/user-data';
 import { checkAuthAction, loginAction, logoutAction } from '../api-actions';
 import { userProcess } from './user-process.slice';
-import { internet } from 'faker';
+import { faker } from '@faker-js/faker';
 
 
 describe('UserProcess Slice', () => {
   const setAuthData: UserData = {
-    email: internet.email(),
-    token: internet.userName(),
-    name: internet.userName(),
-    avatarUrl: internet.avatar(),
+    email: faker.internet.email(),
+    token: faker.internet.userName(),
+    name: faker.internet.userName(),
+    avatarUrl: faker.internet.avatar(),
     isPro: false,
   };
   const status = Status.Idle;

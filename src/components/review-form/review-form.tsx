@@ -1,27 +1,33 @@
-import { useState, ChangeEvent, Fragment, FormEvent } from 'react';
-import { TITLE_RATING, MIN_CHARACTERS_COUNT, MAX_CHARACTERS_COUNT } from '../../const';
-import { useAppDispatch } from '../../hooks';
+import { useState, ChangeEvent, Fragment, FormEvent, useCallback } from 'react';
+import { TITLE_RATING, MIN_CHARACTERS_COUNT, MAX_CHARACTERS_COUNT, Status, STAR_RATING } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postReviewAction } from '../../store/api-actions';
 import { useParams } from 'react-router-dom';
+import { getReviewStatus } from '../../store/reviews/reviews.selectors';
 
 
 function ReviewForm(): JSX.Element {
   const {offerId} = useParams();
   const [formData, setFormData] = useState({rating: '0', review: ''});
 
-  function changeFormHandler (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void {
-    const {name, value} = evt.target;
-    setFormData({ ...formData, [name]: value});
-  }
+  const postReviewStatus = useAppSelector(getReviewStatus);
+
+  const handleFormChange = useCallback(
+    (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+      const {name, value} = evt.target;
+      setFormData({ ...formData, [name]: value});
+    }, [formData]);
 
   const buttonIsDisabled =
     formData.review.length < MIN_CHARACTERS_COUNT
-    || !+formData.rating;
+    || formData.review.length > MAX_CHARACTERS_COUNT
+    || !+formData.rating
+    || postReviewStatus === Status.Loading;
 
   const dispatch = useAppDispatch();
 
 
-  const submitHandler = (evt: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = useCallback((evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if(offerId){
       dispatch(postReviewAction({
@@ -29,15 +35,17 @@ function ReviewForm(): JSX.Element {
         rating: +formData.rating,
         offerId: offerId
       }));
-      setFormData({...formData, review: '', rating: '0'});
+      if (postReviewStatus === Status.Loading || !(postReviewStatus === Status.Error)) {
+        setFormData({...formData, review: '', rating: '0'});
+      }
     }
-  };
+  }, [offerId, dispatch, formData, postReviewStatus]);
 
   return (
-    <form className="reviews__form form" action="#" method="post" onSubmit={submitHandler}>
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        {TITLE_RATING.map((title, i) => {
+        {STAR_RATING.map((title, i) => {
           const index = TITLE_RATING.length - i;
 
           return (
@@ -48,9 +56,10 @@ function ReviewForm(): JSX.Element {
                 id={`${index}-stars`}
                 type="radio"
                 checked={+formData.rating === index}
-                onChange={changeFormHandler}
+                onChange={handleFormChange}
+                disabled={postReviewStatus === Status.Loading}
               />
-              <label htmlFor={`${index}-stars`} className="reviews__rating-label form__rating-label" title={title}>
+              <label htmlFor={`${index}-stars`} className="reviews__rating-label form__rating-label" title={TITLE_RATING[i]}>
                 <svg className="form__star-image" width={37} height={33}>
                   <use xlinkHref="#icon-star"></use>
                 </svg>
@@ -62,9 +71,9 @@ function ReviewForm(): JSX.Element {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        onChange={changeFormHandler}
+        onChange={handleFormChange}
         value={formData.review}
-        maxLength={MAX_CHARACTERS_COUNT}
+        disabled={postReviewStatus === Status.Loading}
       >
       </textarea>
       <div className="reviews__button-wrapper">
@@ -74,7 +83,7 @@ function ReviewForm(): JSX.Element {
         <button className="reviews__submit form__submit button"
           type="submit"
           disabled={buttonIsDisabled}
-        >Submit
+        >{postReviewStatus === Status.Loading ? 'In process...' : 'Submit'}
         </button>
       </div>
     </form>

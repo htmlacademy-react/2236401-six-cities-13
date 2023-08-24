@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { TRAVEL_CITIES, AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { setActiveCity } from '../../store/offers/offers.slice';
+import React from 'react';
 
 type TabsProps = {
   currentCity: string;
@@ -24,6 +25,7 @@ function Tabs({currentCity}: TabsProps): JSX.Element {
                 evt.preventDefault();
                 dispatch(setActiveCity(city));
               }}
+              data-testid='tab-citie'
             >
               <Link
                 className={classNames({'tabs__item--active': city === currentCity}, 'locations__item-link', 'tabs__item')}
@@ -38,4 +40,6 @@ function Tabs({currentCity}: TabsProps): JSX.Element {
   );
 }
 
-export default Tabs;
+const MemoTabs = React.memo(Tabs);
+
+export default MemoTabs;

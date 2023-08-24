@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { HeaderPage } from '../../const';
-import Layout from '../../components/layout/layout';
-import OfferList from '../../components/offer-list/offer-list';
-import Tabs from '../../components/tabs/tabs';
+import MemoLayout from '../../components/layout/layout';
+import MemoOfferList from '../../components/offer-list/offer-list';
+import MemoTabs from '../../components/tabs/tabs';
 import Map from '../../components/map/map';
-import SortPlaces from '../../components/sort-places/sort-places';
+import MemoSortPlaces from '../../components/sort-places/sort-places';
 import { useAppSelector } from '../../hooks';
 import { Sorting } from '../../types/sorting';
 import { sortingOffersByType } from '../../utils';
@@ -23,30 +23,31 @@ function MainScreen(): JSX.Element {
 
   const [activeSorting, setActiveSorting] = useState<Sorting>('Popular');
 
-  const cardHoverHandler = (offerId: string | null): void => setSelectedOffer(offerId);
+  const handleCardHover = useCallback((offerId: string | null): void => setSelectedOffer(offerId), [setSelectedOffer]);
+  const handleSortPlacesChange = useCallback((newSorting: Sorting) => setActiveSorting(newSorting), [setActiveSorting]);
 
   const className: string = offers.length === 0 ? 'page__main--index-empty page__main--index' : 'page__main--index';
 
   return (
-    <Layout pageTitle = 'Travelling in Europe'
+    <MemoLayout pageTitle = 'Travelling in Europe'
       classNameContainer = 'page--gray page--main'
       classNameMain = {className}
       headerPage ={HeaderPage.HasNav}
       hasFooter = {false}
     >
       <h1 className="visually-hidden">Cities</h1>
-      <Tabs currentCity={currentCity} />
+      <MemoTabs currentCity={currentCity} />
       <div className="cities">
-        {offers.length === 0 ? <MainEmpty /> :
+        {offers.length === 0 ? <MainEmpty currentCity={currentCity}/> :
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offersByCity.length} {offersByCity.length > 1 ? 'places' : 'place'} to stay in {currentCity}</b>
-              <SortPlaces activeSorting={activeSorting} onChange={(newSorting) => setActiveSorting(newSorting)} />
-              <OfferList
+              <MemoSortPlaces activeSorting={activeSorting} onChange={handleSortPlacesChange} />
+              <MemoOfferList
                 className="cities__places-list places__list tabs__content"
                 offers={sortingOffersByType(offersByCity, activeSorting)}
-                onCardHover={cardHoverHandler}
+                onCardHover={handleCardHover}
               />
             </section>
             <div className="cities__right-section">
@@ -54,7 +55,7 @@ function MainScreen(): JSX.Element {
             </div>
           </div>}
       </div>
-    </Layout>
+    </MemoLayout>
   );
 }
 
