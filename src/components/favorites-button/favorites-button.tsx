@@ -50,6 +50,7 @@ function FavoritesButton({offerId, isFavorite, className, imgWidth, imgHeight}: 
       className={classNames(`${className}__bookmark-button`, 'button', isOfferFavorite && `${className}__bookmark-button--active`)}
       type="button"
       onClick={handleFavoriteClick}
+      data-testid='bookmark-button'
     >
       <svg className={classNames(`${className}__bookmark-icon`)} width={imgWidth} height={imgHeight}>
         <use xlinkHref="#icon-bookmark"></use>

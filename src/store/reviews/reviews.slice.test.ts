@@ -1,4 +1,5 @@
-import { makeFakeReviewList } from '../../mocks-test/mocks-test';
+import { Status } from '../../const';
+import { makeFakeReviewList } from '../../utils-for-test/mocks';
 import { fetchReviewsOfferAction, postReviewAction } from '../api-actions';
 import { reviews } from './reviews.slice';
 
@@ -8,6 +9,7 @@ describe('Reviews Slice', () => {
     const expectedState = {
       reviews: [],
       isReviewsDataLoading: false,
+      status: Status.Idle,
     };
 
     const result = reviews.reducer(expectedState, emptyAction);
@@ -20,6 +22,7 @@ describe('Reviews Slice', () => {
     const expectedState = {
       reviews: [],
       isReviewsDataLoading: false,
+      status: Status.Idle,
     };
 
     const result = reviews.reducer(undefined, emptyAction);
@@ -31,6 +34,7 @@ describe('Reviews Slice', () => {
     const expectedState = {
       reviews: [],
       isReviewsDataLoading: true,
+      status: Status.Idle,
     };
 
     const result = reviews.reducer(undefined, fetchReviewsOfferAction.pending);
@@ -43,6 +47,7 @@ describe('Reviews Slice', () => {
     const expectedState = {
       reviews: mockReviews,
       isReviewsDataLoading: false,
+      status: Status.Idle,
     };
 
     const result = reviews.reducer(
@@ -58,6 +63,7 @@ describe('Reviews Slice', () => {
     const expectedState = {
       reviews: [],
       isReviewsDataLoading: false,
+      status: Status.Idle,
     };
 
     const result = reviews.reducer(
@@ -76,11 +82,13 @@ describe('Reviews Slice', () => {
     const initialState = {
       reviews: mockReviews,
       isReviewsDataLoading: false,
+      status: Status.Idle
     };
 
     const expectedState = {
       reviews: allReviews,
       isReviewsDataLoading: false,
+      status: Status.Success
     };
 
     const result = reviews.reducer(

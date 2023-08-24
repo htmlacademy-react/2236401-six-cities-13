@@ -10,6 +10,7 @@ export const TITLE_RATING = [
   'terribly'
 ] as const;
 
+export const STAR_RATING = [5, 4, 3, 2, 1] as const;
 
 export enum AppRoute {
   Main = '/',

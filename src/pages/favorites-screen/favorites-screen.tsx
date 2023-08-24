@@ -2,7 +2,7 @@ import FavoritesEmptySection from './favorites-empty-section';
 import { Offer } from '../../types/offer';
 import { Link } from 'react-router-dom';
 import { HeaderPage } from '../../const';
-import Layout from '../../components/layout/layout';
+import MemoLayout from '../../components/layout/layout';
 import OfferList from '../../components/offer-list/offer-list';
 import { useAppSelector } from '../../hooks';
 import { getFavoriteOffers } from '../../store/offers/offers.selectors';
@@ -30,8 +30,9 @@ function FavoritesScreen(): JSX.Element {
   const favoriteOffersByCity = getOffersByCityGroup(favoriteOffers);
 
   return (
-    <Layout pageTitle = 'Favorites list'
-      classNameMain = 'page__main--favorites'
+    <MemoLayout pageTitle = 'Favorites list'
+      classNameContainer = {favoriteOffers.length > 0 ? '' : 'page--favorites-empty'}
+      classNameMain = {'page__main--favorites'}
       headerPage = {HeaderPage.HasNav}
     >
 
@@ -56,7 +57,7 @@ function FavoritesScreen(): JSX.Element {
             </ul>
           </section>
         </div> : <FavoritesEmptySection />}
-    </Layout>
+    </MemoLayout>
   );
 }
 

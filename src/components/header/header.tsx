@@ -1,6 +1,7 @@
-import Logo from '../logo/logo';
+import MemoLogo from '../logo/logo';
 import { HeaderPage } from '../../const';
-import HeaderNav from '../header-nav/header-nav';
+import MemoHeaderNav from '../header-nav/header-nav';
+import React from 'react';
 
 type HeaderOffersProps = {
   headerPage: string;
@@ -8,17 +9,19 @@ type HeaderOffersProps = {
 
 function Header({headerPage}: HeaderOffersProps): JSX.Element {
   return (
-    <header className="header">
+    <header className="header" data-testid="header">
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <Logo />
+            <MemoLogo />
           </div>
-          {headerPage === HeaderPage.HasNav && <HeaderNav/>}
+          {headerPage === HeaderPage.HasNav && <MemoHeaderNav/>}
         </div>
       </div>
     </header>
   );
 }
 
-export default Header;
+const MemoHeader = React.memo(Header);
+
+export default MemoHeader;

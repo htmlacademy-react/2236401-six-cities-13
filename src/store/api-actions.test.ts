@@ -6,8 +6,7 @@ import MockAdapter from 'axios-mock-adapter';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { APIRoute } from '../const';
 import { changeFavoritesStatusAction, checkAuthAction, fetchFavoritesAction, fetchFullOfferAction, fetchNeigbourhoodOffersAction, fetchOffersAction, fetchReviewsOfferAction, loginAction, logoutAction, postReviewAction } from './api-actions';
-import { makeFakeFullOffer, makeFakeOffersList, makeFakePostReview, makeFakeReviewList } from '../mocks-test/mocks-test';
-// import { redirectToRoute } from './action';
+import { makeFakeFullOffer, makeFakeOffersList, makeFakePostReview, makeFakeReviewList } from '../utils-for-test/mocks';
 import { AuthData } from '../types/auth-data';
 import * as tokenStorage from '../services/token';
 

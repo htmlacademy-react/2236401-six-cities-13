@@ -1,15 +1,17 @@
 import { Offer, OfferWithHost } from '../types/offer';
-import { TRAVEL_CITIES, TypeOfAllocation } from '../const';
+import { AuthorizationStatus, Status, TRAVEL_CITIES, TypeOfAllocation } from '../const';
 import { faker } from '@faker-js/faker';
 import { Review, Comment } from '../types/review';
+import { State } from '../types/state';
+import { Action } from 'redux';
 
-const type = ['apartment', 'room', 'house', 'hotel'];
+const typeOfAllocation = ['apartment', 'room', 'house', 'hotel'];
 
 export const makeFakeOffersList = (): Offer[] => (
   new Array(20).fill(null).map(() => ({
     'id': faker.string.uuid(),
     'title': faker.lorem.text(),
-    'type': faker.helpers.arrayElement(type) as keyof typeof TypeOfAllocation,
+    'type': faker.helpers.arrayElement(typeOfAllocation) as keyof typeof TypeOfAllocation,
     'price': faker.helpers.rangeToNumber({min: 50, max: 1000}),
     'previewImage': faker.system.filePath(),
     'city': {
@@ -34,7 +36,7 @@ export const makeFakeOffersList = (): Offer[] => (
 export const makeFakeFullOffer = (): OfferWithHost => ({
   'id': faker.string.uuid(),
   'title': faker.lorem.text(),
-  'type': faker.helpers.arrayElement(type) as keyof typeof TypeOfAllocation,
+  'type': faker.helpers.arrayElement(typeOfAllocation) as keyof typeof TypeOfAllocation,
   'price': faker.helpers.rangeToNumber({min: 50, max: 1000}),
   'previewImage': faker.system.filePath(),
   'city': {
@@ -84,3 +86,30 @@ export const makeFakePostReview = (): Comment => ({
   'rating': faker.helpers.rangeToNumber({min: 1, max: 5}),
   'offerId': faker.string.uuid(),
 });
+
+export const makeFakeStore = (initialState?: Partial<State>): State => ({
+  USER: {
+    authorizationStatus: AuthorizationStatus.NoAuth,
+    setAuthData: null,
+    status: Status.Idle
+  },
+  OFFERS: {
+    offers: [],
+    fullOffer: null,
+    neigbourhoodOffers: null,
+    favorites: [],
+    isOffersDataLoading: false,
+    isFullOfferDataLoading: false,
+    isOffersNeighbourhoodLoading: false,
+    activeCity: 'Paris',
+    hasError: false
+  },
+  REVIEW: {
+    reviews: [],
+    isReviewsDataLoading: false
+  },
+  ...initialState ?? {},
+});
+
+
+export const extractActionsTypes = (actions: Action<string>[]) => actions.map(({ type }) => type);

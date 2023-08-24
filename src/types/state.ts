@@ -13,6 +13,7 @@ export type UserProcess = {
 export type Reviews = {
   reviews: Review[];
   isReviewsDataLoading: boolean;
+  status: Status;
 }
 
 export type Offers = {

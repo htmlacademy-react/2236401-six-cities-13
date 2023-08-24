@@ -1,4 +1,4 @@
-import { makeFakeFullOffer, makeFakeOffersList } from '../../mocks-test/mocks-test';
+import { makeFakeFullOffer, makeFakeOffersList } from '../../utils-for-test/mocks';
 import { changeFavoritesStatusAction, fetchFavoritesAction, fetchFullOfferAction, fetchNeigbourhoodOffersAction, fetchOffersAction } from '../api-actions';
 import { offers } from './offers.slice';
 
@@ -191,7 +191,7 @@ describe('Offers Slice', () => {
     it('should change "favoriteStatus" farom "false" to "true" & change array "favorites" with "changeFavoritesStatusAction.fulfilled"', () => {
       const offerForChange = {...mockOffer, isFavorite: true};
       const favorites = mockOffers.filter((item) => item.isFavorite === true);
-      const favoritesWithNewOffer = [...favorites, offerForChange];
+      const favoritesWithNewOffer = favorites.concat(offerForChange);
 
       const favoritesInitialState = {
         ...initialState,
@@ -206,7 +206,7 @@ describe('Offers Slice', () => {
       const result = offers.reducer(
         favoritesInitialState,
         changeFavoritesStatusAction.fulfilled(
-          mockOffer, '', {offerId: offerForChange.id, isFavorite: true})
+          offerForChange, '', {offerId: offerForChange.id, isFavorite: offerForChange.isFavorite})
       );
 
       expect(result).toEqual(expectedState);
@@ -230,7 +230,7 @@ describe('Offers Slice', () => {
       const result = offers.reducer(
         favoritesInitialState,
         changeFavoritesStatusAction.fulfilled(
-          mockOffer, '', {offerId: offerForChange.id, isFavorite: true})
+          offerForChange, '', {offerId: offerForChange.id, isFavorite: offerForChange.isFavorite})
       );
 
       expect(result).toEqual(expectedState);

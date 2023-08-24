@@ -27,14 +27,14 @@ function ReviewItem({review}: ReviewItemProps): JSX.Element {
             onError={imageOnError}
           />
         </div>
-        <span className="reviews__user-name">
+        <span className="reviews__user-name" data-testid="userName">
           {user.name}
         </span>
       </div>
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{width: getPercent(rating)}}></span>
+            <span style={{width: getPercent(rating)}} data-testid="rating"></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

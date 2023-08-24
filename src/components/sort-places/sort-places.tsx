@@ -1,5 +1,5 @@
 import { SortOffersType } from '../../const';
-import { useState, KeyboardEvent } from 'react';
+import React, { useState, KeyboardEvent } from 'react';
 import classNames from 'classnames';
 import { Sorting } from '../../types/sorting';
 
@@ -62,4 +62,6 @@ function SortPlaces({activeSorting, onChange }: SortPlacesProps): JSX.Element {
   );
 }
 
-export default SortPlaces;
+const MemoSortPlaces = React.memo(SortPlaces);
+
+export default MemoSortPlaces;

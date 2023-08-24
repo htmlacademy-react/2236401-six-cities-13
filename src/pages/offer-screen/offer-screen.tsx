@@ -2,7 +2,7 @@ import Reviews from '../../components/reviews/reviews';
 import { useParams } from 'react-router-dom';
 import { getPercent } from '../../utils';
 import { HeaderPage, TypeOfAllocation } from '../../const';
-import Layout from '../../components/layout/layout';
+import MemoLayout from '../../components/layout/layout';
 import OfferList from '../../components/offer-list/offer-list';
 import Map from '../../components/map/map';
 import HostSection from '../../components/host-section/host-section';
@@ -56,11 +56,13 @@ function OfferScreen(): JSX.Element {
     return <NotFoundScreen />;
   }
 
-  const {id, isPremium, title, rating, price, images, type, bedrooms, maxAdults, goods, isFavorite} = currentOffer;
+  const {id, isPremium, title, rating, price, images, type, bedrooms, maxAdults, goods, isFavorite, host, description} = currentOffer;
+  const hostInfo = { id, description, bedrooms, goods, host, images, maxAdults };
+
   const mapOffers = neighbourhoodOffers && [...neighbourhoodOffers, currentOffer];
 
   return (
-    <Layout
+    <MemoLayout
       pageTitle = 'Find the latest travel news and offers'
       classNameMain = 'page__main--offer'
       headerPage = {HeaderPage.HasNav}
@@ -115,7 +117,7 @@ function OfferScreen(): JSX.Element {
                 {goods && goods.length && goods.map((good) => <li className="offer__inside-item" key={good}>{good}</li>)}
               </ul>
             </div>
-            <HostSection hostInfo={currentOffer} />
+            <HostSection hostInfo={hostInfo} />
             {offerId && <Reviews reviews={reviews} />}
           </div>
         </div>
@@ -134,7 +136,7 @@ function OfferScreen(): JSX.Element {
             <OfferList className="near-places__list places__list" offers={neighbourhoodOffers} />}
         </section>
       </div>
-    </Layout>
+    </MemoLayout>
   );
 }
 

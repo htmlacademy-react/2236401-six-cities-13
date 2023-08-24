@@ -1,6 +1,6 @@
 import { AppRoute, AuthorizationStatus, HeaderPage, Status } from '../../const';
-import Layout from '../../components/layout/layout';
-import { ChangeEvent, FormEvent, useRef, useState } from 'react';
+import MemoLayout from '../../components/layout/layout';
+import React, { ChangeEvent, FormEvent, useCallback, useMemo, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Link, Navigate } from 'react-router-dom';
 import { loginAction } from '../../store/api-actions';
@@ -18,7 +18,8 @@ function LoginScreen(): JSX.Element {
     setFormData({ ...formData, [name]: value});
   }
 
-  const regexPassword = /^(?=.*\d)(?=.*[a-zA-Z])\S*$/i;
+  const regexPassword = useMemo(() => /^(?=.*\d)(?=.*[a-z])\S*$/i, []);
+
   const regexEmail = /^[\w]{1}[\w-\\.]*@[\w-]+\.[a-z]{2,4}$/i;
 
   const isLoginStatusLoading = useAppSelector(getUserStatus) === Status.Loading;
@@ -29,7 +30,7 @@ function LoginScreen(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  const submitHandler = (evt: FormEvent<HTMLFormElement>) => {
+  const submitHandler = useCallback((evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (loginRef.current !== null
       && passwordRef.current !== null) {
@@ -42,7 +43,7 @@ function LoginScreen(): JSX.Element {
         password: passwordRef.current.value
       }));
     }
-  };
+  }, [dispatch, loginRef, passwordRef, regexPassword]);
 
   const hasAuthorization = useAppSelector(getAuthorizationStatus) === AuthorizationStatus.Auth;
 
@@ -51,7 +52,7 @@ function LoginScreen(): JSX.Element {
   }
 
   return (
-    <Layout pageTitle = 'Registration'
+    <MemoLayout pageTitle = 'Registration'
       classNameContainer = 'page--gray page--login'
       classNameMain = 'page__main--login'
       headerPage = {HeaderPage.WithoutNav}
@@ -59,7 +60,7 @@ function LoginScreen(): JSX.Element {
     >
       <div className="page__login-container container">
         <section className="login">
-          <h1 className="login__title">Sign in</h1>
+          <h1 className="login__title" data-testid="titleElement">Sign in</h1>
           <form className="login__form form"
             action=""
             method="post"
@@ -75,6 +76,7 @@ function LoginScreen(): JSX.Element {
                 placeholder="Email"
                 required
                 onChange={onChangeFormHandler}
+                data-testid="loginElement"
               />
             </div>
             <div className="login__input-wrapper form__input-wrapper">
@@ -87,6 +89,7 @@ function LoginScreen(): JSX.Element {
                 placeholder="Password"
                 required
                 onChange={onChangeFormHandler}
+                data-testid="passwordElement"
               />
             </div>
             <button className="login__submit form__submit button"
@@ -100,13 +103,15 @@ function LoginScreen(): JSX.Element {
         <section className="locations locations--login locations--current">
           <div className="locations__item">
             <Link className="locations__item-link" to={AppRoute.Main}>
-              <span>Amsterdam</span>
+              <span>Paris</span>
             </Link>
           </div>
         </section>
       </div>
-    </Layout>
+    </MemoLayout>
   );
 }
 
-export default LoginScreen;
+const MemoLoginScreen = React.memo(LoginScreen);
+
+export default MemoLoginScreen;
