@@ -133,7 +133,7 @@ function OfferScreen(): JSX.Element {
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           {neighbourhoodOffersList &&
-            <OfferList className="near-places__list places__list" offers={neighbourhoodOffers} />}
+            <OfferList classNameContainer="near-places__list places__list" classNameCard='near-places' offers={neighbourhoodOffers} />}
         </section>
       </div>
     </MemoLayout>

@@ -38,5 +38,8 @@ function sortingOffersByType (offers: Offer[], type: Sorting): Offer[] {
 export const sortByTimeReviews = (reviews: Review[]): Review[] =>
   reviews.sort((a, b) => dayjs(b.date).diff(dayjs(a.date)));
 
+// Функция для получения случайного элемента массива
+
+export const getRandomArrayElement = (array: string[]): string => array[Math.floor(Math.random() * array.length)];
 
 export { getPercent, getOffersByCity, sortingOffersByType };

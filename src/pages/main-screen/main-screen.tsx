@@ -45,7 +45,8 @@ function MainScreen(): JSX.Element {
               <b className="places__found">{offersByCity.length} {offersByCity.length > 1 ? 'places' : 'place'} to stay in {currentCity}</b>
               <MemoSortPlaces activeSorting={activeSorting} onChange={handleSortPlacesChange} />
               <MemoOfferList
-                className="cities__places-list places__list tabs__content"
+                classNameContainer="cities__places-list places__list tabs__content"
+                classNameCard='cities'
                 offers={sortingOffersByType(offersByCity, activeSorting)}
                 onCardHover={handleCardHover}
               />

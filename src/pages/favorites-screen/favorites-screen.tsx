@@ -51,7 +51,7 @@ function FavoritesScreen(): JSX.Element {
                       </Link>
                     </div>
                   </div>
-                  <OfferList className="favorites__places" offers={offersGroup} />
+                  <OfferList classNameContainer="favorites__places" classNameCard={'favorites'} offers={offersGroup} />
                 </li>)
               )}
             </ul>

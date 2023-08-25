@@ -1,4 +1,4 @@
-import { AppRoute, AuthorizationStatus, HeaderPage, Status } from '../../const';
+import { AppRoute, AuthorizationStatus, HeaderPage, Status, TRAVEL_CITIES } from '../../const';
 import MemoLayout from '../../components/layout/layout';
 import React, { ChangeEvent, FormEvent, useCallback, useMemo, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -6,6 +6,8 @@ import { Link, Navigate } from 'react-router-dom';
 import { loginAction } from '../../store/api-actions';
 import { toast } from 'react-toastify';
 import { getAuthorizationStatus, getUserStatus } from '../../store/user-process/user-process.selectors';
+import { setActiveCity } from '../../store/offers/offers.slice';
+import { getRandomArrayElement } from '../../utils';
 
 function LoginScreen(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -29,6 +31,8 @@ function LoginScreen(): JSX.Element {
     || isLoginStatusLoading;
 
   const dispatch = useAppDispatch();
+
+  const randomCity = getRandomArrayElement([...TRAVEL_CITIES]);
 
   const handleFormSubmit = useCallback((evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -102,8 +106,13 @@ function LoginScreen(): JSX.Element {
         </section>
         <section className="locations locations--login locations--current">
           <div className="locations__item">
-            <Link className="locations__item-link" to={AppRoute.Main}>
-              <span>Paris</span>
+            <Link className="locations__item-link"
+              to={AppRoute.Main}
+              onClick={() => {
+                dispatch(setActiveCity(randomCity));
+              }}
+            >
+              <span>{randomCity}</span>
             </Link>
           </div>
         </section>
