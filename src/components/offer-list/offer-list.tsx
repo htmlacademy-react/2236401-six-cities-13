@@ -4,18 +4,20 @@ import MemoPlaceCard from '../place-card/place-card';
 
 type OfferListProps = {
   offers?: Offer[];
-  className: string;
+  classNameContainer: string;
+  classNameCard: string;
   onCardHover?: (offerId: string | null) => void;
 }
 
-function OfferList ({offers, className, onCardHover}: OfferListProps): JSX.Element {
+function OfferList ({offers, classNameContainer, classNameCard, onCardHover}: OfferListProps): JSX.Element {
+
   return (
-    <div className={className} data-testid="offer-list">
+    <div className={classNameContainer} data-testid="offer-list">
       {offers?.map((item) =>
         (
           <MemoPlaceCard
             key={item.id} offer={item}
-            nameClass={className === 'favorites__places' ? 'favorites' : 'cities'}
+            nameClass={classNameCard}
             onCardHover={onCardHover}
           />
         ))}

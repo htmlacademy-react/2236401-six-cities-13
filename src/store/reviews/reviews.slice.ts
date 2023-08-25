@@ -30,8 +30,8 @@ export const reviews = createSlice({
         state.status = Status.Loading;
       })
       .addCase(postReviewAction.fulfilled, (state, action) => {
-        state.reviews.unshift(action.payload);
         state.status = Status.Success;
+        state.reviews.unshift(action.payload);
       })
       .addCase(postReviewAction.rejected, (state) => {
         state.status = Status.Error;
