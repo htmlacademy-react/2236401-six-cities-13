@@ -1,9 +1,10 @@
-import { useState, ChangeEvent, Fragment, FormEvent, useCallback } from 'react';
+import { useState, ChangeEvent, Fragment, FormEvent, useCallback, useEffect } from 'react';
 import { TITLE_RATING, MIN_CHARACTERS_COUNT, MAX_CHARACTERS_COUNT, Status, STAR_RATING } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postReviewAction } from '../../store/api-actions';
 import { useParams } from 'react-router-dom';
 import { getReviewStatus } from '../../store/reviews/reviews.selectors';
+import { setReviewStatus } from '../../store/reviews/reviews.slice';
 
 
 function ReviewForm(): JSX.Element {
@@ -26,6 +27,12 @@ function ReviewForm(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    if (postReviewStatus === Status.Success) {
+      dispatch(setReviewStatus(Status.Idle));
+      setFormData({...formData, review: '', rating: '0'});
+    }
+  }, [dispatch, formData, postReviewStatus]);
 
   const handleFormSubmit = useCallback((evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -35,11 +42,11 @@ function ReviewForm(): JSX.Element {
         rating: +formData.rating,
         offerId: offerId
       }));
-      if (postReviewStatus === Status.Loading || !(postReviewStatus === Status.Error)) {
-        setFormData({...formData, review: '', rating: '0'});
-      }
+      // if (postReviewStatus === Status.Success) {
+      //   setFormData({...formData, review: '', rating: '0'});
+      // }
     }
-  }, [offerId, dispatch, formData, postReviewStatus]);
+  }, [offerId, dispatch, formData]);
 
   return (
     <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSubmit}>

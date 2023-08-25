@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Reviews } from '../../types/state';
 import { NameSpace, Status } from '../../const';
 import { fetchReviewsOfferAction, postReviewAction } from '../api-actions';
@@ -13,7 +13,11 @@ const initialState: Reviews = {
 export const reviews = createSlice({
   name: NameSpace.Review,
   initialState,
-  reducers: {},
+  reducers: {
+    setReviewStatus: (state, action: PayloadAction<Status>) => {
+      state.status = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchReviewsOfferAction.pending, (state) => {
@@ -40,3 +44,4 @@ export const reviews = createSlice({
   }
 });
 
+export const { setReviewStatus } = reviews.actions;
