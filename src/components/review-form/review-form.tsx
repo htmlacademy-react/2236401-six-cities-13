@@ -42,9 +42,6 @@ function ReviewForm(): JSX.Element {
         rating: +formData.rating,
         offerId: offerId
       }));
-      // if (postReviewStatus === Status.Success) {
-      //   setFormData({...formData, review: '', rating: '0'});
-      // }
     }
   }, [offerId, dispatch, formData]);
 
