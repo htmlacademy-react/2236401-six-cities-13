@@ -107,6 +107,7 @@ function LoginScreen(): JSX.Element {
           <div className="locations__item">
             <Link className="locations__item-link"
               to={AppRoute.Main}
+              data-testid='random-city-link'
               onClick={() => {
                 dispatch(setActiveCity(randomCity));
               }}

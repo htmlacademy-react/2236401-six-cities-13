@@ -9,7 +9,7 @@ import { useAppSelector } from '../../hooks';
 import { Sorting } from '../../types/sorting';
 import { sortOffersByType } from '../../utils';
 import { getActiveCity, getOffers } from '../../store/offers/offers.selectors';
-import MainEmpty from './main-empty';
+import MainEmpty from '../../components/main-empty/main-empty';
 
 
 function MainScreen(): JSX.Element {

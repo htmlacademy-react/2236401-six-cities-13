@@ -1,4 +1,4 @@
-import FavoritesEmptySection from './favorites-empty-section';
+import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 import { Link } from 'react-router-dom';
 import { HeaderPage } from '../../const';
 import MemoLayout from '../../components/layout/layout';
@@ -39,7 +39,7 @@ function FavoritesScreen(): JSX.Element {
               )}
             </ul>
           </section>
-        </div> : <FavoritesEmptySection />}
+        </div> : <FavoritesEmpty />}
     </MemoLayout>
   );
 }

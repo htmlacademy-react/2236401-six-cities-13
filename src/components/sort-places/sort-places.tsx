@@ -53,6 +53,7 @@ function SortPlaces({activeSorting, onChange }: SortPlacesProps): JSX.Element {
             className={classNames({'places__option--active': type === activeSorting}, 'places__option')}
             tabIndex={0}
             onClick={() => handleSortingItemClick(type as Sorting)}
+            data-testid='sort-type-item'
           >
             {type}
           </li>
