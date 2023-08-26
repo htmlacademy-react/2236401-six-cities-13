@@ -72,6 +72,7 @@ function Map({className, city, offers, selectedOffer, currentOffer}: MapProps): 
       style={{height: style}}
       className={`${className}__map map`}
       ref={mapRef}
+      data-testid='map-element'
     >
     </section>);
 }

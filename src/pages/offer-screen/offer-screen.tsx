@@ -76,6 +76,7 @@ function OfferScreen(): JSX.Element {
                 <img className="offer__image"
                   src={picture}
                   alt={title}
+                  data-testid='preview-image'
                 />
               </div>))}
           </div>
@@ -114,7 +115,7 @@ function OfferScreen(): JSX.Element {
             <div className="offer__inside">
               <h2 className="offer__inside-title">What&apos;s inside</h2>
               <ul className="offer__inside-list">
-                {goods && goods.length && goods.map((good) => <li className="offer__inside-item" key={good}>{good}</li>)}
+                {goods && goods.length && goods.map((good) => <li className="offer__inside-item" key={good} data-testid='inside-good'>{good}</li>)}
               </ul>
             </div>
             <HostSection hostInfo={hostInfo} />

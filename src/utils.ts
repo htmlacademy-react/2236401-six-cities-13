@@ -10,10 +10,6 @@ import { Sorting } from './types/sorting';
 export const getPercent = (number: number): string =>
   `${(Math.round(number) * 100) / MAX_STARS_COUNT}%`;
 
-// Функция для получения предложений размещения по конкретному городу
-
-export const getOffersByCity = (city: string | undefined, offers: Offer[]): Offer[] =>
-  offers.filter((offer) => city === offer.city.name);
 
 // Функция для группировки предложений по городам
 

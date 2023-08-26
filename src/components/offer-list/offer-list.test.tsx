@@ -6,7 +6,7 @@ import { withHistory, withStore } from '../../utils-for-test/mock-component';
 
 describe('Component: Offer List', () => {
   it('should render correctly', () => {
-    const {withStoreComponent} = withStore(<MemoOfferList className='favorites__places' />, {
+    const {withStoreComponent} = withStore(<MemoOfferList classNameCard='favorites-card' classNameContainer='favorites__places' />, {
       USER: {
         authorizationStatus: AuthorizationStatus.Auth,
         setAuthData: null,
