@@ -1,3 +1,4 @@
+import { AVATAR_URL } from '../../const';
 import { Review } from '../../types/review';
 import { getPercent } from '../../utils';
 
@@ -10,7 +11,6 @@ function ReviewItem({review}: ReviewItemProps): JSX.Element {
   const dateComment = new Date(date).toLocaleString('eng', { month: 'long', year: 'numeric' });
   const dateTime = date.split('T')[0];
 
-  const AVATAR_URL = 'img/tourist.png';
   const imageOnError = (evt: React.SyntheticEvent<HTMLImageElement, Event>) => {
     evt.currentTarget.src = AVATAR_URL;
   };

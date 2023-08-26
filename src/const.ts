@@ -2,7 +2,7 @@ export const MAX_STARS_COUNT = 5;
 export const MIN_CHARACTERS_COUNT = 50;
 export const MAX_CHARACTERS_COUNT = 300;
 
-export const TITLE_RATING = [
+export const TITLE_RATING_VALUES = [
   'perfect',
   'good',
   'not bad',
@@ -10,9 +10,11 @@ export const TITLE_RATING = [
   'terribly'
 ] as const;
 
-export const STAR_RATING = [5, 4, 3, 2, 1] as const;
+export const STAR_RATING_VALUES = [5, 4, 3, 2, 1] as const;
 
 export const NEIGBOURHOOD_OFFERS_COUNT = 3;
+
+export const AVATAR_URL = 'img/tourist.png';
 
 export enum AppRoute {
   Main = '/',
@@ -30,8 +32,9 @@ export enum AuthorizationStatus {
 }
 
 export enum NameOfClasses {
-  AllPages = 'cities',
-  Favorites = 'favorites'
+  MainPage = 'cities',
+  Favorites = 'favorites',
+  NearPlaces = 'near-places',
 }
 
 export enum PageImageProperties {

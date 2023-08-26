@@ -1,6 +1,6 @@
 import { AppRoute, AuthorizationStatus, HeaderPage, Status, TRAVEL_CITIES } from '../../const';
 import MemoLayout from '../../components/layout/layout';
-import React, { ChangeEvent, FormEvent, useCallback, useMemo, useRef, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useCallback, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Link, Navigate } from 'react-router-dom';
 import { loginAction } from '../../store/api-actions';
@@ -9,25 +9,24 @@ import { getAuthorizationStatus, getUserStatus } from '../../store/user-process/
 import { setActiveCity } from '../../store/offers/offers.slice';
 import { getRandomArrayElement } from '../../utils';
 
+const REGEX_PASSWORD = /^(?=.*\d)(?=.*[a-z])\S*$/i;
+const REGEX_EMAIL = /^[\w]{1}[\w-\\.]*@[\w-]+\.[a-z]{2,4}$/i;
+
 function LoginScreen(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const [formData, setFormData] = useState({email: '', password: ''});
 
-  function handleFormChange (evt: ChangeEvent<HTMLInputElement>): void {
+  const handleFormChange = (evt: ChangeEvent<HTMLInputElement>): void => {
     const {name, value} = evt.target;
     setFormData({ ...formData, [name]: value});
-  }
-
-  const regexPassword = useMemo(() => /^(?=.*\d)(?=.*[a-z])\S*$/i, []);
-
-  const regexEmail = /^[\w]{1}[\w-\\.]*@[\w-]+\.[a-z]{2,4}$/i;
+  };
 
   const isLoginStatusLoading = useAppSelector(getUserStatus) === Status.Loading;
 
-  const buttonIsDisabled = !regexEmail.test(formData.email)
-    || !regexPassword.test(formData.password)
+  const buttonIsDisabled = !REGEX_EMAIL.test(formData.email)
+    || !REGEX_PASSWORD.test(formData.password)
     || isLoginStatusLoading;
 
   const dispatch = useAppDispatch();
@@ -38,7 +37,7 @@ function LoginScreen(): JSX.Element {
     evt.preventDefault();
     if (loginRef.current !== null
       && passwordRef.current !== null) {
-      if (!regexPassword.test(passwordRef.current.value)) {
+      if (!REGEX_PASSWORD.test(passwordRef.current.value)) {
         toast.warn('The password must have at least one letter & one symbol without spaces');
         return;
       }
@@ -47,7 +46,7 @@ function LoginScreen(): JSX.Element {
         password: passwordRef.current.value
       }));
     }
-  }, [dispatch, loginRef, passwordRef, regexPassword]);
+  }, [dispatch, loginRef, passwordRef]);
 
   const hasAuthorization = useAppSelector(getAuthorizationStatus) === AuthorizationStatus.Auth;
 

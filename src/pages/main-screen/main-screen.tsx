@@ -7,7 +7,7 @@ import Map from '../../components/map/map';
 import MemoSortPlaces from '../../components/sort-places/sort-places';
 import { useAppSelector } from '../../hooks';
 import { Sorting } from '../../types/sorting';
-import { sortingOffersByType } from '../../utils';
+import { sortOffersByType } from '../../utils';
 import { getActiveCity, getOffers } from '../../store/offers/offers.selectors';
 import MainEmpty from './main-empty';
 
@@ -47,7 +47,7 @@ function MainScreen(): JSX.Element {
               <MemoOfferList
                 classNameContainer="cities__places-list places__list tabs__content"
                 classNameCard='cities'
-                offers={sortingOffersByType(offersByCity, activeSorting)}
+                offers={sortOffersByType(offersByCity, activeSorting)}
                 onCardHover={handleCardHover}
               />
             </section>

@@ -1,26 +1,36 @@
 import dayjs from 'dayjs';
 import { MAX_STARS_COUNT, SortOffersType } from './const';
-import { Offer } from './types/offer';
+import { Offer, OffersByCityGroup } from './types/offer';
 import { Review } from './types/review';
 import { Sorting } from './types/sorting';
 
 
 //Функция для подсчёта процентов от числа
 
-function getPercent (number: number): string {
-
-  return `${(Math.round(number) * 100) / MAX_STARS_COUNT}%`;
-}
+export const getPercent = (number: number): string =>
+  `${(Math.round(number) * 100) / MAX_STARS_COUNT}%`;
 
 // Функция для получения предложений размещения по конкретному городу
 
-function getOffersByCity (city: string | undefined, offers: Offer[]): Offer[] {
-  return offers.filter((offer) => city === offer.city.name);
-}
+export const getOffersByCity = (city: string | undefined, offers: Offer[]): Offer[] =>
+  offers.filter((offer) => city === offer.city.name);
+
+// Функция для группировки предложений по городам
+
+export const getOffersByCityGroup = (offers: Offer[]) =>
+  offers.reduce((cityGroup: OffersByCityGroup, offer) => {
+    const city = offer.city.name;
+    if (!cityGroup[city]) {
+      cityGroup[city] = [];
+    }
+    cityGroup[city].push(offer);
+    return cityGroup;
+  }, {});
+
 
 // Функция для сортировки предложений
 
-function sortingOffersByType (offers: Offer[], type: Sorting): Offer[] {
+export const sortOffersByType = (offers: Offer[], type: Sorting): Offer[] => {
   switch (type) {
     case SortOffersType.PriceToHigh:
       return offers.sort((a, b) => a.price - b.price);
@@ -31,7 +41,7 @@ function sortingOffersByType (offers: Offer[], type: Sorting): Offer[] {
     default:
       return offers;
   }
-}
+};
 
 // Функция для сортировки комментариев по дате
 
@@ -41,5 +51,3 @@ export const sortByTimeReviews = (reviews: Review[]): Review[] =>
 // Функция для получения случайного элемента массива
 
 export const getRandomArrayElement = (array: string[]): string => array[Math.floor(Math.random() * array.length)];
-
-export { getPercent, getOffersByCity, sortingOffersByType };

@@ -16,21 +16,21 @@ function SortPlaces({activeSorting, onChange }: SortPlacesProps): JSX.Element {
     transform: `translateY(-50%) ${isOpen ? 'rotate(180deg)' : ''}`
   };
 
-  function handleFormKeyDown(evt: KeyboardEvent) {
+  const handleFormKeyDown = (evt: KeyboardEvent) => {
     if (evt.key === 'Escape' && isOpen) {
       evt.preventDefault();
       setIsOpen(false);
     }
-  }
+  };
 
-  function handleSortingTypeClick() {
+  const handleSortingTypeClick = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
-  }
+  };
 
-  function handleSortingItemClick (type: Sorting) {
+  const handleSortingItemClick = (type: Sorting) => {
     onChange(type);
     setIsOpen(false);
-  }
+  };
 
 
   return (
