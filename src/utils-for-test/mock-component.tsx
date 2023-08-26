@@ -30,10 +30,10 @@ type ComponentWithMockStore = {
 
 type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createAPI>, Action>;
 
-export function withStore(
+export const withStore = (
   component: JSX.Element,
   initialState: Partial<State> = {},
-): ComponentWithMockStore {
+): ComponentWithMockStore => {
   const axios = createAPI();
   const mockAxiosAdapter = new MockAdapter(axios);
   const middleware = [thunk.withExtraArgument(axios)];
@@ -45,4 +45,4 @@ export function withStore(
     mockStore,
     mockAxiosAdapter,
   });
-}
+};

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus, Status } from '../../const';
+import { AVATAR_URL, AppRoute, AuthorizationStatus, Status } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
 import { getAuthorizationStatus, getUserData, getUserStatus } from '../../store/user-process/user-process.selectors';
@@ -19,7 +19,6 @@ function HeaderNav (): JSX.Element {
 
   const userAvatarAlt = userData?.email.split('@')[0];
 
-  const AVATAR_URL = 'img/tourist.png';
   const imageOnError = (evt: React.SyntheticEvent<HTMLImageElement, Event>) => {
     evt.currentTarget.src = AVATAR_URL;
   };

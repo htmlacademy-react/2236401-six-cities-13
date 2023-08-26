@@ -1,5 +1,5 @@
-import { useState, ChangeEvent, Fragment, FormEvent, useCallback, useEffect } from 'react';
-import { TITLE_RATING, MIN_CHARACTERS_COUNT, MAX_CHARACTERS_COUNT, Status, STAR_RATING } from '../../const';
+import { useState, ChangeEvent, Fragment, FormEvent, useEffect } from 'react';
+import { TITLE_RATING_VALUES, MIN_CHARACTERS_COUNT, MAX_CHARACTERS_COUNT, Status, STAR_RATING_VALUES } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postReviewAction } from '../../store/api-actions';
 import { useParams } from 'react-router-dom';
@@ -13,11 +13,11 @@ function ReviewForm(): JSX.Element {
 
   const postReviewStatus = useAppSelector(getReviewStatus);
 
-  const handleFormChange = useCallback(
+  const handleFormChange =
     (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
       const {name, value} = evt.target;
       setFormData({ ...formData, [name]: value});
-    }, [formData]);
+    };
 
   const buttonIsDisabled =
     formData.review.length < MIN_CHARACTERS_COUNT
@@ -34,7 +34,7 @@ function ReviewForm(): JSX.Element {
     }
   }, [dispatch, formData, postReviewStatus]);
 
-  const handleFormSubmit = useCallback((evt: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if(offerId){
       dispatch(postReviewAction({
@@ -43,14 +43,14 @@ function ReviewForm(): JSX.Element {
         offerId: offerId
       }));
     }
-  }, [offerId, dispatch, formData]);
+  };
 
   return (
     <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        {STAR_RATING.map((title, i) => {
-          const index = TITLE_RATING.length - i;
+        {STAR_RATING_VALUES.map((title, i) => {
+          const index = TITLE_RATING_VALUES.length - i;
 
           return (
             <Fragment key={title}>
@@ -63,7 +63,7 @@ function ReviewForm(): JSX.Element {
                 onChange={handleFormChange}
                 disabled={postReviewStatus === Status.Loading}
               />
-              <label htmlFor={`${index}-stars`} className="reviews__rating-label form__rating-label" title={TITLE_RATING[i]}>
+              <label htmlFor={`${index}-stars`} className="reviews__rating-label form__rating-label" title={TITLE_RATING_VALUES[i]}>
                 <svg className="form__star-image" width={37} height={33}>
                   <use xlinkHref="#icon-star"></use>
                 </svg>

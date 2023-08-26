@@ -31,3 +31,7 @@ export type FavoritesStatusData = {
 }
 
 export type OfferWithHost = Offer & Host;
+
+export type OffersByCityGroup = {
+  [city: string]: Offer[];
+}

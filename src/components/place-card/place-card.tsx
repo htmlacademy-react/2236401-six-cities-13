@@ -4,7 +4,7 @@ import { getPercent } from '../../utils';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import FavoritesButton from '../favorites-button/favorites-button';
-import React, { useCallback } from 'react';
+import React from 'react';
 
 
 type PlaceCardProps = {
@@ -22,20 +22,20 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
   const ratingWidth = getPercent(rating);
 
   const imgWidth = nameClass
-    === NameOfClasses.AllPages
-    ? PageImageProperties.CitiesWidth
-    : PageImageProperties.FavoritesWidth;
+    !== NameOfClasses.MainPage && nameClass !== NameOfClasses.NearPlaces
+    ? PageImageProperties.FavoritesWidth
+    : PageImageProperties.CitiesWidth;
   const imgHeight = nameClass
-    === NameOfClasses.AllPages
-    ? PageImageProperties.CitiesHeight
-    : PageImageProperties.FavoritesHeight;
+    !== NameOfClasses.MainPage && nameClass !== NameOfClasses.NearPlaces
+    ? PageImageProperties.FavoritesHeight
+    : PageImageProperties.CitiesHeight;
 
 
   return (
     <article
       className={`${nameClass}__card place-card`}
-      onMouseEnter={useCallback(() => onCardHover?.(offer.id),[onCardHover, offer.id])}
-      onMouseLeave={useCallback(() => onCardHover?.(null), [onCardHover])}
+      onMouseEnter={() => onCardHover?.(offer.id)}
+      onMouseLeave={() => onCardHover?.(null)}
       data-testid="place-card"
     >
       {isPremium && <div className="place-card__mark"><span>Premium</span></div>}
